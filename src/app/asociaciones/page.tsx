@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { Vote, MapPin, Users, Calendar } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
 
 export default function AsociacionesPage() {
     // Mock locations for the map
@@ -133,7 +132,6 @@ export default function AsociacionesPage() {
                     </div>
                 </div>
             </div>
-            <Footer />
         </main>
     );
 }
