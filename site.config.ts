@@ -22,6 +22,14 @@ export const siteConfig = {
     domain: "nuevaespaña.eu",
     title: "Nueva España - Verdad y Libertad",
     description: "Plataforma para el renacimiento de la libertad política y la representación ciudadana.",
+    keywords: ["Nueva España", "Libertad Política", "Abstención Activa", "Democracia Formal", "Separación de Poderes", "República Constitucional"],
+    authors: [{ name: "Movimiento Nueva España", url: "https://nuevaespaña.eu" }],
+    openGraph: {
+        type: "website",
+        locale: "es_ES",
+        url: "https://nuevaespaña.eu",
+        siteName: "NUEVA ESPAÑA",
+    },
 
     // Puerto de desarrollo (Informativo - cambiar en package.json)
     devPort: 3000,
