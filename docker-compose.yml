@@ -1,0 +1,10 @@
+services:
+  web:
+    build: .
+    container_name: web_ne_app
+    restart: always
+    ports:
+      - "${PORT}:${PORT}"
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - PORT=${PORT}
