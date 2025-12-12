@@ -100,7 +100,7 @@ export const siteConfig = {
     // -------------------------
     corruptionMetrics: {
         inefficiency: {
-            initial: 40000000000,
+            initial: 403123123,
             rate: 1268,
             label: "Corrupción e Ineficiencia",
             subLabel: "Coste de oportunidad perdido",

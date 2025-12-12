@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { ArrowDown } from "lucide-react";
 import SpotlightCard from "./reactbits/SpotlightCard";
@@ -17,7 +17,11 @@ const FALLBACK_CASES = [
 ];
 
 export function CorruptionData() {
-    const [isClient] = useState(() => typeof window !== "undefined");
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
     const corruptionCases = siteConfig.corruptionCases?.length ? siteConfig.corruptionCases : FALLBACK_CASES;
     const metrics = [
         { key: "inefficiency", ...siteConfig.corruptionMetrics?.inefficiency },

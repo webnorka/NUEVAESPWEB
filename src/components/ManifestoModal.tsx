@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, BookOpen } from "lucide-react";
+import { X, BookOpen, ScrollText } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import { BlurText } from "./reactbits/BlurText";
 
 interface ManifestoModalProps {
     content: string;
@@ -12,44 +14,17 @@ interface ManifestoModalProps {
 export function ManifestoModal({ content, trigger }: ManifestoModalProps) {
     const [isOpen, setIsOpen] = useState(false);
 
-    // Simple Markdown Parser (fallback for npm issues)
-    const renderContent = (text: string) => {
-        return text.split('\n').map((line, index) => {
-            if (line.startsWith('# ')) {
-                return <h1 key={index} className="text-3xl font-bold mb-4 mt-6 text-primary">{line.replace('# ', '')}</h1>;
-            }
-            if (line.startsWith('## ')) {
-                return <h2 key={index} className="text-2xl font-bold mb-3 mt-5 text-foreground">{line.replace('## ', '')}</h2>;
-            }
-            if (line.startsWith('### ')) {
-                return <h3 key={index} className="text-xl font-semibold mb-2 mt-4 text-foreground/90">{line.replace('### ', '')}</h3>;
-            }
-            if (line.startsWith('> ')) {
-                return <blockquote key={index} className="border-l-4 border-primary pl-4 italic text-gray-300 my-4 bg-white/5 p-4 rounded-r">{line.replace('> ', '')}</blockquote>;
-            }
-            if (line.startsWith('- ')) {
-                return <li key={index} className="ml-6 list-disc mb-1 text-gray-300">{line.replace('- ', '')}</li>;
-            }
-            if (line.trim() === '---') {
-                return <hr key={index} className="my-8 border-white/10" />;
-            }
-            if (line.trim() === '') {
-                return <br key={index} />;
-            }
-            // Bold text formatting
-            const parts = line.split(/(\*\*.*?\*\*)/g);
-            return (
-                <p key={index} className="mb-2 text-gray-300 leading-relaxed">
-                    {parts.map((part, i) => {
-                        if (part.startsWith('**') && part.endsWith('**')) {
-                            return <strong key={i} className="text-white font-semibold">{part.slice(2, -2)}</strong>;
-                        }
-                        return part;
-                    })}
-                </p>
-            );
-        });
-    };
+    // Prevent background scrolling when modal is open
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "unset";
+        }
+        return () => {
+            document.body.style.overflow = "unset";
+        };
+    }, [isOpen]);
 
     return (
         <>
@@ -64,49 +39,73 @@ export function ManifestoModal({ content, trigger }: ManifestoModalProps) {
 
             <AnimatePresence>
                 {isOpen && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
-                        onClick={() => setIsOpen(false)}
-                    >
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                        {/* Backdrop */}
                         <motion.div
-                            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="absolute inset-0 bg-black/90 backdrop-blur-md"
+                            onClick={() => setIsOpen(false)}
+                        />
+
+                        {/* Modal Container */}
+                        <motion.div
+                            initial={{ scale: 0.95, opacity: 0, y: 20 }}
                             animate={{ scale: 1, opacity: 1, y: 0 }}
-                            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                            exit={{ scale: 0.95, opacity: 0, y: 20 }}
+                            transition={{ type: "spring", damping: 20, stiffness: 300 }}
                             onClick={(e) => e.stopPropagation()}
-                            className="bg-secondary w-full max-w-4xl max-h-[85vh] overflow-hidden rounded-2xl shadow-2xl border border-white/10 flex flex-col"
+                            className="relative w-full max-w-4xl h-[85vh] bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
                         >
-                            <div className="flex items-center justify-between p-6 border-b border-white/10 bg-secondary">
-                                <h2 className="text-2xl font-bold flex items-center gap-2">
-                                    <BookOpen className="text-primary" />
-                                    Manifiesto de Libertad
-                                </h2>
+                            {/* Header */}
+                            <div className="flex items-center justify-between p-6 border-b border-white/10 bg-[#0A0A0A]/95 backdrop-blur z-10">
+                                <div className="flex items-center gap-3">
+                                    <div className="p-2 bg-primary/10 rounded-lg text-primary">
+                                        <BookOpen className="w-6 h-6" />
+                                    </div>
+                                    <BlurText
+                                        text="Manifiesto de la Nueva España"
+                                        className="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400"
+                                        delay={100}
+                                    />
+                                </div>
                                 <button
                                     onClick={() => setIsOpen(false)}
-                                    className="p-2 hover:bg-white/10 rounded-full transition-colors"
+                                    className="p-2 hover:bg-white/10 rounded-full transition-colors text-gray-400 hover:text-white"
                                 >
-                                    <X />
+                                    <X className="w-6 h-6" />
                                 </button>
                             </div>
 
-                            <div className="overflow-y-auto p-8 custom-scrollbar">
-                                <article className="prose prose-invert prose-lg max-w-none">
-                                    {renderContent(content)}
-                                </article>
+                            {/* Content */}
+                            <div
+                                className="flex-1 overflow-y-auto p-8 custom-scrollbar overscroll-contain"
+                                style={{
+                                    scrollbarWidth: 'thin',
+                                    scrollbarColor: 'var(--primary) transparent'
+                                }}
+                            >
+                                <div className="prose prose-invert prose-lg max-w-none prose-headings:text-white prose-p:text-gray-300 prose-strong:text-primary prose-a:text-accent hover:prose-a:underline prose-blockquote:border-l-primary prose-blockquote:bg-white/5 prose-blockquote:p-4 prose-blockquote:rounded-r">
+                                    <ReactMarkdown>{content}</ReactMarkdown>
+                                </div>
                             </div>
 
-                            <div className="p-6 border-t border-white/10 bg-secondary text-right">
+                            {/* Footer */}
+                            <div className="p-6 border-t border-white/10 bg-[#0A0A0A] z-10 flex justify-end">
                                 <button
                                     onClick={() => setIsOpen(false)}
-                                    className="px-6 py-2 bg-white/10 hover:bg-white/20 rounded-lg font-medium transition-colors"
+                                    className="px-6 py-2 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-lg font-medium transition-colors"
                                 >
-                                    Cerrar
+                                    Cerrar Documento
                                 </button>
                             </div>
+
+                            {/* Decorative Elements */}
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10 pointer-events-none" />
+                            <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent/5 rounded-full blur-3xl -z-10 pointer-events-none" />
                         </motion.div>
-                    </motion.div>
+                    </div>
                 )}
             </AnimatePresence>
         </>
