@@ -6,7 +6,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.web-ne.rule=Host(`xn--nuevaespaa-19a.eu`) || Host(`www.xn--nuevaespaa-19a.eu`)"
-      - "traefik.http.routers.web-ne.entrypoints=websecure"
+      - "traefik.http.routers.web-ne.entrypoints=web,websecure"
       - "traefik.http.routers.web-ne.tls.certresolver=myresolver"
       - "traefik.http.services.web-ne.loadbalancer.server.port=3000"
     environment:
