@@ -1,4 +1,3 @@
-```
 "use client";
 
 import Link from "next/link";
@@ -32,7 +31,7 @@ export function Movements() {
     };
 
     const MovementItem = ({ icon: Icon, config, colorClass, link }: { icon: any, config: any, colorClass: string, link: string }) => (
-        <div 
+        <div
             onClick={() => openModal(
                 config.modalData.title,
                 <div className="space-y-4">
@@ -42,7 +41,7 @@ export function Movements() {
                 </div>,
                 <Link
                     href={link}
-                    className={`px - 6 py - 2 ${ colorClass.replace('text-', 'bg-') } text - white font - bold rounded hover: opacity - 90 inline - block`}
+                    className={`px-6 py-2 ${colorClass.replace('text-', 'bg-')} text-white font-bold rounded hover:opacity-90 inline-block`}
                 >
                     {config.action}
                 </Link>
@@ -50,7 +49,7 @@ export function Movements() {
             className="cursor-pointer group h-full flex flex-col justify-between"
         >
             <div>
-                <div className={`w - 12 h - 12 rounded - lg bg - zinc - 900 border border - white / 10 flex items - center justify - center mb - 4 group - hover: scale - 110 transition - transform ${ colorClass } `}>
+                <div className={`w-12 h-12 rounded-lg bg-zinc-900 border border-white/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform ${colorClass}`}>
                     <Icon className="w-6 h-6" />
                 </div>
                 <h3 className="text-xl font-bold text-zinc-100 mb-2 group-hover:text-white transition-colors">
@@ -60,7 +59,7 @@ export function Movements() {
                     {config.desc}
                 </p>
             </div>
-            
+
             <div className="mt-4 flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-zinc-500 group-hover:text-white transition-colors">
                 <span>Protocolo de Acción</span>
                 <ArrowRight className="w-4 h-4" />
@@ -85,11 +84,11 @@ export function Movements() {
                     <BentoGridItem
                         className="md:col-span-2 bg-zinc-900/50 border-red-900/20 hover:border-red-500/50 transition-all"
                         header={
-                            <MovementItem 
-                                icon={Ban} 
-                                config={siteConfig.movements.abstencion} 
-                                colorClass="text-red-500" 
-                                link="/abstencion" 
+                            <MovementItem
+                                icon={Ban}
+                                config={siteConfig.movements.abstencion}
+                                colorClass="text-red-500"
+                                link="/abstencion"
                             />
                         }
                     />
@@ -98,11 +97,11 @@ export function Movements() {
                     <BentoGridItem
                         className="md:col-span-1 bg-zinc-900/50 border-emerald-900/20 hover:border-emerald-500/50 transition-all"
                         header={
-                            <MovementItem 
-                                icon={Megaphone} 
-                                config={siteConfig.movements.difusion} 
-                                colorClass="text-emerald-500" 
-                                link="/difusion" 
+                            <MovementItem
+                                icon={Megaphone}
+                                config={siteConfig.movements.difusion}
+                                colorClass="text-emerald-500"
+                                link="/difusion"
                             />
                         }
                     />
@@ -111,11 +110,11 @@ export function Movements() {
                     <BentoGridItem
                         className="md:col-span-1 bg-zinc-900/50 border-blue-900/20 hover:border-blue-500/50 transition-all"
                         header={
-                            <MovementItem 
-                                icon={Vote} 
-                                config={siteConfig.movements.asociacion} 
-                                colorClass="text-blue-500" 
-                                link="/asociaciones" 
+                            <MovementItem
+                                icon={Vote}
+                                config={siteConfig.movements.asociacion}
+                                colorClass="text-blue-500"
+                                link="/asociaciones"
                             />
                         }
                     />
