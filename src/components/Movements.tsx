@@ -1,10 +1,11 @@
+```
 "use client";
 
 import Link from "next/link";
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Megaphone, Ban, Vote } from "lucide-react";
+import { Megaphone, Ban, Vote, ArrowRight } from "lucide-react";
 import { InfoModal } from "@/components/InfoModal";
+import { BentoGrid, BentoGridItem } from "./reactbits/BentoGrid";
 import { siteConfig } from "@config";
 
 export function Movements() {
@@ -30,122 +31,112 @@ export function Movements() {
         });
     };
 
+    const MovementItem = ({ icon: Icon, config, colorClass, link }: { icon: any, config: any, colorClass: string, link: string }) => (
+        <div 
+            onClick={() => openModal(
+                config.modalData.title,
+                <div className="space-y-4">
+                    {config.modalData.paragraphs.map((p: string, i: number) => (
+                        <p key={i} className="text-white/90 leading-relaxed">{p}</p>
+                    ))}
+                </div>,
+                <Link
+                    href={link}
+                    className={`px - 6 py - 2 ${ colorClass.replace('text-', 'bg-') } text - white font - bold rounded hover: opacity - 90 inline - block`}
+                >
+                    {config.action}
+                </Link>
+            )}
+            className="cursor-pointer group h-full flex flex-col justify-between"
+        >
+            <div>
+                <div className={`w - 12 h - 12 rounded - lg bg - zinc - 900 border border - white / 10 flex items - center justify - center mb - 4 group - hover: scale - 110 transition - transform ${ colorClass } `}>
+                    <Icon className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold text-zinc-100 mb-2 group-hover:text-white transition-colors">
+                    {config.title}
+                </h3>
+                <p className="text-sm text-zinc-400 leading-relaxed">
+                    {config.desc}
+                </p>
+            </div>
+            
+            <div className="mt-4 flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-zinc-500 group-hover:text-white transition-colors">
+                <span>Protocolo de Acción</span>
+                <ArrowRight className="w-4 h-4" />
+            </div>
+        </div>
+    );
+
     return (
-        <section id="movements" className="py-24 bg-primary text-white relative overflow-hidden">
-            <div className="absolute inset-0 bg-black/20" />
-            <div className="container mx-auto px-4 relative z-10">
+        <section id="movements" className="py-24 bg-zinc-950 relative">
+            <div className="container mx-auto px-4">
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-5xl font-bold mb-4">Movimientos Inmediatos</h2>
-                    <p className="text-white/80 max-w-2xl mx-auto">
-                        La teoría sin acción es estéril. Únete a las campañas activas para forzar el cambio.
+                    <h2 className="text-4xl md:text-6xl font-black text-white mb-4 uppercase tracking-tighter">
+                        Protocolos de <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">Resistencia</span>
+                    </h2>
+                    <p className="text-zinc-400 max-w-2xl mx-auto">
+                        Selecciona tu misión. La pasividad es complicidad.
                     </p>
                 </div>
 
-                <div className="grid md:grid-cols-3 gap-8">
-                    {/* ABSTENCIÓN */}
-                    <motion.div
-                        whileHover={{ y: -10 }}
-                        className="bg-white/10 backdrop-blur-sm p-8 rounded-xl border border-white/20 text-center"
-                    >
-                        <div className="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <Ban className="w-8 h-8" />
-                        </div>
-                        <h3 className="text-2xl font-bold mb-4">{siteConfig.movements.abstencion.title}</h3>
-                        <p className="text-white/80 mb-6">
-                            {siteConfig.movements.abstencion.desc}
-                        </p>
-                        <button
-                            onClick={() => openModal(
-                                siteConfig.movements.abstencion.modalData.title,
-                                <div className="space-y-4">
-                                    {siteConfig.movements.abstencion.modalData.paragraphs.map((p, i) => (
-                                        <p key={i} className="text-white/90 leading-relaxed">{p}</p>
-                                    ))}
-                                </div>,
-                                <Link
-                                    href="/abstencion"
-                                    className="px-6 py-2 bg-red-600 text-white font-bold rounded hover:bg-red-700 inline-block"
-                                >
-                                    {siteConfig.movements.abstencion.action}
-                                </Link>
-                            )}
-                            className="w-full py-3 bg-white text-primary font-bold rounded hover:bg-gray-100 transition-colors"
-                        >
-                            Ver Detalles
-                        </button>
-                    </motion.div>
+                <BentoGrid className="max-w-6xl mx-auto">
+                    {/* Grande - Abstención */}
+                    <BentoGridItem
+                        className="md:col-span-2 bg-zinc-900/50 border-red-900/20 hover:border-red-500/50 transition-all"
+                        header={
+                            <MovementItem 
+                                icon={Ban} 
+                                config={siteConfig.movements.abstencion} 
+                                colorClass="text-red-500" 
+                                link="/abstencion" 
+                            />
+                        }
+                    />
 
-                    {/* DIFUSIÓN */}
-                    <motion.div
-                        whileHover={{ y: -10 }}
-                        className="bg-white/10 backdrop-blur-sm p-8 rounded-xl border border-white/20 text-center"
-                    >
-                        <div className="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <Megaphone className="w-8 h-8" />
-                        </div>
-                        <h3 className="text-2xl font-bold mb-4">{siteConfig.movements.difusion.title}</h3>
-                        <p className="text-white/80 mb-6">
-                            {siteConfig.movements.difusion.desc}
-                        </p>
-                        <button
-                            onClick={() => openModal(
-                                siteConfig.movements.difusion.modalData.title,
-                                <div className="space-y-4">
-                                    {siteConfig.movements.difusion.modalData.paragraphs.map((p, i) => (
-                                        <p key={i} className="text-white/90 leading-relaxed">{p}</p>
-                                    ))}
-                                </div>,
-                                <Link
-                                    href="/difusion"
-                                    className="px-6 py-2 bg-emerald-600 text-white font-bold rounded hover:bg-emerald-700 inline-block"
-                                >
-                                    {siteConfig.movements.difusion.action}
-                                </Link>
-                            )}
-                            className="w-full py-3 bg-white text-primary font-bold rounded hover:bg-gray-100 transition-colors"
-                        >
-                            Material de Campaña
-                        </button>
-                    </motion.div>
+                    {/* Pequeño - Difusión */}
+                    <BentoGridItem
+                        className="md:col-span-1 bg-zinc-900/50 border-emerald-900/20 hover:border-emerald-500/50 transition-all"
+                        header={
+                            <MovementItem 
+                                icon={Megaphone} 
+                                config={siteConfig.movements.difusion} 
+                                colorClass="text-emerald-500" 
+                                link="/difusion" 
+                            />
+                        }
+                    />
 
-                    {/* ASOCIACIONES */}
-                    <motion.div
-                        whileHover={{ y: -10 }}
-                        className="bg-white/10 backdrop-blur-sm p-8 rounded-xl border border-white/20 text-center"
-                    >
-                        <div className="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <Vote className="w-8 h-8" />
-                        </div>
-                        <h3 className="text-2xl font-bold mb-4">{siteConfig.movements.asociacion.title}</h3>
-                        <p className="text-white/80 mb-6">
-                            {siteConfig.movements.asociacion.desc}
-                        </p>
-                        <button
-                            onClick={() => openModal(
-                                siteConfig.movements.asociacion.modalData.title,
-                                <div className="space-y-4">
-                                    {siteConfig.movements.asociacion.modalData.paragraphs.map((p, i) => (
-                                        <p key={i} className="text-white/90 leading-relaxed">{p}</p>
-                                    ))}
-                                </div>,
-                                <Link
-                                    href="/asociaciones"
-                                    className="px-6 py-2 bg-blue-600 text-white font-bold rounded hover:bg-blue-700 inline-block"
-                                >
-                                    {siteConfig.movements.asociacion.action}
-                                </Link>
-                            )}
-                            className="w-full py-3 bg-white text-primary font-bold rounded hover:bg-gray-100 transition-colors"
-                        >
-                            Organizarse
-                        </button>
-                    </motion.div>
-                </div>
+                    {/* Pequeño - Asociación */}
+                    <BentoGridItem
+                        className="md:col-span-1 bg-zinc-900/50 border-blue-900/20 hover:border-blue-500/50 transition-all"
+                        header={
+                            <MovementItem 
+                                icon={Vote} 
+                                config={siteConfig.movements.asociacion} 
+                                colorClass="text-blue-500" 
+                                link="/asociaciones" 
+                            />
+                        }
+                    />
+
+                    {/* Placeholder para futura expansión o CTA final */}
+                    <BentoGridItem
+                        className="md:col-span-2 bg-gradient-to-br from-zinc-900 to-black border-white/5 flex flex-col justify-center items-center text-center p-8 group cursor-pointer"
+                        header={
+                            <div className="flex flex-col items-center justify-center h-full">
+                                <h3 className="text-2xl font-black text-white mb-2 uppercase">Únete a la Vanguardia</h3>
+                                <p className="text-zinc-500 mb-6">Recibe instrucciones directas y material confidencial.</p>
+                                <button className="px-8 py-3 bg-white text-black font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors w-auto">
+                                    Suscribirse
+                                </button>
+                            </div>
+                        }
+                    />
+                </BentoGrid>
             </div>
 
             <InfoModal
-                // ... (keep rest unchanged implicitly by targeting)
-
                 isOpen={modalConfig.isOpen}
                 onClose={closeModal}
                 title={modalConfig.title}
