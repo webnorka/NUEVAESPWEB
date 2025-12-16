@@ -96,45 +96,49 @@ export const siteConfig = {
             }
         }
     },
-    // 5. METRICAS DE CORRUPCIÓN
+    // 5. METRICAS DE CORRUPCIÓN (DATOS REALES)
     // -------------------------
+    // Fuentes:
+    // - Corrupción: Grupo de Los Verdes/ALE (Parlamento Europeo) - 90.000 M€/año (aprox 8% PIB)
+    // - Duplicidades: UPyD / Fundación Progreso y Democracia - 26.000 M€/año
+    // - Pensiones: Deuda acumulada TGSS ~126.000 M€ (Datos oficiales 2024)
     corruptionMetrics: {
         inefficiency: {
-            initial: 480000000, // 480 mil millones
-            rate: 2150, // subida agresiva
-            label: "Coste del Estado de Partidos",
-            subLabel: "Dinero público desviado a chiringuitos y duplicidades",
-            colorClass: "text-red-500"
+            initial: 90000000000,
+            rate: 2853, // 90.000M / 31.536.000 segundos/año = ~2853 €/seg
+            label: "Coste de la Corrupción",
+            subLabel: "Estimación del Parlamento Europeo (8% PIB)",
+            colorClass: "text-red-600"
         },
         pensions: {
-            initial: 92000000000,
-            rate: 4500,
-            label: "Agujero real de la Seguridad Social",
-            subLabel: "Deuda impagable oculta tras transferencias",
-            colorClass: "text-orange-500"
+            initial: 126000000000,
+            rate: 2092, // Déficit anual aprox 66.000M / segs
+            label: "Deuda Real Seguridad Social",
+            subLabel: "Préstamos del Estado para cubrir el déficit",
+            colorClass: "text-orange-600"
         },
         redundancy: {
-            initial: 65000000000,
-            rate: 1800,
-            label: "Gasto Político Superfluo",
-            subLabel: "Asesores, diputaciones y entes sin función real",
-            colorClass: "text-yellow-400"
+            initial: 26000000000,
+            rate: 824, // 26.000M / segs
+            label: "Duplicidades Autonómicas",
+            subLabel: "Gasto en administraciones paralelas redundantes",
+            colorClass: "text-yellow-500"
         }
     },
 
     corruptionCases: [
-        { name: "ERE Andalucía", amount: 680, color: "#ef4444" },
-        { name: "Caso Gürtel", amount: 120, color: "#3b82f6" },
-        { name: "Caso Púnica", amount: 250, color: "#3b82f6" },
-        { name: "Caso Palau", amount: 35, color: "#eab308" },
-        { name: "Caso Malaya", amount: 380, color: "#a855f7" },
+        { name: "Coste Anual Corrupción", amount: 90000, color: "#dc2626" },
+        { name: "Agujero Pensiones (Año)", amount: 66000, color: "#ea580c" },
+        { name: "Duplicidades (Año)", amount: 26000, color: "#eab308" },
+        { name: "Rescate Bancario", amount: 60000, color: "#7c3aed" },
+        { name: "ERE Andalucía", amount: 680, color: "#db2777" },
     ],
 
     justiceStats: {
         independentJudges: 0,
-        independentLabel: "Jueces elegidos sin intervención política",
+        independentLabel: "Jueces elegidos sin intervención política (CGPJ)",
         controlPercent: 100,
-        controlLabel: "Control de la Partitocracia sobre el Estado"
+        controlLabel: "Control Partidista del Poder Judicial"
     },
 
     // 6. ROADMAP

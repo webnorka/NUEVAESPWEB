@@ -1,19 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
-import { ArrowDown } from "lucide-react";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, CartesianGrid } from "recharts";
+import { Receipt, AlertTriangle, TrendingUp } from "lucide-react";
 import SpotlightCard from "./reactbits/SpotlightCard";
-import CountUp from "./reactbits/CountUp";
 import { MoneyTicker } from "./MoneyTicker";
 import { siteConfig } from "@config";
 
 const FALLBACK_CASES = [
-    { name: "ERE Andalucía", amount: 680, color: "#ef4444" },
-    { name: "Caso Gürtel", amount: 120, color: "#3b82f6" },
-    { name: "Caso Púnica", amount: 250, color: "#3b82f6" },
-    { name: "Caso Palau", amount: 35, color: "#eab308" },
-    { name: "Caso Malaya", amount: 380, color: "#a855f7" },
+    { name: "Coste Anual Corrupción", amount: 90000, color: "#dc2626" },
+    { name: "Agujero Pensiones", amount: 66000, color: "#ea580c" },
+    { name: "Duplicidades", amount: 26000, color: "#eab308" },
 ];
 
 export function CorruptionData() {
@@ -22,129 +19,121 @@ export function CorruptionData() {
     useEffect(() => {
         setIsClient(true);
     }, []);
-    const corruptionCases = siteConfig.corruptionCases?.length ? siteConfig.corruptionCases : FALLBACK_CASES;
+
+    const corruptionCases = siteConfig.corruptionCases?.length ? siteConfig.corruptionCases.slice(0, 5) : FALLBACK_CASES;
     const metrics = [
         { key: "inefficiency", ...siteConfig.corruptionMetrics?.inefficiency },
         { key: "pensions", ...siteConfig.corruptionMetrics?.pensions },
         { key: "redundancy", ...siteConfig.corruptionMetrics?.redundancy },
     ].filter((m) => m?.initial !== undefined);
 
-    const justiceStats = siteConfig.justiceStats ?? {
-        independentJudges: 0,
-        independentLabel: "Jueces elegidos sin intervención política",
-        controlPercent: 100,
-        controlLabel: "Control de la Partitocracia sobre el Estado",
-    };
-
     return (
         <section id="data" className="py-24 bg-zinc-950 relative overflow-hidden">
+
+            {/* Diagonal Stripes Background */}
+            <div className="absolute inset-0 opacity-[0.02] bg-[repeating-linear-gradient(45deg,#fff,#fff_1px,transparent_1px,transparent_10px)] pointer-events-none"></div>
+
             <div className="container mx-auto px-4 relative z-10">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white">La Realidad de la Partitocracia</h2>
-                    <p className="text-gray-400 max-w-2xl mx-auto">
-                        Datos que demuestran el coste de un sistema sin controles.
-                    </p>
+                <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6 border-b border-white/10 pb-8">
+                    <div>
+                        <div className="flex items-center gap-3 text-red-500 mb-2">
+                            <Receipt className="w-6 h-6" />
+                            <span className="font-mono text-sm uppercase tracking-widest">Factura al Ciudadano</span>
+                        </div>
+                        <h2 className="text-4xl md:text-5xl font-black text-white uppercase leading-none">
+                            El Precio del <br /> Régimen
+                        </h2>
+                    </div>
+                    <div className="hidden md:block text-right">
+                        <p className="text-gray-400 font-mono text-sm">
+                            FECHA: {new Date().toLocaleDateString('es-ES')} <br />
+                            CONCEPTO: MANTENIMIENTO ESTRUCTURA PARTITOCRÁTICA <br />
+                            ESTADO: <span className="text-red-500 font-bold animate-pulse">IMPAGABLE</span>
+                        </p>
+                    </div>
                 </div>
 
-                <div className="grid lg:grid-cols-2 gap-12 items-start mb-16">
-                    {/* Gráfico de Corrupción */}
-                    <SpotlightCard className="w-full h-[500px]" spotlightColor="rgba(239, 68, 68, 0.2)">
-                        <h3 className="text-xl font-bold text-white mb-6">Coste de Grandes Casos (M€)</h3>
-                        {isClient ? (
-                            <ResponsiveContainer width="100%" height="85%">
-                                <BarChart data={corruptionCases} layout="vertical" margin={{ top: 5, right: 30, left: 40, bottom: 5 }}>
-                                    <XAxis type="number" stroke="#9ca3af" tickFormatter={(value) => `${value}M`} />
-                                    <YAxis dataKey="name" type="category" stroke="#f3f4f6" width={100} />
-                                    <Tooltip
-                                        cursor={{ fill: 'rgba(255,255,255,0.05)' }}
-                                        contentStyle={{ backgroundColor: "#18181b", borderColor: "#27272a", color: "#f3f4f6" }}
-                                        itemStyle={{ color: "#f3f4f6" }}
-                                        formatter={(value: number) => [`${value} Millones €`, "Coste Estimado"]}
-                                    />
-                                    <Bar dataKey="amount" radius={[0, 4, 4, 0]}>
-                                        {corruptionCases.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={entry.color} />
-                                        ))}
-                                    </Bar>
-                                </BarChart>
-                            </ResponsiveContainer>
-                        ) : (
-                            <div className="h-full w-full flex items-center justify-center text-sm text-gray-500">
-                                Cargando visualización…
+                {/* VISUALIZACIÓN PRINCIPAL: TICKERS EN VIVO */}
+                <div className="grid lg:grid-cols-3 gap-6 mb-12">
+                    {metrics.map((metric, i) => (
+                        <div key={metric.key} className="bg-zinc-900/50 border border-white/10 p-6 rounded-sm relative overflow-hidden group hover:border-white/20 transition-colors">
+                            <div className={`absolute top-0 right-0 p-4 opacity-20 group-hover:opacity-40 transition-opacity ${metric.colorClass}`}>
+                                <TrendingUp className="w-12 h-12" />
                             </div>
-                        )}
-                    </SpotlightCard>
-
-                    {/* Diagrama de Poder */}
-                    <div className="space-y-6">
-                        <SpotlightCard className="w-full text-center" spotlightColor="rgba(59, 130, 246, 0.2)">
-                            <h3 className="text-xl font-bold text-white mb-8">El Engaño de la Separación de Poderes</h3>
-
-                            {/* Visualización de la Fusión */}
-                            <div className="relative flex flex-col items-center">
-                                {/* Cúpula Partidista */}
-                                <div className="bg-white/10 p-4 rounded-xl border border-white/20 w-48 mb-8 backdrop-blur z-20">
-                                    <span className="text-yellow-400 font-bold tracking-widest">JEFE DE PARTIDO</span>
-                                </div>
-                                <ArrowDown className="text-white/50 w-8 h-8 mb-4 animate-bounce" />
-
-                                <div className="grid grid-cols-3 gap-4 w-full text-sm">
-                                    <div className="flex flex-col items-center p-3 bg-red-500/10 rounded border border-red-500/20">
-                                        <span className="font-bold text-red-400">EJECUTIVO</span>
-                                        <span className="text-xs text-white/60 mt-2">Nombra al Gobierno</span>
-                                    </div>
-                                    <div className="flex flex-col items-center p-3 bg-blue-500/10 rounded border border-blue-500/20">
-                                        <span className="font-bold text-blue-400">LEGISLATIVO</span>
-                                        <span className="text-xs text-white/60 mt-2">Controla Listas</span>
-                                    </div>
-                                    <div className="flex flex-col items-center p-3 bg-purple-500/10 rounded border border-purple-500/20">
-                                        <span className="font-bold text-purple-400">JUDICIAL</span>
-                                        <span className="text-xs text-white/60 mt-2">Pacta el CGPJ</span>
-                                    </div>
-                                </div>
-                                <div className="absolute inset-x-0 top-12 bottom-0 border-2 border-dashed border-white/5 rounded-xl -z-10" />
+                            <h3 className="text-gray-400 text-sm font-mono uppercase tracking-wider mb-2">{metric.label}</h3>
+                            <div className="mb-2">
+                                <MoneyTicker
+                                    initialAmount={metric.initial}
+                                    perSecond={metric.rate}
+                                    colorClass={metric.colorClass ?? "text-white"}
+                                    label=""
+                                    subLabel=""
+                                />
                             </div>
-                            <p className="mt-8 text-sm text-gray-400 italic">
-                                &ldquo;En España no hay tres poderes, hay tres funciones de un único poder: el de los partidos estatales.&rdquo;
+                            <p className="text-xs text-gray-500 border-t border-white/5 pt-4 mt-4">
+                                {metric.subLabel}
                             </p>
-                        </SpotlightCard>
-                    </div>
+                        </div>
+                    ))}
                 </div>
 
-                {/* SECCIÓN DE DATOS EN TIEMPO REAL */}
-                <div className="mt-16 bg-zinc-900/50 rounded-2xl p-8 border border-white/10 backdrop-blur-md">
-                    <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 text-center">La Hemorragia del Estado</h3>
-                    <p className="text-center text-gray-400 mb-12">Estimación de recursos perdidos en tiempo real (Base anual promediada)</p>
-
-                    <div className="grid md:grid-cols-3 gap-8 divide-y md:divide-y-0 md:divide-x divide-white/10">
-                        {metrics.map((metric) => (
-                            <MoneyTicker
-                                key={metric.key}
-                                initialAmount={metric.initial}
-                                perSecond={metric.rate}
-                                label={metric.label}
-                                subLabel={metric.subLabel}
-                                colorClass={metric.colorClass ?? "text-white"}
-                            />
-                        ))}
+                <div className="grid lg:grid-cols-3 gap-12 items-start">
+                    {/* Gráfico de Barras "Hard Data" */}
+                    <div className="lg:col-span-2 bg-black/40 border border-white/10 p-6 md:p-8 rounded-sm">
+                        <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                            <AlertTriangle className="text-yellow-500 w-5 h-5" />
+                            Comparativa de Costes Anuales (Estimados M€)
+                        </h3>
+                        <div className="h-[400px] w-full">
+                            {isClient ? (
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <BarChart data={corruptionCases} layout="vertical" margin={{ top: 5, right: 30, left: 40, bottom: 5 }}>
+                                        <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#333" />
+                                        <XAxis type="number" stroke="#666" tickFormatter={(value) => `${value / 1000}mM`} />
+                                        <YAxis dataKey="name" type="category" stroke="#999" width={140} tick={{ fontSize: 12 }} />
+                                        <Tooltip
+                                            cursor={{ fill: 'rgba(255,255,255,0.05)' }}
+                                            contentStyle={{ backgroundColor: "#000", borderColor: "#333", color: "#fff" }}
+                                            itemStyle={{ color: "#fff" }}
+                                            formatter={(value: number) => [`${value.toLocaleString()} M€`, "Coste"]}
+                                        />
+                                        <Bar dataKey="amount" radius={[0, 4, 4, 0]} barSize={30} animationDuration={1500}>
+                                            {corruptionCases.map((entry, index) => (
+                                                <Cell key={`cell-${index}`} fill={entry.color} />
+                                            ))}
+                                        </Bar>
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            ) : (
+                                <div className="h-full w-full flex items-center justify-center text-sm text-gray-500 font-mono">
+                                    [CALCULANDO PÉRDIDAS...]
+                                </div>
+                            )}
+                        </div>
                     </div>
-                </div>
 
-                {/* TARJETAS ESTÁTICAS */}
-                <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-                    <SpotlightCard className="text-center" spotlightColor="rgba(255, 255, 255, 0.15)">
-                        <span className="block text-4xl font-bold text-white mb-2 font-mono">
-                            <CountUp to={justiceStats.independentJudges} />
-                        </span>
-                        <span className="text-sm text-gray-400">{justiceStats.independentLabel}</span>
-                    </SpotlightCard>
+                    {/* Nota de Contexto / Sidebar */}
+                    <div className="space-y-6">
+                        <div className="bg-red-900/10 border-l-4 border-red-600 p-6">
+                            <h4 className="text-red-500 font-bold mb-2 uppercase tracking-wide text-sm">El Dato Clave</h4>
+                            <p className="text-gray-300 text-lg font-light">
+                                La corrupción en España cuesta aproximadamente el <b className="text-white">8% del PIB</b> anual.
+                            </p>
+                            <p className="text-gray-500 text-sm mt-4">
+                                Fuente: Grupo de Los Verdes/ALE (Parlamento Europeo, 2018).
+                            </p>
+                        </div>
 
-                    <SpotlightCard className="text-center" spotlightColor="rgba(234, 179, 8, 0.15)">
-                        <span className="block text-4xl font-bold text-accent mb-2 font-mono">
-                            {justiceStats.controlPercent}%
-                        </span>
-                        <span className="text-sm text-gray-400">{justiceStats.controlLabel}</span>
-                    </SpotlightCard>
+                        <div className="bg-orange-900/10 border-l-4 border-orange-600 p-6">
+                            <h4 className="text-orange-500 font-bold mb-2 uppercase tracking-wide text-sm">La Deuda Oculta</h4>
+                            <p className="text-gray-300 text-lg font-light">
+                                El Estado transfiere más de <b className="text-white">50.000 M€</b> al año a la Seguridad Social para evitar la quiebra técnica del sistema de pensiones.
+                            </p>
+                            <p className="text-gray-500 text-sm mt-4">
+                                Fuente: Datos de ejecución presupuestaria 2024.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
