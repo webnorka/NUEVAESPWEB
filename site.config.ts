@@ -100,24 +100,24 @@ export const siteConfig = {
     // -------------------------
     corruptionMetrics: {
         inefficiency: {
-            initial: 403123123,
-            rate: 1268,
-            label: "Corrupción e Ineficiencia",
-            subLabel: "Coste de oportunidad perdido",
+            initial: 480000000, // 480 mil millones
+            rate: 2150, // subida agresiva
+            label: "Coste del Estado de Partidos",
+            subLabel: "Dinero público desviado a chiringuitos y duplicidades",
             colorClass: "text-red-500"
         },
         pensions: {
-            initial: 52000000000,
-            rate: 1648,
-            label: "Déficit de Pensiones",
-            subLabel: "Deuda acumulada insostenible",
-            colorClass: "text-orange-400"
+            initial: 92000000000,
+            rate: 4500,
+            label: "Agujero real de la Seguridad Social",
+            subLabel: "Deuda impagable oculta tras transferencias",
+            colorClass: "text-orange-500"
         },
         redundancy: {
-            initial: 97000000000,
-            rate: 2800,
-            label: "Duplicidades Autonómicas",
-            subLabel: "Gasto político superfluo",
+            initial: 65000000000,
+            rate: 1800,
+            label: "Gasto Político Superfluo",
+            subLabel: "Asesores, diputaciones y entes sin función real",
             colorClass: "text-yellow-400"
         }
     },

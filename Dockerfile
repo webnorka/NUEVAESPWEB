@@ -1,4 +1,3 @@
-
 FROM node:20-alpine AS base
 
 # Install dependencies only when needed
@@ -38,6 +37,7 @@ RUN adduser --system --uid 1001 nextjs
 COPY --from=builder /app/public ./public
 
 # Set the correct permission for prerender cache
+# Set the correct permission for prerender cache
 RUN mkdir .next
 RUN chown nextjs:nodejs .next
 
@@ -51,5 +51,7 @@ USER nextjs
 EXPOSE 3000
 
 ENV PORT 3000
+# set hostname to localhost
+ENV HOSTNAME "0.0.0.0"
 
 CMD ["node", "server.js"]

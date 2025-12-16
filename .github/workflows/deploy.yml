@@ -1,35 +1,34 @@
-name: Deploy to VPS
+name: Deploy (Haloy)
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  HALOY_API_TOKEN: ${{ secrets.HALOY_API_TOKEN }}
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Deploy to VPS
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          port: 22
-          script: |
-            echo "🚀 Bootstrapping deployment..."
-            cd /var/www/WEB_NE_V2
-            
-            echo "🔒 Configuring git trust..."
-            git config --global --add safe.directory /var/www/WEB_NE_V2
-            
-            echo "📥 Fetching latest code (Bootstrapping)..."
-            git fetch --all
-            git reset --hard origin/main
-            
-            echo "📜 Running Update Script..."
-            chmod +x scripts/update_vps.sh
-            bash scripts/update_vps.sh
+      - name: Install Haloy CLI
+        run: |
+          curl -fsSL https://sh.haloy.dev/install-haloy.sh | bash
+          haloy --version
+
+      - name: Lint
+        run: |
+          npm ci
+          npm run lint -- --max-warnings=0
+
+      - name: Build & Deploy with Haloy
+        env:
+          HALOY_API_TOKEN: ${{ secrets.HALOY_API_TOKEN }}
+        run: haloy deploy --file haloy.yaml

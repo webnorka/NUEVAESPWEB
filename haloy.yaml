@@ -1,0 +1,12 @@
+name: "web-ne-v2"
+server: "38.242.133.148"
+acme_email: "admin@xn--nuevaespaa-19a.eu"
+api_token:
+  from:
+    env: "HALOY_API_TOKEN"
+port: 3000
+replicas: 2
+domains:
+  - domain: "nuevaespaña.eu"
+
+
