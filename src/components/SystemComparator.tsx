@@ -1,147 +1,232 @@
+```javascript
 "use client";
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Users, Vote, Crown, Building2, Scale, ArrowRightLeft, Gavel } from "lucide-react";
+import { AlertTriangle, Power, CheckCircle2, RefreshCw, ArrowRight } from "lucide-react";
 
 export function SystemComparator() {
-    const [system, setSystem] = useState<"regimen" | "democracia">("regimen");
+    const [systemState, setSystemState] = useState<"FALLO_SISTÉMICO" | "SISTEMA_OPERATIVO">("FALLO_SISTÉMICO");
+    const [isRebooting, setIsRebooting] = useState(false);
+
+    const handleReboot = () => {
+        setIsRebooting(true);
+        setTimeout(() => {
+            setSystemState(prev => prev === "FALLO_SISTÉMICO" ? "SISTEMA_OPERATIVO" : "FALLO_SISTÉMICO");
+            setIsRebooting(false);
+        }, 2000); // 2s reboot sequence for more impact
+    };
 
     return (
-        <section className="py-24 bg-zinc-950 relative overflow-hidden">
-            {/* Background Grid */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
+        <section className="py-24 bg-zinc-950 relative overflow-hidden select-none">
+             {/* Tech Grid Background */}
+             <div className="absolute inset-0 bg-[linear-gradient(rgba(0,150,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,150,255,0.03)_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none" />
+             <div className="absolute inset-0 bg-radial-gradient(circle at center, transparent 0%, #09090b 100%) pointer-events-none" />
 
-            <div className="container mx-auto px-4 relative z-10">
-                <div className="text-center mb-16">
-                    <h2 className="text-4xl md:text-6xl font-black text-white mb-6 uppercase tracking-tight">
-                        La Gran Mentira
-                    </h2>
-                    <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-                        Nos dijeron que la Transición trajo la democracia. Nos mintieron. <br />
-                        Compara tú mismo la realidad política de España con una verdadera Democracia Formal.
-                    </p>
-                </div>
-
-                {/* Switcher */}
-                <div className="flex justify-center mb-12">
-                    <div className="bg-zinc-900/80 p-1.5 rounded-full border border-white/10 flex relative backdrop-blur-md">
-                        <button
-                            onClick={() => setSystem("regimen")}
-                            className={`px-8 py-3 rounded-full text-sm font-bold tracking-widest transition-all duration-500 relative z-20 ${system === "regimen" ? "text-white" : "text-gray-500 hover:text-white"
-                                }`}
-                        >
-                            RÉGIMEN ACTUAL
-                        </button>
-                        <button
-                            onClick={() => setSystem("democracia")}
-                            className={`px-8 py-3 rounded-full text-sm font-bold tracking-widest transition-all duration-500 relative z-20 ${system === "democracia" ? "text-zinc-950" : "text-gray-500 hover:text-white"
-                                }`}
-                        >
-                            DEMOCRACIA FORMAL
-                        </button>
-
-                        {/* Slide Background */}
-                        <motion.div
-                            layout
-                            className={`absolute top-1.5 bottom-1.5 rounded-full z-10 ${system === "regimen" ? "bg-red-600 left-1.5 w-[165px]" : "bg-white right-1.5 w-[190px]"
-                                }`}
-                            initial={false}
-                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                        />
+            <div className="container mx-auto px-4 relative z-10 max-w-6xl">
+                
+                {/* Header / Diagnostic Log */}
+                <div className="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-white/10 pb-6">
+                    <div>
+                        <div className="flex items-center gap-2 mb-2">
+                             <div className={`w - 2 h - 2 rounded - full animate - pulse ${ systemState === "FALLO_SISTÉMICO" ? "bg-red-500" : "bg-emerald-500" } `} />
+                             <span className="font-mono text-xs text-zinc-500 uppercase tracking-widest">Monitor de Salud Democrática v2.4</span>
+                        </div>
+                        <h2 className="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter">
+                            Diagnóstico del <span className={systemState === "FALLO_SISTÉMICO" ? "text-red-600" : "text-emerald-500"}>Estado</span>
+                        </h2>
+                    </div>
+                    
+                    <div className="text-right hidden md:block">
+                        <p className="font-mono text-xs text-zinc-500 mb-1">ESTADO_ACTUAL</p>
+                        <p className={`font - mono text - xl font - bold ${ systemState === "FALLO_SISTÉMICO" ? "text-red-500" : "text-emerald-500" } `}>
+                             {systemState === "FALLO_SISTÉMICO" ? "RÉGIMEN_PARTIDISTA" : "DEMOCRACIA_FORMAL"}
+                        </p>
                     </div>
                 </div>
 
-                {/* Comparison Card */}
-                <div className="max-w-5xl mx-auto">
-                    <AnimatePresence mode="wait">
-                        <motion.div
-                            key={system}
-                            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: -20, scale: 0.95 }}
-                            transition={{ duration: 0.4 }}
-                            className={`rounded-3xl border-2 p-8 md:p-12 shadow-2xl ${system === "regimen"
-                                ? "bg-zinc-900/50 border-red-500/30 shadow-red-900/10"
-                                : "bg-white/5 border-white/20 shadow-white/5"
-                                }`}
-                        >
-                            <div className="grid md:grid-cols-3 gap-12 items-center">
-                                {/* Left Column: Origin */}
-                                <div className="space-y-6 text-center">
-                                    <h3 className={`text-sm font-bold uppercase tracking-widest ${system === "regimen" ? "text-red-400" : "text-blue-400"}`}>
-                                        Origen del Poder
-                                    </h3>
-                                    <div className="flex justify-center">
-                                        {system === "regimen" ? (
-                                            <div className="relative">
-                                                <Building2 className="w-20 h-20 text-zinc-700" />
-                                                <Crown className="w-10 h-10 text-yellow-500 absolute -top-4 -right-4 animate-pulse" />
-                                                <p className="mt-4 font-bold text-white text-lg">Cúpulas de Partido</p>
-                                            </div>
-                                        ) : (
-                                            <div className="relative">
-                                                <Users className="w-20 h-20 text-white" />
-                                                <Vote className="w-10 h-10 text-green-400 absolute -top-2 -right-2" />
-                                                <p className="mt-4 font-bold text-white text-lg">Sociedad Civil</p>
-                                            </div>
-                                        )}
-                                    </div>
-                                    <p className="text-sm text-gray-400 leading-relaxed">
-                                        {system === "regimen"
-                                            ? "El jefe del partido hace las listas. TÚ no eliges a tui representante, solo ratificas la lista del líder."
-                                            : "Elección directa de representante por distrito. Tú lo eliges, tú lo puedes revocar."}
-                                    </p>
+                {/* Main Interface */}
+                <div className="relative bg-zinc-900/50 border border-white/10 rounded-sm p-2">
+                    
+                    {/* Screen Glitch Overlay during Reboot */}
+                    <AnimatePresence>
+                        {isRebooting && (
+                            <motion.div 
+                                initial={{ opacity: 0 }} 
+                                animate={{ opacity: 1 }} 
+                                exit={{ opacity: 0 }}
+                                className="absolute inset-0 z-50 bg-black flex items-center justify-center flex-col"
+                            >
+                                <RefreshCw className="w-12 h-12 text-white animate-spin mb-4" />
+                                <p className="font-mono text-white text-sm animate-pulse">REINICIANDO EL ESTADO...</p>
+                                <div className="w-64 h-1 bg-zinc-800 mt-4 rounded-full overflow-hidden">
+                                    <motion.div 
+                                        className="h-full bg-white" 
+                                        initial={{ width: "0%" }}
+                                        animate={{ width: "100%" }}
+                                        transition={{ duration: 1.5, ease: "linear" }}
+                                    />
                                 </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
 
-                                {/* Center Column: Mechanism */}
-                                <div className="flex justify-center">
-                                    <div className={`w-full h-[2px] relative hidden md:block ${system === "regimen" ? "bg-red-500/20" : "bg-white/20"}`}>
-                                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-zinc-950 p-3 rounded-full border border-white/10">
-                                            <ArrowRightLeft className={`w-6 h-6 ${system === "regimen" ? "text-red-500 rotate-45" : "text-white"}`} />
+                    <div className="grid lg:grid-cols-3 gap-1 lg:gap-1 bg-black/50 p-6 lg:p-12 relative overflow-hidden min-h-[500px]">
+                        
+                        {/* Schematic View */}
+                        <div className="lg:col-span-2 relative flex flex-col justify-center items-center">
+                            
+                            {/* REGIME SCHEMATIC (The Bug) */}
+                            {systemState === "FALLO_SISTÉMICO" ? (
+                                <motion.div 
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    className="relative w-full max-w-lg"
+                                >
+                                    <div className="absolute -top-12 left-0 font-mono text-red-500 text-xs bg-red-950/30 px-2 py-1 border border-red-500/30">
+                                        ERROR CRÍTICO: CONSTITUCIÓN_78
+                                    </div>
+                                    
+                                    {/* Visual Representation of Fusion */}
+                                    <div className="relative aspect-square border-2 border-dashed border-red-900/50 rounded-full flex items-center justify-center p-12">
+                                        <div className="absolute inset-0 animate-[spin_10s_linear_infinite] opacity-20 bg-[conic-gradient(from_0deg,transparent_0_340deg,#dc2626_360deg)] rounded-full" />
+                                        
+                                        <div className="relative z-10 text-center">
+                                            <div className="flex justify-center -space-x-4 mb-4">
+                                                <div className="w-24 h-24 bg-red-900/20 border border-red-500 rounded-full flex items-center justify-center backdrop-blur-sm">
+                                                    <span className="font-bold text-red-500 text-xs">EJECUTIVO</span>
+                                                </div>
+                                                <div className="w-24 h-24 bg-red-900/20 border border-red-500 rounded-full flex items-center justify-center backdrop-blur-sm -mt-12">
+                                                    <span className="font-bold text-red-500 text-xs text-center leading-tight">PODER<br/>JUDICIAL</span>
+                                                </div>
+                                                <div className="w-24 h-24 bg-red-900/20 border border-red-500 rounded-full flex items-center justify-center backdrop-blur-sm">
+                                                    <span className="font-bold text-red-500 text-xs">LEGISLATIVO</span>
+                                                </div>
+                                            </div>
+                                            <AlertTriangle className="w-12 h-12 text-red-500 mx-auto mb-2 animate-bounce" />
+                                            <h3 className="text-2xl font-black text-white uppercase">FUSIÓN DE PODERES</h3>
+                                            <p className="text-red-400 text-sm mt-2 font-mono">COLAPSO INSTITUCIONAL</p>
+                                        </div>
+
+                                        {/* Connection Lines interacting dangerously */}
+                                        <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-50">
+                                            <line x1="50%" y1="10%" x2="50%" y2="90%" stroke="#ef4444" strokeWidth="2" strokeDasharray="5,5" />
+                                            <line x1="10%" y1="50%" x2="90%" y2="50%" stroke="#ef4444" strokeWidth="2" strokeDasharray="5,5" />
+                                        </svg>
+                                    </div>
+                                </motion.div>
+                            ) : (
+                                /* DEMOCRACY SCHEMATIC (The Clean System) */
+                                <motion.div 
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    className="relative w-full max-w-lg"
+                                >
+                                    <div className="absolute -top-12 left-0 font-mono text-emerald-500 text-xs bg-emerald-950/30 px-2 py-1 border border-emerald-500/30">
+                                        SISTEMA: REPÚBLICA_CONSTITUCIONAL
+                                    </div>
+
+                                    {/* Visual Representation of Separation */}
+                                    <div className="grid grid-cols-3 gap-4 h-64 items-end pb-8 border-b border-emerald-500/30 relative">
+                                        {/* Pillar 1 */}
+                                        <div className="h-48 bg-emerald-900/10 border border-emerald-500/50 rounded-t-sm flex flex-col justify-end p-4 relative group">
+                                            <div className="absolute top-0 left-0 w-full h-1 bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.5)]" />
+                                            <span className="font-mono text-[10px] text-emerald-500 mb-1">PODER_01</span>
+                                            <span className="font-bold text-white text-xs md:text-sm">LEGISLATIVO</span>
+                                        </div>
+                                        {/* Pillar 2 */}
+                                        <div className="h-64 bg-emerald-900/10 border border-emerald-500/50 rounded-t-sm flex flex-col justify-end p-4 relative group">
+                                            <div className="absolute top-0 left-0 w-full h-1 bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.5)]" />
+                                            <span className="font-mono text-[10px] text-emerald-500 mb-1">PODER_02</span>
+                                            <span className="font-bold text-white text-xs md:text-sm">EJECUTIVO</span>
+                                        </div>
+                                        {/* Pillar 3 */}
+                                        <div className="h-48 bg-emerald-900/10 border border-emerald-500/50 rounded-t-sm flex flex-col justify-end p-4 relative group">
+                                            <div className="absolute top-0 left-0 w-full h-1 bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.5)]" />
+                                            <span className="font-mono text-[10px] text-emerald-500 mb-1">PODER_03</span>
+                                            <span className="font-bold text-white text-xs md:text-sm">JUDICIAL</span>
+                                        </div>
+                                        
+                                        {/* Independence arrows */}
+                                        <div className="absolute top-1/2 left-0 w-full flex justify-between px-12 pointer-events-none opacity-30">
+                                            <ArrowRight className="text-emerald-500" />
+                                            <ArrowRight className="text-emerald-500 rotate-180" />
                                         </div>
                                     </div>
-                                    {/* Mobile Divider */}
-                                    <div className="md:hidden w-[2px] h-16 bg-white/10 my-4" />
-                                </div>
-
-                                {/* Right Column: Result */}
-                                <div className="space-y-6 text-center">
-                                    <h3 className={`text-sm font-bold uppercase tracking-widest ${system === "regimen" ? "text-red-400" : "text-blue-400"}`}>
-                                        Consecuencia
-                                    </h3>
-                                    <div className="flex justify-center">
-                                        {system === "regimen" ? (
-                                            <div className="relative">
-                                                <Gavel className="w-20 h-20 text-red-600/50" />
-                                                <div className="absolute inset-0 flex items-center justify-center">
-                                                    <span className="text-4xl font-black text-white">?</span>
-                                                </div>
-                                                <p className="mt-4 font-bold text-white text-lg">Fusión de Poderes</p>
-                                            </div>
-                                        ) : (
-                                            <div className="relative">
-                                                <Scale className="w-20 h-20 text-blue-400" />
-                                                <p className="mt-4 font-bold text-white text-lg">Separación de Poderes</p>
-                                            </div>
-                                        )}
+                                    
+                                    <div className="mt-8 text-center">
+                                         <h3 className="text-2xl font-black text-white uppercase tracking-widest flex items-center justify-center gap-2">
+                                            <CheckCircle2 className="text-emerald-500" />
+                                            Separación Total
+                                         </h3>
+                                         <p className="text-emerald-400 text-sm mt-2 font-mono">GARANTÍA DE LIBERTAD: 100%</p>
                                     </div>
-                                    <p className="text-sm text-gray-400 leading-relaxed">
-                                        {system === "regimen"
-                                            ? "El Ejecutivo nombra al Judicial y controla el Legislativo. No hay control, solo impunidad y corrupción sistémica."
-                                            : "El Legislativo controla al Ejecutivo. La Justicia es independiente. El poder vigila al poder."}
-                                    </p>
+                                </motion.div>
+                            )}
+                        </div>
+
+                        {/* Control Panel (Right Side) */}
+                        <div className="lg:col-span-1 border-l border-white/10 pl-0 lg:pl-12 flex flex-col justify-center">
+                            <div className="mb-8">
+                                <h4 className="text-xs font-mono text-zinc-500 uppercase mb-4">Informe de Situación</h4>
+                                <div className="space-y-4 font-mono text-sm">
+                                    <div className="flex justify-between border-b border-white/5 pb-2">
+                                        <span className="text-zinc-400">Origen de Poder:</span>
+                                        <span className={systemState === "FALLO_SISTÉMICO" ? "text-red-400" : "text-emerald-400"}>
+                                            {systemState === "FALLO_SISTÉMICO" ? "CÚPULAS DE PARTIDO" : "DISTRITO UNINOMINAL"}
+                                        </span>
+                                    </div>
+                                    <div className="flex justify-between border-b border-white/5 pb-2">
+                                        <span className="text-zinc-400">Control mutuo:</span>
+                                        <span className={systemState === "FALLO_SISTÉMICO" ? "text-red-400" : "text-emerald-400"}>
+                                            {systemState === "FALLO_SISTÉMICO" ? "INEXISTENTE (Impunidad)" : "ACTIVO (Pesos y Contrapesos)"}
+                                        </span>
+                                    </div>
+                                    <div className="flex justify-between border-b border-white/5 pb-2">
+                                        <span className="text-zinc-400">Riesgo Corrupción:</span>
+                                        <span className={systemState === "FALLO_SISTÉMICO" ? "text-red-500 font-bold" : "text-emerald-500"}>
+                                            {systemState === "FALLO_SISTÉMICO" ? "SISTÉMICA (Alto)" : "BAJO (Controlado)"}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div className="mt-12 pt-8 border-t border-white/5 text-center">
-                                <span className={`inline-block px-4 py-1 rounded text-xs font-mono tracking-widest uppercase ${system === "regimen" ? "bg-red-900/30 text-red-400" : "bg-green-900/30 text-green-400"
-                                    }`}>
-                                    {system === "regimen" ? "RESULTADO: ESTADO DE PARTIDOS" : "RESULTADO: REPÚBLICA CONSTITUCIONAL"}
-                                </span>
+                            <div className="mt-auto">
+                                <button
+                                    onClick={handleReboot}
+                                    disabled={isRebooting}
+                                    className={`w - full group relative overflow - hidden px - 8 py - 6 transition - all duration - 300 ${
+    systemState === "FALLO_SISTÉMICO"
+        ? "bg-red-600 hover:bg-red-500 text-white"
+        : "bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-white"
+} `}
+                                >
+                                    <div className="relative z-10 flex items-center justify-center gap-3">
+                                        <Power className="w-6 h-6" />
+                                        <span className="font-black text-sm md:text-lg tracking-widest uppercase">
+                                            {systemState === "FALLO_SISTÉMICO" ? "INICIAR PROCESO CONSTITUYENTE" : "RESTAURAR COPIA DE SEGURIDAD"}
+                                        </span>
+                                    </div>
+                                    
+                                    {/* Stripes Background */}
+                                    <div className="absolute inset-0 opacity-10 bg-[repeating-linear-gradient(45deg,#000,#000_10px,transparent_10px,transparent_20px)]" />
+                                </button>
+                                
+                                <p className="text-center mt-4 text-[10px] text-zinc-600 font-mono uppercase">
+                                    {systemState === "FALLO_SISTÉMICO" 
+                                        ? "ADVERTENCIA: EL SISTEMA ACTUAL NO GARANTIZA LA LIBERTAD." 
+                                        : "SISTEMA ESTABLE. LIBERTAD POLÍTICA GARANTIZADA."}
+                                </p>
                             </div>
-                        </motion.div>
-                    </AnimatePresence>
+                        </div>
+                    </div>
+
+                    {/* Decorative Data Footer */}
+                    <div className="bg-black/80 border-t border-white/10 p-2 flex justify-between items-center text-[10px] font-mono text-zinc-600 overflow-hidden">
+                        <span>CORRUPCIÓN: {systemState === "FALLO_SISTÉMICO" ? "GENERALIZADA" : "AISLADA"}</span>
+                        <span>REPRESENTACIÓN: {systemState === "FALLO_SISTÉMICO" ? "FALSA" : "DIRECTA"}</span>
+                        <span className="hidden md:inline">VIGENCIA: {systemState === "FALLO_SISTÉMICO" ? "CADUCADO" : "INDIFINIDA"}</span>
+                    </div>
                 </div>
             </div>
         </section>
