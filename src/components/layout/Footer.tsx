@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { siteConfig } from "@config";
+import { siteConfig, socialLinks } from "@config";
 import { Github, Twitter, Mail, Activity, Send } from "lucide-react";
 
 export function Footer() {
@@ -23,17 +23,16 @@ export function Footer() {
                             Plataforma civil para la conquista de la libertad política colectiva y el establecimiento de una democracia formal en España.
                         </p>
                         <div className="flex gap-4">
-                            {siteConfig.socialLinks.twitter && (
-                                <Link href={siteConfig.socialLinks.twitter} className="text-gray-500 hover:text-white transition-colors">
-                                    <Twitter className="w-5 h-5" />
+                            {socialLinks.slice(0, 3).map((link) => (
+                                <Link
+                                    key={link.name}
+                                    href={link.url}
+                                    className={`text-gray-500 transition-colors ${link.colorClass}`}
+                                    aria-label={link.name}
+                                >
+                                    <link.icon className="w-5 h-5" />
                                 </Link>
-                            )}
-                            <Link href="#" className="text-gray-500 hover:text-white transition-colors">
-                                <Github className="w-5 h-5" />
-                            </Link>
-                            <Link href={`mailto:${siteConfig.contactEmail}`} className="text-gray-500 hover:text-white transition-colors">
-                                <Mail className="w-5 h-5" />
-                            </Link>
+                            ))}
                         </div>
                     </div>
 
