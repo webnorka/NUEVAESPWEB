@@ -195,10 +195,10 @@ export function SystemComparator() {
                                 <button
                                     onClick={handleReboot}
                                     disabled={isRebooting}
-                                    className={`w - full group relative overflow - hidden px - 8 py - 6 transition - all duration - 300 ${systemState === "FALLO_SISTÉMICO"
+                                    className={`w-full group relative overflow-hidden px-8 py-6 transition-all duration-300 ${systemState === "FALLO_SISTÉMICO"
                                             ? "bg-red-600 hover:bg-red-500 text-white"
                                             : "bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-white"
-                                        } `}
+                                        }`}
                                 >
                                     <div className="relative z-10 flex items-center justify-center gap-3">
                                         <Power className="w-6 h-6" />
