@@ -1,54 +1,93 @@
+"use client";
+
 import Link from "next/link";
-import { siteConfig, socialLinks } from "@config";
+import { siteConfig } from "@config";
+import { Github, Twitter, Mail, Activity, Send } from "lucide-react";
 
 export function Footer() {
     return (
-        <footer className="bg-secondary py-12 border-t border-white/10">
-            <div className="container mx-auto px-4">
-                <div className="grid md:grid-cols-3 gap-8 items-start">
-                    <div className="space-y-3">
-                        <h3 className="text-xl font-bold">{siteConfig.name}</h3>
-                        <p className="text-sm text-gray-400">
-                            {siteConfig.description}
+        <footer className="border-t border-white/10 bg-black relative overflow-hidden">
+            {/* Background Grid */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:40px_40px] opacity-20 pointer-events-none"></div>
+
+            <div className="container mx-auto px-4 py-16 relative z-10">
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+
+                    {/* Brand / Mission */}
+                    <div className="space-y-6">
+                        <div className="flex items-center gap-2">
+                            <div className="w-8 h-8 bg-red-600 flex items-center justify-center text-white font-black text-xs">NE</div>
+                            <span className="font-bold text-white tracking-widest">NUEVA ESPAÑA</span>
+                        </div>
+                        <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
+                            Plataforma civil para la conquista de la libertad política colectiva y el establecimiento de una democracia formal en España.
                         </p>
-                        <div className="flex gap-2">
-                            {socialLinks.map((link) => (
-                                <Link
-                                    key={link.name}
-                                    href={link.url}
-                                    target={link.url.startsWith("http") ? "_blank" : undefined}
-                                    rel={link.url.startsWith("http") ? "noreferrer" : undefined}
-                                    className={`p-2 rounded-lg border border-white/5 hover:border-white/20 transition-colors ${link.colorClass}`}
-                                    aria-label={link.name}
-                                >
-                                    <link.icon className="w-4 h-4" />
+                        <div className="flex gap-4">
+                            {siteConfig.socialLinks.twitter && (
+                                <Link href={siteConfig.socialLinks.twitter} className="text-gray-500 hover:text-white transition-colors">
+                                    <Twitter className="w-5 h-5" />
                                 </Link>
-                            ))}
+                            )}
+                            <Link href="#" className="text-gray-500 hover:text-white transition-colors">
+                                <Github className="w-5 h-5" />
+                            </Link>
+                            <Link href={`mailto:${siteConfig.contactEmail}`} className="text-gray-500 hover:text-white transition-colors">
+                                <Mail className="w-5 h-5" />
+                            </Link>
                         </div>
                     </div>
+
+                    {/* Quick Links */}
                     <div>
-                        <h4 className="font-semibold mb-4">Enlaces</h4>
-                        <ul className="space-y-2 text-sm text-gray-400">
-                            <li><Link href="#ideology" className="hover:text-white">Ideograma</Link></li>
-                            <li><Link href="#data" className="hover:text-white">Datos de Corrupción</Link></li>
-                            <li><Link href="/roadmap" className="hover:text-white">Roadmap</Link></li>
+                        <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">Navegación</h4>
+                        <ul className="space-y-3 text-sm text-gray-500">
+                            <li><Link href="#data" className="hover:text-red-500 transition-colors">Datos de Corrupción</Link></li>
+                            <li><Link href="#ideology" className="hover:text-red-500 transition-colors">Ideario</Link></li>
+                            <li><Link href="#movements" className="hover:text-red-500 transition-colors">Acción Directa</Link></li>
+                            <li><Link href="#faq" className="hover:text-red-500 transition-colors">Preguntas Frecuentes</Link></li>
                         </ul>
                     </div>
+
+                    {/* Legal */}
                     <div>
-                        <h4 className="font-semibold mb-4">Contacto</h4>
-                        <p className="text-sm text-gray-400">
-                            Únete a la causa. La verdad nos hará libres.
+                        <h4 className="text-white font-bold mb-6 uppercase tracking-wider text-sm">Legal</h4>
+                        <ul className="space-y-3 text-sm text-gray-500">
+                            <li><Link href="#" className="hover:text-white transition-colors">Aviso Legal</Link></li>
+                            <li><Link href="#" className="hover:text-white transition-colors">Privacidad</Link></li>
+                            <li><Link href="#" className="hover:text-white transition-colors">Cookies</Link></li>
+                            <li><Link href="#" className="hover:text-white transition-colors">Transparencia</Link></li>
+                        </ul>
+                    </div>
+
+                    {/* CTA / Newsletter */}
+                    <div className="bg-zinc-900/50 p-6 border border-white/5 rounded-sm">
+                        <h4 className="flex items-center gap-2 text-white font-bold mb-2 uppercase tracking-wider text-sm">
+                            <Activity className="w-4 h-4 text-red-500" />
+                            Estado de la Resistencia
+                        </h4>
+                        <p className="text-xs text-gray-500 mb-6 font-mono">
+                            Únete a la lista de difusión segura. Sin spam, solo instrucciones.
                         </p>
-                        <p className="text-xs text-gray-500 mt-2">
-                            {siteConfig.domain}
-                        </p>
+                        <div className="flex gap-2">
+                            <input
+                                type="email"
+                                placeholder="correo@seguro.com"
+                                className="bg-black border border-white/10 text-white px-3 py-2 text-sm w-full focus:outline-none focus:border-red-500 transition-colors"
+                            />
+                            <button className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 transition-colors">
+                                <Send className="w-4 h-4" />
+                            </button>
+                        </div>
                     </div>
                 </div>
-                <div className="mt-8 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 gap-4">
-                    <span>© {new Date().getFullYear()} {siteConfig.name}. Todos los derechos reservados.</span>
-                    <div className="flex gap-6">
-                        <Link href="/privacidad" className="hover:text-white transition-colors">Política de Privacidad</Link>
-                        <Link href="/aviso-legal" className="hover:text-white transition-colors">Aviso Legal</Link>
+
+                <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <p className="text-xs text-gray-600 font-mono">
+                        © {new Date().getFullYear()} NUEVA ESPAÑA. TODOS LOS DERECHOS RESERVADOS.
+                    </p>
+                    <div className="flex items-center gap-2 text-[10px] text-gray-700 font-mono uppercase tracking-widest">
+                        <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                        SISTEMA ONLINE // V.2.0.4-BETA
                     </div>
                 </div>
             </div>

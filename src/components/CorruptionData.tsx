@@ -6,6 +6,7 @@ import { Receipt, AlertTriangle, TrendingUp } from "lucide-react";
 import SpotlightCard from "./reactbits/SpotlightCard";
 import { MoneyTicker } from "./MoneyTicker";
 import { siteConfig } from "@config";
+import { SourcesModal } from "./SourcesModal";
 
 const FALLBACK_CASES = [
     { name: "Coste Anual Corrupción", amount: 90000, color: "#dc2626" },
@@ -26,6 +27,8 @@ export function CorruptionData() {
         { key: "pensions", ...siteConfig.corruptionMetrics?.pensions },
         { key: "redundancy", ...siteConfig.corruptionMetrics?.redundancy },
     ].filter((m) => m?.initial !== undefined);
+
+    const [showSources, setShowSources] = useState(false);
 
     return (
         <section id="data" className="py-24 bg-zinc-950 relative overflow-hidden">
@@ -50,6 +53,12 @@ export function CorruptionData() {
                             CONCEPTO: MANTENIMIENTO ESTRUCTURA PARTITOCRÁTICA <br />
                             ESTADO: <span className="text-red-500 font-bold animate-pulse">IMPAGABLE</span>
                         </p>
+                        <button
+                            onClick={() => setShowSources(true)}
+                            className="mt-4 text-xs font-mono text-gray-500 hover:text-white underline decoration-dotted underline-offset-4 transition-colors"
+                        >
+                            [VERIFICAR FUENTES Y EXPEDIENTES]
+                        </button>
                     </div>
                 </div>
 
@@ -133,9 +142,19 @@ export function CorruptionData() {
                                 Fuente: Datos de ejecución presupuestaria 2024.
                             </p>
                         </div>
+
+                        <button
+                            onClick={() => setShowSources(true)}
+                            className="w-full py-3 bg-zinc-900 hover:bg-zinc-800 border border-white/10 text-gray-400 font-mono text-xs uppercase tracking-widest transition-colors flex items-center justify-center gap-2"
+                        >
+                            <Receipt className="w-4 h-4" />
+                            Ver Desglose de Fuentes
+                        </button>
                     </div>
                 </div>
             </div>
+
+            <SourcesModal isOpen={showSources} onClose={() => setShowSources(false)} />
         </section>
     );
 }

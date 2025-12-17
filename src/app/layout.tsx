@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/layout/Navbar";
+import { CommandBar } from "@/components/layout/CommandBar";
 import { Footer } from "@/components/layout/Footer";
 import { siteConfig } from "@config";
 import Script from "next/script";
@@ -56,7 +56,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
-        <Navbar />
+        <CommandBar />
         <main className="flex-grow pt-16">
           {children}
         </main>
