@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, CartesianGrid } from "recharts";
-import { Receipt, AlertTriangle, TrendingUp } from "lucide-react";
+import { motion } from "framer-motion";
+import { Receipt, AlertTriangle, TrendingUp, ShieldAlert, Cpu, Terminal } from "lucide-react";
 import SpotlightCard from "./reactbits/SpotlightCard";
 import { MoneyTicker } from "./MoneyTicker";
+import { DataBreachBars } from "./vanguard/DataBreachBars";
 import { siteConfig } from "@config";
 import { SourcesModal } from "./SourcesModal";
 
@@ -87,68 +89,83 @@ export function CorruptionData() {
                 </div>
 
                 <div className="grid lg:grid-cols-3 gap-12 items-start">
-                    {/* Gráfico de Barras "Hard Data" */}
-                    <div className="lg:col-span-2 bg-black/40 border border-white/10 p-6 md:p-8 rounded-sm">
-                        <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
-                            <AlertTriangle className="text-yellow-500 w-5 h-5" />
-                            Comparativa de Costes Anuales (Estimados M€)
-                        </h3>
-                        <div className="h-[400px] w-full">
-                            {isClient ? (
-                                <ResponsiveContainer width="100%" height="100%">
-                                    <BarChart data={corruptionCases} layout="vertical" margin={{ top: 5, right: 30, left: 40, bottom: 5 }}>
-                                        <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#333" />
-                                        <XAxis type="number" stroke="#666" tickFormatter={(value) => `${value / 1000}mM`} />
-                                        <YAxis dataKey="name" type="category" stroke="#999" width={140} tick={{ fontSize: 12 }} />
-                                        <Tooltip
-                                            cursor={{ fill: 'rgba(255,255,255,0.05)' }}
-                                            contentStyle={{ backgroundColor: "#000", borderColor: "#333", color: "#fff" }}
-                                            itemStyle={{ color: "#fff" }}
-                                            formatter={(value: number) => [`${value.toLocaleString()} M€`, "Coste"]}
-                                        />
-                                        <Bar dataKey="amount" radius={[0, 4, 4, 0]} barSize={30} animationDuration={1500}>
-                                            {corruptionCases.map((entry, index) => (
-                                                <Cell key={`cell-${index}`} fill={entry.color} />
-                                            ))}
-                                        </Bar>
-                                    </BarChart>
-                                </ResponsiveContainer>
-                            ) : (
-                                <div className="h-full w-full flex items-center justify-center text-sm text-gray-500 font-mono">
-                                    [CALCULANDO PÉRDIDAS...]
-                                </div>
-                            )}
+                    {/* Visualización Vanguardista: Data Breach */}
+                    <div className="lg:col-span-2 relative">
+                        <div className="absolute -top-10 left-0 flex items-center gap-4 text-primary">
+                            <Cpu className="w-4 h-4 animate-pulse" />
+                            <span className="font-mono text-[10px] uppercase font-bold tracking-[0.3em]">
+                                Recopilación de Registros Financieros // SECURED_HUB
+                            </span>
+                        </div>
+
+                        <div className="bg-black/40 border border-white/5 p-6 md:p-10 rounded-sm relative group overflow-hidden">
+                            <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+
+                            <div className="relative z-10">
+                                <h3 className="text-xl md:text-2xl font-black text-white mb-10 flex items-center gap-3 italic uppercase tracking-tighter">
+                                    <ShieldAlert className="text-primary w-6 h-6" />
+                                    Grado de Extracción de Capital
+                                </h3>
+
+                                {isClient ? (
+                                    <DataBreachBars data={corruptionCases} />
+                                ) : (
+                                    <div className="h-[400px] w-full flex items-center justify-center text-sm text-zinc-500 font-mono italic animate-pulse">
+                                        [ACCEDIENDO A LOS ARCHIVOS DE HACIENDA...]
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
 
-                    {/* Nota de Contexto / Sidebar */}
+                    {/* Reflexiones y Contexto Social */}
                     <div className="space-y-6">
-                        <div className="bg-red-900/10 border-l-4 border-red-600 p-6">
-                            <h4 className="text-red-500 font-bold mb-2 uppercase tracking-wide text-sm">El Dato Clave</h4>
-                            <p className="text-gray-300 text-lg font-light">
-                                La corrupción en España cuesta aproximadamente el <b className="text-white">8% del PIB</b> anual.
-                            </p>
-                            <p className="text-gray-500 text-sm mt-4">
-                                Fuente: Grupo de Los Verdes/ALE (Parlamento Europeo, 2018).
-                            </p>
+                        <div className="bg-zinc-900/80 border border-white/5 p-6 rounded-sm relative overflow-hidden group">
+                            <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
+                                <Terminal className="w-12 h-12 text-primary" />
+                            </div>
+                            <h4 className="text-primary font-bold mb-4 uppercase tracking-widest text-[10px]">
+                                Realidad Social // Análisis Proyectado
+                            </h4>
+                            <div className="space-y-8">
+                                {siteConfig.socialImpact?.map((reflection, i) => (
+                                    <motion.div
+                                        key={i}
+                                        initial={{ opacity: 0, y: 10 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ delay: 0.5 + (i * 0.2) }}
+                                        className="border-b border-white/5 pb-4 last:border-0"
+                                    >
+                                        <p className="text-zinc-400 text-sm font-mono leading-relaxed group-hover:text-zinc-300 transition-colors">
+                                            {">"} {reflection}
+                                        </p>
+                                    </motion.div>
+                                ))}
+                            </div>
                         </div>
 
-                        <div className="bg-orange-900/10 border-l-4 border-orange-600 p-6">
-                            <h4 className="text-orange-500 font-bold mb-2 uppercase tracking-wide text-sm">La Deuda Oculta</h4>
-                            <p className="text-gray-300 text-lg font-light">
-                                El Estado transfiere más de <b className="text-white">50.000 M€</b> al año a la Seguridad Social para evitar la quiebra técnica del sistema de pensiones.
-                            </p>
-                            <p className="text-gray-500 text-sm mt-4">
-                                Fuente: Datos de ejecución presupuestaria 2024.
+                        <div className="bg-primary/5 border border-primary/20 p-6 rounded-sm relative group overflow-hidden">
+                            <motion.div
+                                animate={{ opacity: [0.1, 0.3, 0.1] }}
+                                transition={{ duration: 4, repeat: Infinity }}
+                                className="absolute inset-0 bg-primary/10"
+                            />
+                            <h4 className="text-white font-black mb-2 uppercase tracking-wide text-xs flex items-center gap-2">
+                                <TrendingUp className="w-4 h-4 text-primary" />
+                                Conclusión del Diagnóstico
+                            </h4>
+                            <p className="text-zinc-300 text-sm italic relative z-10 leading-relaxed font-light">
+                                "La deuda no es accidental; es el combustible necesario para mantener una estructura que ya no responde al ciudadano, sino a su propia supervivencia burocrática."
                             </p>
                         </div>
 
                         <button
                             onClick={() => setShowSources(true)}
-                            className="w-full py-3 bg-zinc-900 hover:bg-zinc-800 border border-white/10 text-gray-400 font-mono text-xs uppercase tracking-widest transition-colors flex items-center justify-center gap-2"
+                            className="w-full py-4 bg-zinc-950 hover:bg-primary/10 border border-white/5 text-zinc-500 hover:text-primary font-mono text-[10px] uppercase tracking-[0.3em] transition-all flex items-center justify-center gap-3 group"
                         >
-                            <Receipt className="w-4 h-4" />
-                            Ver Desglose de Fuentes
+                            <Receipt className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                            Verificar Fuentes y Expedientes
                         </button>
                     </div>
                 </div>

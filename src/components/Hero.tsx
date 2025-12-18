@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowDown, Fingerprint } from "lucide-react";
+import { ArrowDown, Fingerprint, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { ManifestoModal } from "@/components/ManifestoModal";
 import { siteConfig } from "@config";
@@ -75,6 +75,16 @@ export function Hero({ manifestoContent }: HeroProps) {
                                 </button>
                             }
                         />
+                        <Link
+                            href="/narrativa"
+                            className="group relative px-8 py-4 border border-red-600 text-red-600 text-lg font-bold tracking-tight overflow-hidden rounded-sm hover:scale-[1.02] transition-transform duration-200"
+                        >
+                            <div className="absolute inset-0 bg-red-600 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                            <span className="relative flex items-center gap-2 group-hover:text-white transition-colors">
+                                <ArrowRight className="w-5 h-5" />
+                                Nueva Narrativa
+                            </span>
+                        </Link>
                         <Link
                             href="#movements"
                             className="px-8 py-4 text-gray-300 hover:text-white font-medium border-b border-transparent hover:border-red-500 transition-colors flex items-center gap-2 group"

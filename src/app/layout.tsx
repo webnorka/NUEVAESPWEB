@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { CommandBar } from "@/components/layout/CommandBar";
+import { VanguardDialog } from "@/components/vanguard/VanguardDialog";
 import { Footer } from "@/components/layout/Footer";
 import { siteConfig } from "@config";
 import Script from "next/script";
@@ -56,6 +57,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
+        <VanguardDialog
+          id="construction_v1"
+          level="VANGUARD"
+          message="Web en construcción"
+          submessage="Fase de desarrollo activa // Sistema operativo 2.1.0"
+        />
         <CommandBar />
         <main className="flex-grow pt-16">
           {children}

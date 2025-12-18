@@ -127,11 +127,20 @@ export const siteConfig = {
     },
 
     corruptionCases: [
-        { name: "Coste Anual Corrupción", amount: 90000, color: "#dc2626" },
-        { name: "Agujero Pensiones (Año)", amount: 66000, color: "#ea580c" },
-        { name: "Duplicidades (Año)", amount: 26000, color: "#eab308" },
-        { name: "Rescate Bancario", amount: 60000, color: "#7c3aed" },
-        { name: "ERE Andalucía", amount: 680, color: "#db2777" },
+        { name: "Coste Anual Corrupción", amount: 90000, color: "#dc2626", impact: "Equivale a 450 hospitales de vanguardia" },
+        { name: "Agujero Pensiones (Año)", amount: 66000, color: "#ea580c", impact: "Déficit estructural cubierto con deuda" },
+        { name: "Rescate Bancario (Total)", amount: 60000, color: "#7c3aed", impact: "Dinero público nunca recuperado" },
+        { name: "Duplicidades (Año)", amount: 26000, color: "#eab308", impact: "Gasto en burocracia paralela" },
+        { name: "Estructura Partidaria", amount: 5000, color: "#2563eb", impact: "Mantenimiento de sedes y cargos" },
+        { name: "Fondos Formación", amount: 1200, color: "#9333ea", impact: "Caso masivo de fraude en formación" },
+        { name: "ERE Andalucía", amount: 680, color: "#db2777", impact: "Malversación de fondos públicos" },
+    ],
+
+    socialImpact: [
+        "Con el coste anual de la corrupción, cada español podría recibir 1.900€ de paga extra al año.",
+        "El agujero de las pensiones equivale a 4 veces el presupuesto total en I+D.",
+        "Las duplicidades autonómicas consumen el equivalente a 100.000 viviendas sociales anuales.",
+        "La evasión fiscal consentida a grandes fortunas es superior al presupuesto de Justicia."
     ],
 
     justiceStats: {
