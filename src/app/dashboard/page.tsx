@@ -60,7 +60,9 @@ export default async function DashboardPage() {
                             <div className="space-y-4 pt-6 border-t border-white/5">
                                 <div className="flex justify-between items-center text-[10px] font-mono">
                                     <span className="text-zinc-500 uppercase">Rol:</span>
-                                    <span className="text-emerald-500 font-bold tracking-widest">CIUDADANO</span>
+                                    <span className={`font-bold tracking-widest ${profile?.role === 'admin' ? 'text-red-500' : 'text-emerald-500'}`}>
+                                        {profile?.role === 'admin' ? 'ADMINISTRADOR' : 'CIUDADANO'}
+                                    </span>
                                 </div>
                                 <div className="flex justify-between items-center text-[10px] font-mono">
                                     <span className="text-zinc-500 uppercase">Registro:</span>
