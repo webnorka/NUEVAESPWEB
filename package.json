@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "@react-spring/web": "^10.0.3",
+    "@supabase/ssr": "^0.8.0",
+    "@supabase/supabase-js": "^2.88.0",
     "@tailwindcss/typography": "^0.5.19",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.26",

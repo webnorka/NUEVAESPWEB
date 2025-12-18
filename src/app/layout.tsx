@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   description: siteConfig.description,
   keywords: siteConfig.keywords,
   authors: siteConfig.authors,
-  metadataBase: new URL(`https://${siteConfig.domain}`),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || `https://${siteConfig.domain}`),
   openGraph: {
     ...siteConfig.openGraph,
     title: siteConfig.title,
@@ -61,20 +61,24 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
-        {/* Google Analytics - Placeholder ID */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
+        {/* Google Analytics */}
+        {process.env.NEXT_PUBLIC_GA_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
 
-            gtag('config', 'G-XXXXXXXXXX');
-          `}
-        </Script>
+                gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
+              `}
+            </Script>
+          </>
+        )}
         {/* JSON-LD Structured Data */}
         <Script id="json-ld" type="application/ld+json">
           {JSON.stringify({

@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Crosshair, Terminal, FileText, Activity } from "lucide-react";
+import { Menu, X, Crosshair, Terminal, FileText, Activity, LayoutDashboard } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { createClient } from "@/lib/supabase/client";
+import { User } from "@supabase/supabase-js";
 
 const navItems = [
     { name: "DATOS", href: "#data", icon: Activity },
@@ -16,13 +18,29 @@ const navItems = [
 export function CommandBar() {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const [user, setUser] = useState<User | null>(null);
+    const supabase = createClient();
 
     useEffect(() => {
         const handleScroll = () => {
             setScrolled(window.scrollY > 50);
         };
         window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
+
+        const getUser = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            setUser(user);
+        };
+        getUser();
+
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            setUser(session?.user ?? null);
+        });
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+            subscription.unsubscribe();
+        };
     }, []);
 
     return (
@@ -57,9 +75,16 @@ export function CommandBar() {
                         </Link>
                     ))}
                     <div className="w-px h-6 bg-white/10 mx-2" />
-                    <button className="px-4 py-1.5 bg-red-600 hover:bg-red-700 text-white text-xs font-bold tracking-widest uppercase rounded-sm transition-colors animate-pulse">
-                        Unirse
-                    </button>
+                    {user ? (
+                        <Link href="/dashboard" className="px-4 py-1.5 bg-zinc-800 hover:bg-white hover:text-black text-white text-xs font-bold tracking-widest uppercase rounded-sm transition-all flex items-center gap-2">
+                            <LayoutDashboard className="w-3 h-3" />
+                            Portal
+                        </Link>
+                    ) : (
+                        <Link href="/auth/signup" className="px-4 py-1.5 bg-red-600 hover:bg-red-700 text-white text-xs font-bold tracking-widest uppercase rounded-sm transition-colors animate-pulse">
+                            Unirse
+                        </Link>
+                    )}
                 </nav>
 
                 {/* Mobile Menu Toggle */}
@@ -92,9 +117,24 @@ export function CommandBar() {
                                     {item.name}
                                 </Link>
                             ))}
-                            <button className="mt-2 w-full py-3 bg-red-600 text-white font-bold tracking-widest uppercase text-sm rounded-sm">
-                                UNIRSE A LA RESISTENCIA
-                            </button>
+                            {user ? (
+                                <Link
+                                    href="/dashboard"
+                                    onClick={() => setIsOpen(false)}
+                                    className="mt-2 w-full py-3 bg-zinc-800 text-white font-bold tracking-widest uppercase text-sm rounded-sm flex items-center justify-center gap-3 transition-transform active:scale-95 border border-white/10"
+                                >
+                                    <LayoutDashboard className="w-4 h-4" />
+                                    MI PORTAL
+                                </Link>
+                            ) : (
+                                <Link
+                                    href="/auth/signup"
+                                    onClick={() => setIsOpen(false)}
+                                    className="mt-2 w-full py-3 bg-red-600 text-white font-bold tracking-widest uppercase text-sm rounded-sm flex items-center justify-center transition-transform active:scale-95"
+                                >
+                                    UNIRSE A LA RESISTENCIA
+                                </Link>
+                            )}
                         </nav>
                     </motion.div>
                 )}
