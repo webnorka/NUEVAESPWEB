@@ -2,17 +2,18 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Crosshair, Terminal, FileText, Activity, LayoutDashboard, ShieldAlert } from "lucide-react";
+import { Menu, X, Crosshair, Terminal, FileText, Activity, LayoutDashboard, ShieldAlert, Users, Zap } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import { User } from "@supabase/supabase-js";
+import { getMovementStats } from "@/lib/actions/citizen";
 
 const navItems = [
-    { name: "DATOS", href: "#data", icon: Activity },
-    { name: "IDEARIO", href: "#ideology", icon: Terminal },
-    { name: "ACCIÓN", href: "#movements", icon: Crosshair },
-    { name: "INTERROGATORIO", href: "#faq", icon: FileText },
+    { name: "DATOS", href: "/#data", icon: Activity },
+    { name: "IDEARIO", href: "/#ideology", icon: Terminal },
+    { name: "ACCIÓN", href: "/#movements", icon: Crosshair },
+    { name: "INTERROGATORIO", href: "/#faq", icon: FileText },
 ];
 
 export function CommandBar() {
@@ -20,6 +21,7 @@ export function CommandBar() {
     const [scrolled, setScrolled] = useState(false);
     const [user, setUser] = useState<User | null>(null);
     const [isAdmin, setIsAdmin] = useState(false);
+    const [stats, setStats] = useState({ total: 0, active: 0 });
     const supabase = createClient();
 
     useEffect(() => {
@@ -37,12 +39,19 @@ export function CommandBar() {
             setIsAdmin(data?.role === 'admin');
         };
 
+        const fetchStats = async () => {
+            const data = await getMovementStats();
+            setStats(data);
+        };
+
         const getUserData = async () => {
             const { data: { user } } = await supabase.auth.getUser();
             setUser(user);
             if (user) checkRole(user.id);
         };
+
         getUserData();
+        fetchStats();
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
             const currentUser = session?.user ?? null;
@@ -69,15 +78,37 @@ export function CommandBar() {
         >
             <div className="container mx-auto px-4 flex items-center justify-between">
                 {/* Logo / Brand */}
-                <Link href="/" className="flex items-center gap-2 group">
-                    <div className="w-8 h-8 bg-red-600 rounded-sm flex items-center justify-center text-white font-black hover:bg-white hover:text-black transition-colors">
-                        NE
+                <div className="flex items-center gap-8">
+                    <Link href="/" className="flex items-center gap-2 group">
+                        <div className="w-8 h-8 bg-red-600 rounded-sm flex items-center justify-center text-white font-black hover:bg-white hover:text-black transition-colors">
+                            NE
+                        </div>
+                        <div className="hidden md:flex flex-col leading-none">
+                            <span className="font-bold text-white tracking-widest text-sm">NUEVA</span>
+                            <span className="font-mono text-xs text-red-500 tracking-[0.2em] group-hover:text-white transition-colors">ESPAÑA</span>
+                        </div>
+                    </Link>
+
+                    {/* Movement Counters */}
+                    <div className="hidden lg:flex items-center gap-6 border-l border-white/10 pl-8">
+                        <div className="flex flex-col">
+                            <div className="flex items-center gap-1.5 text-[8px] font-mono text-zinc-500 uppercase tracking-widest">
+                                <Users className="w-2.5 h-2.5" /> Miembros
+                            </div>
+                            <div className="text-xs font-mono font-bold text-white leading-none mt-1">
+                                {stats.total.toLocaleString()}
+                            </div>
+                        </div>
+                        <div className="flex flex-col">
+                            <div className="flex items-center gap-1.5 text-[8px] font-mono text-emerald-500 uppercase tracking-widest">
+                                <Zap className="w-2.5 h-2.5" /> Activos
+                            </div>
+                            <div className="text-xs font-mono font-bold text-emerald-500 leading-none mt-1">
+                                {stats.active.toLocaleString()}
+                            </div>
+                        </div>
                     </div>
-                    <div className="hidden md:flex flex-col leading-none">
-                        <span className="font-bold text-white tracking-widest text-sm">NUEVA</span>
-                        <span className="font-mono text-xs text-red-500 tracking-[0.2em] group-hover:text-white transition-colors">ESPAÑA</span>
-                    </div>
-                </Link>
+                </div>
 
                 {/* Desktop HUD Nav */}
                 <nav className="hidden md:flex items-center gap-1">
@@ -113,12 +144,20 @@ export function CommandBar() {
                 </nav>
 
                 {/* Mobile Menu Toggle */}
-                <button
-                    onClick={() => setIsOpen(!isOpen)}
-                    className="md:hidden p-2 text-white hover:bg-white/10 rounded-sm"
-                >
-                    {isOpen ? <X /> : <Menu />}
-                </button>
+                <div className="flex items-center gap-4 md:hidden">
+                    <div className="flex items-center gap-3 pr-4 border-r border-white/10">
+                        <div className="flex flex-col items-end">
+                            <span className="text-[7px] font-mono text-zinc-500 uppercase tracking-tighter">Miembros</span>
+                            <span className="text-[9px] font-mono font-bold text-white">{stats.total}</span>
+                        </div>
+                    </div>
+                    <button
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="p-2 text-white hover:bg-white/10 rounded-sm"
+                    >
+                        {isOpen ? <X /> : <Menu />}
+                    </button>
+                </div>
             </div>
 
             {/* Mobile Menu Overlay */}

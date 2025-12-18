@@ -89,7 +89,8 @@ export default async function DashboardPage() {
                             />
 
                             <DistrictCard
-                                initialDistrict={profile?.district_id}
+                                initialRegion={profile?.region}
+                                initialLocality={profile?.locality}
                                 initialZip={profile?.zip_code}
                             />
                         </div>
