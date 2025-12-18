@@ -2,6 +2,8 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { User, LogOut, Shield, MapPin, Calendar, LayoutDashboard } from "lucide-react";
 import { ProfileSettings } from "@/components/dashboard/ProfileSettings";
+import { CensusCard } from "@/components/dashboard/CensusCard";
+import { DistrictCard } from "@/components/dashboard/DistrictCard";
 
 export default async function DashboardPage() {
     const supabase = await createClient();
@@ -81,33 +83,15 @@ export default async function DashboardPage() {
                     {/* Right Column: Stats & Action Cards */}
                     <div className="lg:col-span-2 space-y-8">
                         <div className="grid sm:grid-cols-2 gap-6">
-                            <div className="bg-zinc-900/50 border border-white/10 p-6 rounded-sm hover:border-red-600/50 transition-colors group">
-                                <div className="flex items-center gap-3 mb-4">
-                                    <Shield className="w-5 h-5 text-red-600" />
-                                    <h3 className="font-bold text-white text-sm uppercase tracking-wider">Censo de Resistencia</h3>
-                                </div>
-                                <p className="text-zinc-400 text-sm leading-relaxed mb-4">
-                                    Tu registro ayuda a deslegitimar el sistema. Pronto podrás ver el mapa de abstención activa por distritos.
-                                </p>
-                                <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between">
-                                    <span className="text-[10px] font-mono text-zinc-600 uppercase">Estado: Pendiente</span>
-                                    <div className="w-2 h-2 bg-zinc-800 rounded-full" />
-                                </div>
-                            </div>
+                            <CensusCard
+                                isRegistered={!!profile?.census_registered_at}
+                                registeredAt={profile?.census_registered_at}
+                            />
 
-                            <div className="bg-zinc-900/50 border border-white/10 p-6 rounded-sm hover:border-emerald-600/50 transition-colors group">
-                                <div className="flex items-center gap-3 mb-4">
-                                    <MapPin className="w-5 h-5 text-emerald-600" />
-                                    <h3 className="font-bold text-white text-sm uppercase tracking-wider">Mi Distrito</h3>
-                                </div>
-                                <p className="text-zinc-400 text-sm leading-relaxed mb-4">
-                                    Identifica tu distrito uninominal y coordina con otros ciudadanos de tu zona para la acción civil.
-                                </p>
-                                <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between">
-                                    <span className="text-[10px] font-mono text-zinc-600 uppercase">Acción Requerida</span>
-                                    <span className="text-emerald-500 text-[10px] font-mono font-bold animate-pulse tracking-widest text-center">VINCULAR</span>
-                                </div>
-                            </div>
+                            <DistrictCard
+                                initialDistrict={profile?.district_id}
+                                initialZip={profile?.zip_code}
+                            />
                         </div>
 
                         {/* Activity Feed placeholder */}
