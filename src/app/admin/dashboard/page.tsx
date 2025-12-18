@@ -10,6 +10,7 @@ import {
     Ban
 } from "lucide-react";
 import { UserActions } from "@/components/admin/UserActions";
+import { ActivityFeed } from "@/components/admin/ActivityFeed";
 
 export default async function AdminDashboard() {
     const supabase = await createClient();
@@ -69,73 +70,76 @@ export default async function AdminDashboard() {
                     ))}
                 </div>
 
-                {/* Users Management Section */}
-                <div className="bg-zinc-900/30 border border-white/10 rounded-sm overflow-hidden">
-                    <div className="p-6 border-b border-white/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                        <h2 className="text-lg font-black uppercase tracking-tight flex items-center gap-2">
-                            Gestión de Ciudadanos
-                        </h2>
-                        <div className="flex items-center gap-3 w-full md:w-auto">
-                            <div className="relative flex-1 md:w-64">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
-                                <input
-                                    type="text"
-                                    placeholder="BUSCAR ID O NOMBRE..."
-                                    className="w-full bg-black border border-white/10 rounded-sm py-2 pl-10 pr-4 text-xs font-mono text-white focus:outline-none focus:border-red-600 transition-colors"
-                                />
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    {/* Users Management Section */}
+                    <div className="lg:col-span-2 bg-zinc-900/30 border border-white/10 rounded-sm overflow-hidden">
+                        <div className="p-6 border-b border-white/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                            <h2 className="text-lg font-black uppercase tracking-tight flex items-center gap-2">
+                                Gestión de Ciudadanos
+                            </h2>
+                            <div className="flex items-center gap-3 w-full md:w-auto">
+                                <div className="relative flex-1 md:w-64">
+                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+                                    <input
+                                        type="text"
+                                        placeholder="BUSCAR ID O NOMBRE..."
+                                        className="w-full bg-black border border-white/10 rounded-sm py-2 pl-10 pr-4 text-xs font-mono text-white focus:outline-none focus:border-red-600 transition-colors"
+                                    />
+                                </div>
+                                <button className="p-2 border border-white/10 rounded-sm hover:bg-white/5 transition-colors">
+                                    <Filter className="w-4 h-4 text-zinc-400" />
+                                </button>
                             </div>
-                            <button className="p-2 border border-white/10 rounded-sm hover:bg-white/5 transition-colors">
-                                <Filter className="w-4 h-4 text-zinc-400" />
+                        </div>
+
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left border-collapse">
+                                <thead>
+                                    <tr className="bg-white/5 text-[10px] font-mono text-zinc-500 uppercase tracking-widest border-b border-white/10">
+                                        <th className="px-6 py-4 font-black">Ciudadano</th>
+                                        <th className="px-6 py-4 font-black">ID</th>
+                                        <th className="px-6 py-4 font-black">Rol</th>
+                                        <th className="px-6 py-4 font-black text-right">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-white/5">
+                                    {allUsers?.map((user) => (
+                                        <tr key={user.id} className="hover:bg-white/[0.02] transition-colors group">
+                                            <td className="px-6 py-4">
+                                                <div className="font-bold text-sm tracking-tight">{user.full_name || "SIN NOMBRE"}</div>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <div className="text-xs font-mono text-zinc-400">@{user.username || "sin_id"}</div>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <span className={`text-[9px] font-mono font-black px-2 py-0.5 rounded-full border ${user.role === 'admin'
+                                                    ? 'bg-red-500/10 text-red-500 border-red-500/20'
+                                                    : user.role === 'banned'
+                                                        ? 'bg-zinc-800 text-zinc-500 border-white/5'
+                                                        : 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'
+                                                    }`}>
+                                                    {user.role?.toUpperCase() || 'USER'}
+                                                </span>
+                                            </td>
+                                            <td className="px-6 py-4 text-right">
+                                                <UserActions userId={user.id} currentRole={user.role || 'user'} />
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div className="p-4 bg-white/5 border-t border-white/10 text-center">
+                            <button className="text-[10px] font-mono text-zinc-500 hover:text-white transition-colors uppercase tracking-[0.2em]">
+                                Ver todos los ciudadanos registrados ▾
                             </button>
                         </div>
                     </div>
 
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left border-collapse">
-                            <thead>
-                                <tr className="bg-white/5 text-[10px] font-mono text-zinc-500 uppercase tracking-widest border-b border-white/10">
-                                    <th className="px-6 py-4 font-black">Ciudadano</th>
-                                    <th className="px-6 py-4 font-black">ID Usuario</th>
-                                    <th className="px-6 py-4 font-black">Rol</th>
-                                    <th className="px-6 py-4 font-black">Registro</th>
-                                    <th className="px-6 py-4 font-black text-right">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-white/5">
-                                {allUsers?.map((user) => (
-                                    <tr key={user.id} className="hover:bg-white/[0.02] transition-colors group">
-                                        <td className="px-6 py-4">
-                                            <div className="font-bold text-sm tracking-tight">{user.full_name || "SIN NOMBRE"}</div>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <div className="text-xs font-mono text-zinc-400">@{user.username || "sin_id"}</div>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <span className={`text-[9px] font-mono font-black px-2 py-0.5 rounded-full border ${user.role === 'admin'
-                                                ? 'bg-red-500/10 text-red-500 border-red-500/20'
-                                                : user.role === 'banned'
-                                                    ? 'bg-zinc-800 text-zinc-500 border-white/5'
-                                                    : 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'
-                                                }`}>
-                                                {user.role?.toUpperCase() || 'USER'}
-                                            </span>
-                                        </td>
-                                        <td className="px-6 py-4 text-xs font-mono text-zinc-500">
-                                            {new Date(user.created_at).toLocaleDateString()}
-                                        </td>
-                                        <td className="px-6 py-4 text-right">
-                                            <UserActions userId={user.id} currentRole={user.role || 'user'} />
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div className="p-4 bg-white/5 border-t border-white/10 text-center">
-                        <button className="text-[10px] font-mono text-zinc-500 hover:text-white transition-colors uppercase tracking-[0.2em]">
-                            Ver todos los ciudadanos registrados ▾
-                        </button>
+                    {/* Activity Feed Section */}
+                    <div className="lg:col-span-1">
+                        <ActivityFeed />
                     </div>
                 </div>
             </div>

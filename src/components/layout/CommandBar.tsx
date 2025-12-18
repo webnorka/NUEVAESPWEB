@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Crosshair, Terminal, FileText, Activity, LayoutDashboard } from "lucide-react";
+import { Menu, X, Crosshair, Terminal, FileText, Activity, LayoutDashboard, ShieldAlert } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
@@ -19,6 +19,7 @@ export function CommandBar() {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [user, setUser] = useState<User | null>(null);
+    const [isAdmin, setIsAdmin] = useState(false);
     const supabase = createClient();
 
     useEffect(() => {
@@ -27,14 +28,30 @@ export function CommandBar() {
         };
         window.addEventListener("scroll", handleScroll);
 
-        const getUser = async () => {
+        const checkRole = async (userId: string) => {
+            const { data } = await supabase
+                .from("profiles")
+                .select("role")
+                .eq("id", userId)
+                .single();
+            setIsAdmin(data?.role === 'admin');
+        };
+
+        const getUserData = async () => {
             const { data: { user } } = await supabase.auth.getUser();
             setUser(user);
+            if (user) checkRole(user.id);
         };
-        getUser();
+        getUserData();
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-            setUser(session?.user ?? null);
+            const currentUser = session?.user ?? null;
+            setUser(currentUser);
+            if (currentUser) {
+                checkRole(currentUser.id);
+            } else {
+                setIsAdmin(false);
+            }
         });
 
         return () => {
@@ -76,10 +93,18 @@ export function CommandBar() {
                     ))}
                     <div className="w-px h-6 bg-white/10 mx-2" />
                     {user ? (
-                        <Link href="/dashboard" className="px-4 py-1.5 bg-zinc-800 hover:bg-white hover:text-black text-white text-xs font-bold tracking-widest uppercase rounded-sm transition-all flex items-center gap-2">
-                            <LayoutDashboard className="w-3 h-3" />
-                            Portal
-                        </Link>
+                        <div className="flex items-center gap-2">
+                            {isAdmin && (
+                                <Link href="/admin/dashboard" className="px-4 py-1.5 bg-red-600/10 hover:bg-red-600 text-red-500 hover:text-white text-[10px] font-black tracking-widest uppercase rounded-sm transition-all flex items-center gap-2 border border-red-500/20">
+                                    <ShieldAlert className="w-3.5 h-3.5" />
+                                    Centro de Control
+                                </Link>
+                            )}
+                            <Link href="/dashboard" className="px-4 py-1.5 bg-zinc-800 hover:bg-white hover:text-black text-white text-xs font-bold tracking-widest uppercase rounded-sm transition-all flex items-center gap-2">
+                                <LayoutDashboard className="w-3 h-3" />
+                                Portal
+                            </Link>
+                        </div>
                     ) : (
                         <Link href="/auth/signup" className="px-4 py-1.5 bg-red-600 hover:bg-red-700 text-white text-xs font-bold tracking-widest uppercase rounded-sm transition-colors animate-pulse">
                             Unirse
@@ -118,14 +143,26 @@ export function CommandBar() {
                                 </Link>
                             ))}
                             {user ? (
-                                <Link
-                                    href="/dashboard"
-                                    onClick={() => setIsOpen(false)}
-                                    className="mt-2 w-full py-3 bg-zinc-800 text-white font-bold tracking-widest uppercase text-sm rounded-sm flex items-center justify-center gap-3 transition-transform active:scale-95 border border-white/10"
-                                >
-                                    <LayoutDashboard className="w-4 h-4" />
-                                    MI PORTAL
-                                </Link>
+                                <>
+                                    {isAdmin && (
+                                        <Link
+                                            href="/admin/dashboard"
+                                            onClick={() => setIsOpen(false)}
+                                            className="mt-2 w-full py-3 bg-red-600 text-white font-black tracking-widest uppercase text-sm rounded-sm flex items-center justify-center gap-3 transition-transform active:scale-95 shadow-[0_0_20px_rgba(220,38,38,0.3)]"
+                                        >
+                                            <ShieldAlert className="w-4 h-4" />
+                                            CENTRO DE CONTROL
+                                        </Link>
+                                    )}
+                                    <Link
+                                        href="/dashboard"
+                                        onClick={() => setIsOpen(false)}
+                                        className="mt-2 w-full py-3 bg-zinc-800 text-white font-bold tracking-widest uppercase text-sm rounded-sm flex items-center justify-center gap-3 transition-transform active:scale-95 border border-white/10"
+                                    >
+                                        <LayoutDashboard className="w-4 h-4" />
+                                        MI PORTAL
+                                    </Link>
+                                </>
                             ) : (
                                 <Link
                                     href="/auth/signup"

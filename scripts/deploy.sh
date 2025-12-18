@@ -7,9 +7,13 @@ set -e
 
 echo "🚀 Iniciando despliegue de NEO1..."
 
-# 1. Pull de los últimos cambios
-echo "📥 Obteniendo cambios de Git..."
-git pull origin main
+# 1. Pull de los últimos cambios (solo si no es un hook automático)
+if [ -d ".git" ]; then
+    echo "📥 Obteniendo cambios de Git..."
+    git pull origin main
+else
+    echo "ℹ️  Estamos en un WORK_TREE gestionado por un hook (o sin repo git local)."
+fi
 
 # 2. Verificar archivo .env
 if [ ! -f .env ]; then
