@@ -105,23 +105,23 @@ export const siteConfig = {
     corruptionMetrics: {
         inefficiency: {
             initial: 90000000000,
-            rate: 2853.88, // 90.000M / 31.536.000 segundos/año = ~2853.88 €/seg
+            rate: 2853.88, // 90.000M / 31.536.000s
             label: "Corrupción Sistémica",
-            subLabel: "Coste acumulado este año (8% PIB aprox.)",
+            subLabel: "Coste estimado (8% PIB según Parlamento Europeo)",
             colorClass: "text-red-600"
         },
         pensions: {
-            initial: 66000000000,
-            rate: 2092.85, // Déficit anual aprox 66.000M / segs
+            initial: 62476000000,
+            rate: 1981.10, // 62.476M / 31.536.000s
             label: "Déficit Real de Pensiones",
-            subLabel: "Agujero estructural acumulado este año",
+            subLabel: "Déficit contributivo total (Seg. Social + Estado)",
             colorClass: "text-orange-600"
         },
         redundancy: {
-            initial: 30000000000,
-            rate: 951.29, // 30.000M / segs
-            label: "Ineficiencia del Estado",
-            subLabel: "Duplicidades y gasto político acumulado este año",
+            initial: 52000000000,
+            rate: 1648.90, // 52.000M (Transferencias Estado para cubrir ineficiencias)
+            label: "Gasto Político e Ineficiencia",
+            subLabel: "Duplicidades y transferencias de sostenimiento",
             colorClass: "text-yellow-500"
         }
     },

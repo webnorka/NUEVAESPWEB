@@ -61,9 +61,14 @@ export function DataBreachBars({ data }: DataBreachBarsProps) {
                     </div>
 
                     {/* Bar Container */}
-                    <div className="relative h-12 w-full bg-zinc-900/30 border border-white/5 overflow-hidden group-hover:border-white/10 transition-colors">
-                        {/* Background Tech Grid */}
-                        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:10px_100%] opacity-50" />
+                    <div className="relative h-8 w-full bg-zinc-950 border border-white/10 rounded-sm overflow-hidden group-hover:border-primary/30 transition-all duration-500">
+                        {/* Background Segments */}
+                        <div
+                            className="absolute inset-0 opacity-10"
+                            style={{
+                                backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 4px, #fff 4px, #fff 6px)`
+                            }}
+                        />
 
                         {/* The Main Progress Bar */}
                         <motion.div
@@ -71,40 +76,23 @@ export function DataBreachBars({ data }: DataBreachBarsProps) {
                             animate={{ width: `${(item.amount / maxAmount) * 100}%` }}
                             transition={{
                                 duration: 1.5,
-                                delay: index * 0.2 + 0.5,
+                                delay: index * 0.15,
                                 ease: [0.16, 1, 0.3, 1]
                             }}
-                            style={{ backgroundColor: item.color }}
-                            className="absolute inset-y-0 left-0 shadow-[0_0_20px_rgba(0,0,0,0.5)] flex items-center justify-end px-4 overflow-hidden"
+                            className="absolute inset-y-0 left-0 flex items-center h-full"
                         >
-                            {/* Animated Pulse for Critical Items */}
-                            {item.amount > 50000 && (
-                                <motion.div
-                                    animate={{ opacity: [0, 0.5, 0] }}
-                                    transition={{ duration: 1, repeat: Infinity }}
-                                    className="absolute inset-0 bg-white"
-                                />
-                            )}
-
-                            {/* Animated Stripes within the bar */}
-                            <div className="absolute inset-0 opacity-20 bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,rgba(0,0,0,0.5)_10px,rgba(0,0,0,0.5)_20px)]" />
-
-                            {/* Scrolling Tech Text */}
-                            <motion.span
-                                animate={{ opacity: [0.3, 0.6, 0.3] }}
-                                transition={{ duration: 2, repeat: Infinity }}
-                                className="relative z-10 font-mono text-[8px] text-black font-black uppercase tracking-widest hidden md:block"
+                            {/* Segmented Fill */}
+                            <div
+                                className="w-full h-full relative"
+                                style={{
+                                    backgroundColor: item.color,
+                                    backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(0,0,0,0.3) 4px, rgba(0,0,0,0.3) 6px)`
+                                }}
                             >
-                                ACCESO A LA VERDAD // RECUPERANDO SOBERANÍA
-                            </motion.span>
+                                {/* Subtle Glow on top */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-white/10" />
+                            </div>
                         </motion.div>
-
-                        {/* Scanning Line */}
-                        <motion.div
-                            animate={{ x: ['0%', '1000%'] }}
-                            transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                            className="absolute inset-y-0 left-0 w-1 bg-white/20 blur-sm pointer-events-none"
-                        />
                     </div>
 
                     {/* HUD Brackets decoration */}
