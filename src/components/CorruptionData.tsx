@@ -9,6 +9,7 @@ import { MoneyTicker } from "./MoneyTicker";
 import { DataBreachBars } from "./vanguard/DataBreachBars";
 import { siteConfig } from "@config";
 import { SourcesModal } from "./SourcesModal";
+import { CalculationModal } from "./CalculationModal";
 
 const FALLBACK_CASES = [
     { name: "Coste Anual Corrupción", amount: 90000, color: "#dc2626" },
@@ -24,13 +25,33 @@ export function CorruptionData() {
     }, []);
 
     const corruptionCases = siteConfig.corruptionCases?.length ? siteConfig.corruptionCases.slice(0, 5) : FALLBACK_CASES;
-    const metrics = [
-        { key: "inefficiency", ...siteConfig.corruptionMetrics?.inefficiency },
-        { key: "pensions", ...siteConfig.corruptionMetrics?.pensions },
-        { key: "redundancy", ...siteConfig.corruptionMetrics?.redundancy },
-    ].filter((m) => m?.initial !== undefined);
+
+    // Live calculation for metrics
+    const [calculatedMetrics, setCalculatedMetrics] = useState<any[]>([]);
+
+    useEffect(() => {
+        if (!isClient) return;
+
+        const now = new Date();
+        const startOfYear = new Date(now.getFullYear(), 0, 1);
+        const secondsElapsed = (now.getTime() - startOfYear.getTime()) / 1000;
+
+        const updatedMetrics = [
+            { key: "inefficiency", ...siteConfig.corruptionMetrics?.inefficiency },
+            { key: "pensions", ...siteConfig.corruptionMetrics?.pensions },
+            { key: "redundancy", ...siteConfig.corruptionMetrics?.redundancy },
+        ].filter((m) => m?.rate !== undefined).map(m => ({
+            ...m,
+            initial: m.rate * secondsElapsed
+        }));
+
+        setCalculatedMetrics(updatedMetrics);
+    }, [isClient]);
+
+    const metrics = calculatedMetrics;
 
     const [showSources, setShowSources] = useState(false);
+    const [selectedMetric, setSelectedMetric] = useState<any>(null);
 
     return (
         <section id="data" className="py-24 bg-zinc-950 relative overflow-hidden">
@@ -81,9 +102,17 @@ export function CorruptionData() {
                                     subLabel=""
                                 />
                             </div>
-                            <p className="text-xs text-gray-500 border-t border-white/5 pt-4 mt-4">
-                                {metric.subLabel}
-                            </p>
+                            <div className="flex items-center justify-between border-t border-white/5 pt-4 mt-4">
+                                <p className="text-[10px] text-gray-500 uppercase font-mono tracking-tight leading-none max-w-[60%]">
+                                    {metric.subLabel}
+                                </p>
+                                <button
+                                    onClick={() => setSelectedMetric(metric)}
+                                    className="text-[10px] bg-white/5 hover:bg-primary/20 border border-white/10 hover:border-primary/50 text-zinc-400 hover:text-white px-2 py-1 transition-all font-mono uppercase tracking-widest leading-none"
+                                >
+                                    Ver Cálculo
+                                </button>
+                            </div>
                         </div>
                     ))}
                 </div>
@@ -172,6 +201,11 @@ export function CorruptionData() {
             </div>
 
             <SourcesModal isOpen={showSources} onClose={() => setShowSources(false)} />
-        </section>
+            <CalculationModal
+                isOpen={!!selectedMetric}
+                onClose={() => setSelectedMetric(null)}
+                metric={selectedMetric}
+            />
+        </section >
     );
 }

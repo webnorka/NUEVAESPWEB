@@ -69,7 +69,7 @@ export function SceneManager() {
                                     animate={{ x: 0, opacity: 1 }}
                                     className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 px-4 py-2 rounded-full text-primary font-mono text-[10px] uppercase font-bold tracking-widest"
                                 >
-                                    <Shield className="w-3 h-3" /> Transmisión Segura
+                                    <Shield className="w-3 h-3" /> Comunicación Directa
                                 </motion.div>
                                 <h2 className="text-[clamp(1.2rem,4vw,3.5rem)] font-black text-white italic uppercase leading-[0.95] tracking-tighter">
                                     {step.content}
@@ -89,12 +89,15 @@ export function SceneManager() {
 
                             <div className="relative">
                                 <div className="absolute inset-0 bg-primary/20 blur-[100px] animate-pulse" />
-                                <MagneticCard className="aspect-square max-h-[35vh] md:max-h-[45vh] flex items-center justify-center">
+                                <MagneticCard
+                                    className="aspect-square max-h-[35vh] md:max-h-[45vh] flex items-center justify-center"
+                                    onClick={() => step.nextId && handleNext(step.nextId)}
+                                >
                                     <div className="text-center space-y-6">
                                         <AlertTriangle className="w-20 h-20 text-primary mx-auto animate-bounce" />
                                         <div className="space-y-2">
-                                            <p className="text-slate-500 font-mono text-[10px] uppercase">Riesgo Sistémico</p>
-                                            <p className="text-white text-2xl font-black uppercase">Oligarquía</p>
+                                            <p className="text-slate-400 font-mono text-[10px] uppercase tracking-[0.2em]">Pulsar elemento para continuar</p>
+                                            <p className="text-white text-2xl font-black uppercase tracking-tighter">Acción Política</p>
                                         </div>
                                     </div>
                                 </MagneticCard>
@@ -111,13 +114,14 @@ export function SceneManager() {
                             >
                                 {step.content}
                             </motion.h3>
-                            <div className="grid md:grid-cols-2 gap-4 w-full max-w-4xl max-h-[50vh] overflow-y-auto no-scrollbar py-4">
+                            <div className="grid md:grid-cols-2 gap-6 w-full max-w-4xl py-4">
                                 {step.options?.map((opt, i) => (
-                                    <MagneticCard key={opt.nextId} className="cursor-pointer h-32 md:h-40">
-                                        <div
-                                            onClick={() => handleNext(opt.nextId)}
-                                            className="h-full flex flex-col justify-between p-2"
-                                        >
+                                    <MagneticCard
+                                        key={opt.nextId}
+                                        className="h-32 md:h-40"
+                                        onClick={() => handleNext(opt.nextId)}
+                                    >
+                                        <div className="h-full flex flex-col justify-between p-2">
                                             <span className="text-3xl font-black text-white/5 group-hover:text-primary/20 transition-colors">0{i + 1}</span>
                                             <p className="text-lg font-bold text-white group-hover:text-primary transition-colors">{opt.label}</p>
                                             <div className="mt-4 h-px bg-white/10 group-hover:bg-primary/50 transition-colors" />
@@ -136,8 +140,8 @@ export function SceneManager() {
                 <div className="h-20 w-[1px] bg-gradient-to-t from-white/20 to-transparent" />
                 <div className="flex flex-col font-mono text-[8px] text-white space-y-1">
                     <span>COORD: 39.4699° N, 0.3763° W</span>
-                    <span>SYSTEM: OPERATIONAL</span>
-                    <span>ALPHA_VERSION: 2.1.0</span>
+                    <span>ESTADO: ALERTA</span>
+                    <span>FASE: CONSTITUYENTE</span>
                 </div>
             </div>
         </div>

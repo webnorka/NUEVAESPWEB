@@ -35,7 +35,7 @@ export function DataBreachBars({ data }: DataBreachBarsProps) {
                         <div className="flex flex-col">
                             <div className="flex items-center gap-3">
                                 <span className="font-mono text-[10px] text-zinc-500 font-bold">
-                                    0{index + 1} // SEC_DATA
+                                    0{index + 1} // DATOS ESPAÑA
                                 </span>
                                 <h4 className="font-black text-white uppercase tracking-tighter text-sm md:text-base">
                                     {item.name}
@@ -95,7 +95,7 @@ export function DataBreachBars({ data }: DataBreachBarsProps) {
                                 transition={{ duration: 2, repeat: Infinity }}
                                 className="relative z-10 font-mono text-[8px] text-black font-black uppercase tracking-widest hidden md:block"
                             >
-                                BREACH_IN_PROGRESS // RECOVERING_FUNDS
+                                ACCESO A LA VERDAD // RECUPERANDO SOBERANÍA
                             </motion.span>
                         </motion.div>
 
@@ -117,15 +117,15 @@ export function DataBreachBars({ data }: DataBreachBarsProps) {
             <div className="pt-6 mt-6 border-t border-white/5 flex flex-wrap gap-6 items-center justify-center md:justify-start">
                 <div className="flex items-center gap-2 opacity-40 grayscale hover:grayscale-0 transition-all cursor-crosshair">
                     <Terminal className="w-3 h-3 text-primary" />
-                    <span className="font-mono text-[8px] text-zinc-400 uppercase tracking-widest">System Path: root/vanguard/data/leak</span>
+                    <span className="font-mono text-[8px] text-zinc-400 uppercase tracking-widest">Origen: Archivos de la Corrupción</span>
                 </div>
                 <div className="flex items-center gap-2 opacity-40 grayscale hover:grayscale-0 transition-all cursor-crosshair">
                     <Activity className="w-3 h-3 text-emerald-500" />
-                    <span className="font-mono text-[8px] text-zinc-400 uppercase tracking-widest">Feed Status: Active_Sync</span>
+                    <span className="font-mono text-[8px] text-zinc-400 uppercase tracking-widest">Estado: Información Actualizada</span>
                 </div>
                 <div className="flex items-center gap-2 opacity-40 grayscale hover:grayscale-0 transition-all cursor-crosshair">
                     <AlertCircle className="w-3 h-3 text-amber-500" />
-                    <span className="font-mono text-[8px] text-zinc-400 uppercase tracking-widest">Extraction Confidence: 99.8%</span>
+                    <span className="font-mono text-[8px] text-zinc-400 uppercase tracking-widest">Veracidad Contrastada: 100%</span>
                 </div>
             </div>
         </div>

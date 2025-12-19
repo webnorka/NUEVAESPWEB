@@ -55,7 +55,7 @@ export function AdminMetrics({ initialStats }: AdminMetricsProps) {
 
     const metrics = [
         { id: 'total', name: "Ciudadanos Totales", value: stats.total, icon: Users, color: "text-blue-500", glow: "group-hover:shadow-[0_0_20px_rgba(59,130,246,0.3)]" },
-        { id: 'admins', name: "Admins Activos", value: stats.admins, icon: ShieldAlert, color: "text-red-500", glow: "group-hover:shadow-[0_0_20px_rgba(239,68,68,0.3)]" },
+        { id: 'admins', name: "Administradores", value: stats.admins, icon: ShieldAlert, color: "text-red-500", glow: "group-hover:shadow-[0_0_20px_rgba(239,68,68,0.3)]" },
         { id: 'activity', name: "Actividad 24h", value: stats.active24h, icon: Activity, color: "text-emerald-500", glow: "group-hover:shadow-[0_0_20px_rgba(16,185,129,0.3)]" },
     ];
 

@@ -26,13 +26,13 @@ export function UserActions({ userId, currentRole }: UserActionsProps) {
     };
 
     const handleBan = async () => {
-        if (!confirm("¿Seguro que quieres banear a este usuario?")) return;
+        if (!confirm("¿Seguro que quieres suspender a este usuario?")) return;
         setLoading(true);
         try {
             await banUser(userId);
         } catch (error) {
             console.error(error);
-            alert("Error al banear al usuario");
+            alert("Error al suspender al usuario");
         }
         setLoading(false);
     };
@@ -45,14 +45,14 @@ export function UserActions({ userId, currentRole }: UserActionsProps) {
                 <>
                     <button
                         onClick={handlePromote}
-                        title={currentRole === 'admin' ? "Degradar a Usuario" : "Promover a Admin"}
+                        title={currentRole === 'admin' ? "Degradar a Usuario" : "Promover a Administrador"}
                         className={`p-1.5 transition-colors ${currentRole === 'admin' ? 'text-zinc-500 hover:text-white' : 'text-zinc-500 hover:text-emerald-500'}`}
                     >
                         <ShieldCheck className="w-4 h-4" />
                     </button>
                     <button
                         onClick={handleBan}
-                        title="Banear Ciudadano"
+                        title="Suspender Ciudadano"
                         className="p-1.5 text-zinc-500 hover:text-red-500 transition-colors"
                     >
                         <Ban className="w-4 h-4" />

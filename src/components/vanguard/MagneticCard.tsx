@@ -3,7 +3,7 @@
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 import { useRef } from 'react';
 
-export function MagneticCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+export function MagneticCard({ children, className = "", onClick }: { children: React.ReactNode; className?: string; onClick?: () => void }) {
     const ref = useRef<HTMLDivElement>(null);
     const x = useMotionValue(0);
     const y = useMotionValue(0);
@@ -31,11 +31,12 @@ export function MagneticCard({ children, className = "" }: { children: React.Rea
             ref={ref}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
+            onClick={onClick}
             style={{ x: springX, y: springY }}
-            className={`relative group ${className}`}
+            className={`relative group ${className} ${onClick ? 'cursor-pointer' : ''}`}
         >
             <div className="absolute inset-0 bg-primary opacity-0 group-hover:opacity-10 blur-3xl transition-opacity duration-500 rounded-full" />
-            <div className="relative border border-white/10 bg-white/5 backdrop-blur-md p-8 rounded-2xl overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:bg-white/[0.07]">
+            <div className="relative border border-white/10 bg-white/5 backdrop-blur-md p-8 rounded-2xl overflow-visible transition-all duration-300 group-hover:border-primary/50 group-hover:bg-white/[0.07]">
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
                 {children}
             </div>

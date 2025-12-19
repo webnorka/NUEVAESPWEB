@@ -72,7 +72,7 @@ export function RealtimeActivity({ initialLogs = [] }: { initialLogs?: LogEntry[
                 </h2>
                 <div className="flex items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Live</span>
+                    <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">En Directo</span>
                 </div>
             </div>
 
@@ -113,13 +113,13 @@ export function RealtimeActivity({ initialLogs = [] }: { initialLogs?: LogEntry[
                                                         <>Cambió rol de <span className="text-white">@{log.details?.target_username}</span> a <span className="text-blue-400 capitalize">{log.details?.new_role}</span></>
                                                     )}
                                                     {log.action === 'USER_BAN' && (
-                                                        <>Baneó permanentemente a <span className="text-red-500 font-bold">@{log.details?.target_username}</span></>
+                                                        <>Suspendió permanentemente a <span className="text-red-500 font-bold">@{log.details?.target_username}</span></>
                                                     )}
                                                     {!['ROLE_CHANGE', 'USER_BAN'].includes(log.action) && log.action}
                                                 </p>
                                                 <div className="mt-2 text-[9px] font-mono text-zinc-600 uppercase flex items-center gap-2">
                                                     <span className="px-1.5 py-0.5 bg-black/40 rounded-sm border border-white/5 tracking-wider">
-                                                        ID: {log.id.slice(0, 8)}
+                                                        IDENT: {log.id.slice(0, 8)}
                                                     </span>
                                                     <span className="px-1.5 py-0.5 bg-black/40 rounded-sm border border-white/5 tracking-wider">
                                                         IP: {log.ip_address}

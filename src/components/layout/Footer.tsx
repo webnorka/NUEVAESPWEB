@@ -86,7 +86,7 @@ export function Footer() {
                     </p>
                     <div className="flex items-center gap-2 text-[10px] text-gray-700 font-mono uppercase tracking-widest">
                         <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                        SISTEMA ONLINE // V.2.0.4-BETA
+                        PLATAFORMA ACTIVA // FASE II
                     </div>
                 </div>
             </div>

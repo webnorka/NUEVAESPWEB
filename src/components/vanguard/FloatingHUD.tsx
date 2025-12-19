@@ -40,9 +40,9 @@ export function FloatingHUD() {
                         left: `${10 + i * 30}%`
                     }}
                 >
-                    [ NODE_SIG: {(Math.random() * 1000).toFixed(0)} ]
+                    [ REGISTRO: {(Math.random() * 1000).toFixed(0)} ]
                     <br />
-                    SYNC_STATUS: ACTIVE
+                    ESTADO: ACTIVO
                 </motion.div>
             ))}
 

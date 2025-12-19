@@ -15,6 +15,11 @@ export function MoneyTicker({ initialAmount, perSecond, label, subLabel, colorCl
     const frameRef = useRef<number>(0);
     const lastTimeRef = useRef<number>(0);
 
+    // Synchronize with parent's calculated initialAmount when it's first set
+    useEffect(() => {
+        setCurrentAmount(initialAmount);
+    }, [initialAmount]);
+
     useEffect(() => {
         // Mock start time as "beginning of year" or standard base
         // For visual effect, we just increment from the moment the component mounts/is viewed
