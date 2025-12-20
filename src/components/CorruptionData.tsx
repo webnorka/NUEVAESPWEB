@@ -104,6 +104,59 @@ const FALLBACK_CASES = [
     { name: "Duplicidades", amount: 26000, color: "#eab308" },
 ];
 
+// Helper Modal for 100k Housing Visual
+const FullscreenHousingModal = ({
+    isOpen,
+    onClose
+}: {
+    isOpen: boolean;
+    onClose: () => void
+}) => (
+    <AnimatePresence>
+        {isOpen && (
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex flex-col p-8 md:p-12 overflow-hidden"
+            >
+                <div className="flex justify-between items-start mb-12 border-b border-white/10 pb-8">
+                    <div>
+                        <div className="flex items-center gap-3 text-primary mb-2">
+                            <Home className="w-5 h-5" />
+                            <span className="font-mono text-xs uppercase tracking-[0.3em]">Cómputo Directo // Escala 1:1</span>
+                        </div>
+                        <h2 className="text-3xl md:text-5xl font-black text-foreground uppercase italic tracking-tighter">
+                            {siteConfig.socialImpact?.[2]?.data?.count?.toLocaleString('es-ES') || '400.000'} Viviendas Sociales
+                        </h2>
+                        <p className="text-muted font-mono text-sm mt-2 max-w-2xl uppercase">
+                            Cada punto en pantalla representa un hogar real que no fue construido debido al coste total de la ineficiencia (208.000 M€).
+                        </p>
+                    </div>
+                    <button
+                        onClick={onClose}
+                        className="p-3 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 transition-colors text-white"
+                    >
+                        <X className="w-6 h-6" />
+                    </button>
+                </div>
+
+                <div className="flex-1 relative bg-black/40 border border-white/5 rounded-lg overflow-hidden flex items-center justify-center">
+                    <div className="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(circle_at_center,#dc2626_0%,transparent_70%)]" />
+                    <div className="w-full h-full p-12">
+                        <HousingCanvas color="rgba(220, 38, 38, 0.6)" scale={1.5} />
+                    </div>
+                </div>
+
+                <div className="mt-8 flex justify-between items-center opacity-50 font-mono text-[10px] tracking-widest text-muted uppercase">
+                    <span>Registro: 208.000 M€ Fuga Anual</span>
+                    <span>Nueva España // Inspección de Datos</span>
+                </div>
+            </motion.div>
+        )}
+    </AnimatePresence>
+);
+
 export function CorruptionData() {
     const [isClient, setIsClient] = useState(false);
     const [isHousingModalOpen, setIsHousingModalOpen] = useState(false);
@@ -111,53 +164,6 @@ export function CorruptionData() {
     useEffect(() => {
         setIsClient(true);
     }, []);
-
-    // Helper Modal for 100k Housing Visual
-    const FullscreenHousingModal = () => (
-        <AnimatePresence>
-            {isHousingModalOpen && (
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex flex-col p-8 md:p-12 overflow-hidden"
-                >
-                    <div className="flex justify-between items-start mb-12 border-b border-white/10 pb-8">
-                        <div>
-                            <div className="flex items-center gap-3 text-red-500 mb-2">
-                                <Home className="w-5 h-5" />
-                                <span className="font-mono text-xs uppercase tracking-[0.3em]">Cómputo Directo // Escala 1:1</span>
-                            </div>
-                            <h2 className="text-3xl md:text-5xl font-black text-white uppercase italic tracking-tighter">
-                                {siteConfig.socialImpact?.[2]?.data?.count?.toLocaleString('es-ES') || '400.000'} Viviendas Sociales
-                            </h2>
-                            <p className="text-zinc-500 font-mono text-sm mt-2 max-w-2xl uppercase">
-                                Cada punto en pantalla representa un hogar real que no fue construido debido al coste total de la ineficiencia (208.000 M€).
-                            </p>
-                        </div>
-                        <button
-                            onClick={() => setIsHousingModalOpen(false)}
-                            className="p-3 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 transition-colors text-white"
-                        >
-                            <X className="w-6 h-6" />
-                        </button>
-                    </div>
-
-                    <div className="flex-1 relative bg-black/40 border border-white/5 rounded-lg overflow-hidden flex items-center justify-center">
-                        <div className="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(circle_at_center,#dc2626_0%,transparent_70%)]" />
-                        <div className="w-full h-full p-12">
-                            <HousingCanvas color="rgba(220, 38, 38, 0.6)" scale={1.5} />
-                        </div>
-                    </div>
-
-                    <div className="mt-8 flex justify-between items-center opacity-50 font-mono text-[10px] tracking-widest text-zinc-400 uppercase">
-                        <span>Registro: 208.000 M€ Fuga Anual</span>
-                        <span>Nueva España // Inspección de Datos</span>
-                    </div>
-                </motion.div>
-            )}
-        </AnimatePresence>
-    );
 
     const corruptionCases = siteConfig.corruptionCases?.length ? siteConfig.corruptionCases.slice(0, 5) : FALLBACK_CASES;
 
@@ -189,7 +195,7 @@ export function CorruptionData() {
     const [selectedMetric, setSelectedMetric] = useState<any>(null);
 
     return (
-        <section id="data" className="py-32 bg-zinc-950 relative overflow-hidden">
+        <section id="data" className="py-32 bg-background relative overflow-hidden">
 
             {/* Diagonal Stripes Background */}
             <div className="absolute inset-0 opacity-[0.02] bg-[repeating-linear-gradient(45deg,#fff,#fff_1px,transparent_1px,transparent_10px)] pointer-events-none"></div>
@@ -197,19 +203,19 @@ export function CorruptionData() {
             <div className="container mx-auto px-4 relative z-10">
                 <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6 border-b border-white/10 pb-8">
                     <div>
-                        <div className="flex items-center gap-3 text-red-500 mb-2">
+                        <div className="flex items-center gap-3 text-primary mb-2">
                             <Receipt className="w-6 h-6" />
                             <span className="font-mono text-sm uppercase tracking-widest">Factura al Ciudadano</span>
                         </div>
-                        <h2 className="text-5xl md:text-7xl font-black text-white uppercase italic leading-[0.9] tracking-tighter">
-                            Factura del <br /> <span className="text-red-600">Régimen</span>
+                        <h2 className="text-5xl md:text-7xl font-black text-foreground uppercase italic leading-[0.9] tracking-tighter">
+                            Factura del <br /> <span className="text-primary">Régimen</span>
                         </h2>
                     </div>
                     <div className="hidden md:block text-right">
-                        <p className="text-gray-400 font-mono text-sm">
+                        <p className="text-muted font-mono text-sm">
                             FECHA: {new Date().toLocaleDateString('es-ES')} <br />
                             CONCEPTO: MANTENIMIENTO ESTRUCTURA PARTITOCRÁTICA <br />
-                            ESTADO: <span className="text-red-500 font-bold animate-pulse">IMPAGABLE</span>
+                            ESTADO: <span className="text-primary font-bold animate-pulse">IMPAGABLE</span>
                         </p>
                         <button
                             onClick={() => setShowSources(true)}
@@ -223,11 +229,11 @@ export function CorruptionData() {
                 {/* VISUALIZACIÓN PRINCIPAL: TICKERS EN VIVO */}
                 <div className="grid lg:grid-cols-3 gap-6 mb-12">
                     {metrics.map((metric, i) => (
-                        <div key={metric.key} className="bg-zinc-900/50 border border-white/10 p-6 rounded-sm relative overflow-hidden group hover:border-white/20 transition-colors">
-                            <div className={`absolute top-0 right-0 p-4 opacity-20 group-hover:opacity-40 transition-opacity ${metric.colorClass}`}>
+                        <div key={metric.key} className="bg-surface/50 border border-white/10 p-6 rounded-sm relative overflow-hidden group hover:border-white/20 transition-colors">
+                            <div className={`absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity ${metric.colorClass}`}>
                                 <TrendingUp className="w-12 h-12" />
                             </div>
-                            <h3 className="text-gray-400 text-sm font-mono uppercase tracking-wider mb-2">{metric.label}</h3>
+                            <h3 className="text-muted text-sm font-mono uppercase tracking-wider mb-2">{metric.label}</h3>
                             <div className="mb-2">
                                 <MoneyTicker
                                     initialAmount={metric.initial}
@@ -238,12 +244,12 @@ export function CorruptionData() {
                                 />
                             </div>
                             <div className="flex items-center justify-between border-t border-white/5 pt-4 mt-4">
-                                <p className="text-[10px] text-gray-500 uppercase font-mono tracking-tight leading-none max-w-[60%]">
+                                <p className="text-[10px] text-muted uppercase font-mono tracking-tight leading-none max-w-[60%]">
                                     {metric.subLabel}
                                 </p>
                                 <button
                                     onClick={() => setSelectedMetric(metric)}
-                                    className="text-[10px] bg-white/5 hover:bg-primary/20 border border-white/10 hover:border-primary/50 text-zinc-400 hover:text-white px-2 py-1 transition-all font-mono uppercase tracking-widest leading-none"
+                                    className="text-[10px] bg-white/5 hover:bg-primary/20 border border-white/10 hover:border-primary/50 text-muted hover:text-foreground px-2 py-1 transition-all font-mono uppercase tracking-widest leading-none"
                                 >
                                     Ver Cálculo
                                 </button>
@@ -266,7 +272,7 @@ export function CorruptionData() {
                             <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
 
                             <div className="relative z-10">
-                                <h3 className="text-xl md:text-2xl font-black text-white mb-10 flex items-center gap-3 italic uppercase tracking-tighter">
+                                <h3 className="text-xl md:text-2xl font-black text-foreground mb-10 flex items-center gap-3 italic uppercase tracking-tighter">
                                     <ShieldAlert className="text-primary w-6 h-6" />
                                     Grado de Extracción de Capital
                                 </h3>
@@ -274,7 +280,7 @@ export function CorruptionData() {
                                 {isClient ? (
                                     <DataBreachBars data={corruptionCases} />
                                 ) : (
-                                    <div className="h-[400px] w-full flex items-center justify-center text-sm text-zinc-500 font-mono italic animate-pulse">
+                                    <div className="h-[400px] w-full flex items-center justify-center text-sm text-muted font-mono italic animate-pulse">
                                         [ACCEDIENDO A LOS ARCHIVOS DE HACIENDA...]
                                     </div>
                                 )}
@@ -284,8 +290,8 @@ export function CorruptionData() {
 
                     {/* Reflexiones y Contexto Social */}
                     <div className="space-y-6">
-                        <div className="bg-zinc-900/80 border border-white/5 p-6 rounded-sm relative overflow-hidden group">
-                            <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <div className="bg-surface/80 border border-white/5 p-6 rounded-sm relative overflow-hidden group">
+                            <div className="absolute top-0 right-0 p-2 opacity-5 group-hover:opacity-10 transition-opacity">
                                 <Terminal className="w-12 h-12 text-primary" />
                             </div>
                             <h4 className="text-primary font-bold mb-4 uppercase tracking-widest text-[10px]">
@@ -362,9 +368,9 @@ export function CorruptionData() {
                                                         </div>
 
                                                         {/* Total Aggregated Label */}
-                                                        <div className="mt-3 pt-3 border-t border-emerald-500/10 flex justify-between items-center">
-                                                            <span className="text-[9px] font-mono text-zinc-500 uppercase">Fuga Total Estimada</span>
-                                                            <span className="text-[10px] font-mono text-emerald-500 font-bold">208.000.000.000€</span>
+                                                        <div className="mt-3 pt-3 border-t border-success/10 flex justify-between items-center">
+                                                            <span className="text-[9px] font-mono text-muted uppercase">Fuga Total Estimada</span>
+                                                            <span className="text-[10px] font-mono text-success font-bold">208.000.000.000€</span>
                                                         </div>
                                                     </div>
                                                 );
@@ -420,7 +426,7 @@ export function CorruptionData() {
                                                         </motion.div>
                                                         <div className="flex justify-between items-center text-[9px] font-mono mt-2 uppercase">
                                                             <span className="text-primary/60 font-bold tracking-widest">[ CLIC PARA INSPECCIÓN ]</span>
-                                                            <span className="text-zinc-500">{impact.data.count.toLocaleString('es-ES')} viviendas</span>
+                                                            <span className="text-muted">{impact.data.count.toLocaleString('es-ES')} viviendas</span>
                                                         </div>
                                                     </div>
                                                 );
@@ -443,7 +449,7 @@ export function CorruptionData() {
                                                     <Icon className="w-3.5 h-3.5 text-primary" />
                                                 </div>
                                                 <div className="flex-1">
-                                                    <p className="text-zinc-400 text-xs font-mono leading-relaxed group-hover/item:text-zinc-200 transition-colors">
+                                                    <p className="text-muted text-xs font-mono leading-relaxed group-hover/item:text-foreground transition-colors">
                                                         {impact.text}
                                                     </p>
                                                     {renderVisual()}
@@ -457,22 +463,22 @@ export function CorruptionData() {
 
                         <div className="bg-primary/5 border border-primary/20 p-6 rounded-sm relative group overflow-hidden">
                             <motion.div
-                                animate={{ opacity: [0.1, 0.3, 0.1] }}
+                                animate={{ opacity: [0.05, 0.15, 0.05] }}
                                 transition={{ duration: 4, repeat: Infinity }}
                                 className="absolute inset-0 bg-primary/10"
                             />
-                            <h4 className="text-white font-black mb-2 uppercase tracking-wide text-xs flex items-center gap-2">
+                            <h4 className="text-foreground font-black mb-2 uppercase tracking-wide text-xs flex items-center gap-2">
                                 <TrendingUp className="w-4 h-4 text-primary" />
                                 Conclusión del Diagnóstico
                             </h4>
-                            <p className="text-zinc-300 text-sm italic relative z-10 leading-relaxed font-light">
+                            <p className="text-muted text-sm italic relative z-10 leading-relaxed font-light">
                                 "La deuda no es accidental; es el combustible necesario para mantener una estructura que ya no responde al ciudadano, sino a su propia supervivencia burocrática."
                             </p>
                         </div>
 
                         <button
                             onClick={() => setShowSources(true)}
-                            className="w-full py-4 bg-zinc-950 hover:bg-primary/10 border border-white/5 text-zinc-500 hover:text-primary font-mono text-[10px] uppercase tracking-[0.3em] transition-all flex items-center justify-center gap-3 group"
+                            className="w-full py-4 bg-background hover:bg-primary/10 border border-white/5 text-muted hover:text-primary font-mono text-[10px] uppercase tracking-[0.3em] transition-all flex items-center justify-center gap-3 group"
                         >
                             <Receipt className="w-4 h-4 group-hover:scale-110 transition-transform" />
                             Verificar Fuentes y Expedientes
@@ -487,7 +493,10 @@ export function CorruptionData() {
                 onClose={() => setSelectedMetric(null)}
                 metric={selectedMetric}
             />
-            <FullscreenHousingModal />
+            <FullscreenHousingModal
+                isOpen={isHousingModalOpen}
+                onClose={() => setIsHousingModalOpen(false)}
+            />
         </section >
     );
 }

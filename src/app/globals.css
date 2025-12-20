@@ -5,16 +5,24 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
+  --color-primary-muted: var(--primary-muted);
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
   --animate-fade-in: fade-in 0.5s ease-out;
   --animate-slide-up: slide-up 0.5s ease-out;
+  --animate-scan: scan 3s linear infinite;
 
   @keyframes fade-in {
     from {
@@ -37,28 +45,54 @@
       opacity: 1;
     }
   }
+
+  @keyframes scan {
+    0% {
+      transform: translateY(-100%);
+    }
+
+    100% {
+      transform: translateY(200%);
+    }
+  }
 }
 
 :root {
-  --background: #0f172a;
-  /* Slate 900 - Deep, professional dark */
+  /* 1. Core Palette (Space/Deep Slate) */
+  --background: #0b1120;
+  /* Slate 950 - Absolute Depth */
   --foreground: #f8fafc;
   /* Slate 50 */
 
-  /* Primary: Elegant Red (Spain/Caution/Action) */
-  --primary: #be123c;
-  /* Rose 700 */
+  /* 2. Semantic Surfaces */
+  --surface: #1e293b;
+  /* Slate 800 - Cards/Sections */
+  --muted: #94a3b8;
+  /* Slate 400 - Low Emphasis Text */
+  --border: #334155;
+  /* Slate 700 - Consistent Borders */
+
+  /* 3. Primary Action: Crimson Tactical */
+  --primary: #e11d48;
+  /* Rose 600 - Eye-catching, serious */
+  --primary-muted: #9f1239;
+  /* Rose 800 */
   --primary-foreground: #ffffff;
 
-  /* Secondary: Neutral Dark */
-  --secondary: #1e293b;
-  /* Slate 800 */
-  --secondary-foreground: #f8fafc;
-
-  /* Accent: Gold/Yellow (Spain vibe but subtle) */
-  --accent: #d97706;
-  /* Amber 600 */
+  /* 4. Secondary/Accent: Golden Liberty */
+  --accent: #f59e0b;
+  /* Amber 500 */
   --accent-foreground: #ffffff;
+
+  /* 5. Validation/State */
+  --success: #10b981;
+  /* Emerald 500 */
+  --warning: #f97316;
+  /* Orange 500 */
+
+  /* Legacy Compat (To be phased out by variables above) */
+  --secondary: #1e293b;
+  --secondary-foreground: #f8fafc;
 }
 
 body {

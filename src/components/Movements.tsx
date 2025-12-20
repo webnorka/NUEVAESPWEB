@@ -6,6 +6,85 @@ import { Megaphone, Ban, Vote, ArrowRight, ShieldCheck, Target } from "lucide-re
 import { InfoModal } from "@/components/InfoModal";
 import { siteConfig } from "@config";
 
+interface MovementConfig {
+    title: string;
+    desc: string;
+    action: string;
+    modalData: {
+        title: string;
+        paragraphs: string[];
+    };
+}
+
+const MovementCard = ({ icon: Icon, config, colorClass, link, borderColor, index, openModal }: {
+    icon: React.ComponentType<{ className?: string }>,
+    config: MovementConfig,
+    colorClass: string,
+    link: string,
+    borderColor: string,
+    index: number,
+    openModal: (title: string, content: React.ReactNode, footerAction?: React.ReactNode) => void
+}) => (
+    <div
+        onClick={() => openModal(
+            config.modalData.title,
+            <div className="space-y-6 py-4">
+                <div className="flex items-center gap-3 text-primary/60 font-mono text-[10px] uppercase tracking-[0.3em] mb-2">
+                    <ShieldCheck className="w-4 h-4" />
+                    <span>Briefing de Operaciones</span>
+                </div>
+                {config.modalData.paragraphs.map((p: string, i: number) => (
+                    <p key={i} className="text-foreground/90 leading-relaxed font-medium italic border-l-2 border-white/5 pl-4">{p}</p>
+                ))}
+            </div>,
+            <Link
+                href={link}
+                className={`px-8 py-3 ${colorClass.replace('text-', 'bg-')} text-primary-foreground font-black uppercase italic tracking-widest rounded-sm hover:scale-105 transition-transform inline-block shadow-[0_0_20px_rgba(0,0,0,0.3)]`}
+            >
+                {config.action}
+            </Link>
+        )}
+        className={`group cursor-pointer relative bg-surface/20 border ${borderColor} hover:bg-surface/40 transition-all duration-500 h-full flex flex-col rounded-sm overflow-hidden`}
+    >
+        {/* Scanning line effect on hover */}
+        <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent h-1/2 -translate-y-full group-hover:animate-[scan_3s_linear_infinite]" />
+        </div>
+
+        <div className="absolute top-0 right-0 p-4 flex flex-col items-end gap-1">
+            <span className="font-mono text-[8px] text-muted/30 uppercase tracking-[0.3em]">Status: Ready</span>
+            <span className="font-mono text-[10px] text-primary/60 font-black">PROT-{String(index + 1).padStart(2, '0')}</span>
+        </div>
+
+        <div className="p-10 flex flex-col h-full relative z-10">
+            <div className={`w-14 h-14 rounded-sm bg-background border border-white/5 flex items-center justify-center mb-8 group-hover:border-primary/30 transition-all duration-500 ${colorClass} shadow-inner`}>
+                <Icon className="w-7 h-7 group-hover:scale-110 transition-transform duration-500" />
+            </div>
+
+            <h3 className="text-3xl font-black text-foreground mb-4 uppercase italic tracking-tighter group-hover:text-primary transition-colors duration-300">
+                {config.title}
+            </h3>
+
+            <p className="text-muted/80 leading-relaxed mb-10 flex-grow font-medium text-sm italic">
+                {config.desc}
+            </p>
+
+            <div className="pt-6 border-t border-white/5 flex items-center justify-between mt-auto">
+                <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-muted/40 group-hover:text-foreground transition-colors">
+                    Desplegar Protocolo
+                </span>
+                <div className={`p-2 rounded-full bg-white/5 group-hover:bg-primary/20 transition-colors`}>
+                    <ArrowRight className={`w-4 h-4 text-muted group-hover:translate-x-1 transition-transform duration-300 ${colorClass}`} />
+                </div>
+            </div>
+        </div>
+
+        {/* Tactical border accents */}
+        <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-white/5 group-hover:border-primary/40 transition-colors duration-500" />
+        <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-white/5 group-hover:border-primary/40 transition-colors duration-500" />
+    </div>
+);
+
 export function Movements() {
     const [modalConfig, setModalConfig] = useState<{
         isOpen: boolean;
@@ -29,64 +108,15 @@ export function Movements() {
         });
     };
 
-    const MovementCard = ({ icon: Icon, config, colorClass, link, borderColor, index }: { icon: any, config: any, colorClass: string, link: string, borderColor: string, index: number }) => (
-        <div
-            onClick={() => openModal(
-                config.modalData.title,
-                <div className="space-y-4">
-                    {config.modalData.paragraphs.map((p: string, i: number) => (
-                        <p key={i} className="text-white/90 leading-relaxed">{p}</p>
-                    ))}
-                </div>,
-                <Link
-                    href={link}
-                    className={`px-6 py-2 ${colorClass.replace('text-', 'bg-')} text-white font-bold rounded hover:opacity-90 inline-block`}
-                >
-                    {config.action}
-                </Link>
-            )}
-            className={`group cursor-pointer relative bg-zinc-900/40 border ${borderColor} hover:border-opacity-100 hover:bg-zinc-900 transition-all duration-300 h-full flex flex-col`}
-        >
-            <div className="absolute top-0 right-0 p-4 opacity-50 font-mono text-xs text-zinc-600">
-                PROT-{String(index + 1).padStart(2, '0')}
-            </div>
-
-            <div className="p-8 flex flex-col h-full">
-                <div className={`w-16 h-16 rounded-xl bg-zinc-950 border border-white/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 ${colorClass}`}>
-                    <Icon className="w-8 h-8" />
-                </div>
-
-                <h3 className="text-2xl font-black text-white mb-4 uppercase tracking-tight group-hover:text-zinc-100 transition-colors">
-                    {config.title}
-                </h3>
-
-                <p className="text-zinc-400 leading-relaxed mb-8 flex-grow">
-                    {config.desc}
-                </p>
-
-                <div className="pt-6 border-t border-white/5 flex items-center justify-between mt-auto">
-                    <span className="text-xs font-mono uppercase tracking-widest text-zinc-500 group-hover:text-white transition-colors">
-                        Protocolo de Acción
-                    </span>
-                    <ArrowRight className={`w-4 h-4 text-zinc-600 group-hover:translate-x-1 transition-transform ${colorClass}`} />
-                </div>
-            </div>
-
-            {/* Corner accents */}
-            <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-zinc-700/50 group-hover:border-white/50 transition-colors" />
-            <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-zinc-700/50 group-hover:border-white/50 transition-colors" />
-        </div>
-    );
-
     return (
-        <section id="movements" className="py-32 bg-zinc-950 relative border-t border-white/5">
+        <section id="movements" className="py-32 bg-background relative border-t border-white/5">
             <div className="container mx-auto px-4">
                 <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
                     <div>
-                        <h2 className="text-5xl md:text-7xl font-black text-white uppercase tracking-tighter mb-2 italic">
-                            Protocolos de <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">Resistencia</span>
+                        <h2 className="text-5xl md:text-7xl font-black text-foreground uppercase tracking-tighter mb-2 italic">
+                            Protocolos de <span className="text-primary">Resistencia</span>
                         </h2>
-                        <p className="text-zinc-500 font-mono uppercase tracking-widest text-sm">
+                        <p className="text-muted font-mono uppercase tracking-widest text-sm">
                             Selecciona tu misión. La pasividad es complicidad.
                         </p>
                     </div>
@@ -97,46 +127,49 @@ export function Movements() {
                         index={0}
                         icon={Ban}
                         config={siteConfig.movements.abstencion}
-                        colorClass="text-red-500"
-                        borderColor="border-red-900/30"
+                        colorClass="text-primary"
+                        borderColor="border-primary/20"
                         link={siteConfig.links.abstencion}
+                        openModal={openModal}
                     />
 
                     <MovementCard
                         index={1}
                         icon={Megaphone}
                         config={siteConfig.movements.difusion}
-                        colorClass="text-emerald-500"
-                        borderColor="border-emerald-900/30"
+                        colorClass="text-success"
+                        borderColor="border-success/20"
                         link={siteConfig.links.difusion}
+                        openModal={openModal}
                     />
 
                     <MovementCard
                         index={2}
                         icon={Vote}
                         config={siteConfig.movements.asociacion}
-                        colorClass="text-blue-500"
-                        borderColor="border-blue-900/30"
+                        colorClass="text-accent"
+                        borderColor="border-accent/20"
                         link={siteConfig.links.asociaciones}
+                        openModal={openModal}
                     />
                 </div>
 
                 {/* Final Call to Action - Separated for impact */}
                 <div className="mt-16 max-w-7xl mx-auto">
-                    <div className="bg-gradient-to-r from-zinc-900 to-black border border-white/10 p-12 relative overflow-hidden group">
+                    <div className="bg-gradient-to-r from-surface to-background border border-white/10 p-12 relative overflow-hidden group rounded-sm">
                         <div className="absolute top-0 right-0 p-32 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-white/10 transition-all duration-700" />
 
                         <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
                             <div>
-                                <h3 className="text-3xl font-black text-white mb-2 uppercase italic">¿Estás listo para la Vanguardia?</h3>
-                                <p className="text-zinc-400 max-w-xl">
-                                    Recibe instrucciones directas, material confidencial y alertas de acción rápida. Sin spam, solo resistencia parriotica.
+                                <h3 className="text-3xl font-black text-foreground mb-2 uppercase italic tracking-tighter">¿Estás listo para la Vanguardia?</h3>
+                                <p className="text-muted max-w-xl font-medium">
+                                    Recibe instrucciones directas, material confidencial y alertas de acción rápida. Sin spam, solo resistencia patriótica.
                                 </p>
                             </div>
 
                             <Link
                                 href={siteConfig.links.signup}
-                                className="px-8 py-4 bg-white text-black font-black uppercase tracking-widest hover:bg-zinc-200 transition-colors w-full md:w-auto flex items-center justify-center gap-3"
+                                className="px-8 py-4 bg-foreground text-background font-black uppercase tracking-widest hover:bg-muted transition-colors w-full md:w-auto flex items-center justify-center gap-3 rounded-sm"
                             >
                                 <Target className="w-5 h-5" />
                                 <span>Unirse Ahora</span>

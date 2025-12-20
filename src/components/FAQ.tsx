@@ -37,22 +37,22 @@ export function FAQ() {
     const [isAutoPlaying, setIsAutoPlaying] = useState(false);
 
     return (
-        <section id="faq" className="py-32 bg-zinc-950 border-t border-white/5 relative overflow-hidden">
+        <section id="faq" className="py-32 bg-background border-t border-white/5 relative overflow-hidden">
             {/* Background elements */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-zinc-900/20 via-zinc-950 to-zinc-950 pointer-events-none" />
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-900/50 to-transparent opacity-50" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-surface/20 via-background to-background pointer-events-none" />
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-50" />
 
             <div className="container mx-auto px-4 max-w-6xl relative z-10">
                 <div className="flex flex-col items-center mb-16 text-center">
-                    <div className="flex items-center gap-3 mb-4 text-red-500/80">
+                    <div className="flex items-center gap-3 mb-4 text-primary/80">
                         <Siren className="w-5 h-5 animate-pulse" />
                         <span className="font-mono text-xs uppercase tracking-[0.2em]">Registro de Interrogatorio</span>
                         <Siren className="w-5 h-5 animate-pulse" />
                     </div>
-                    <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter text-white mb-4 italic">
-                        Desclasificando <span className="text-red-600">La Verdad</span>
+                    <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter text-foreground mb-4 italic">
+                        Desclasificando <span className="text-primary">La Verdad</span>
                     </h2>
-                    <p className="text-zinc-500 max-w-2xl text-lg">
+                    <p className="text-muted max-w-2xl text-lg font-medium">
                         Acceso al archivo central. Respuestas directas a las mentiras del Régimen.
                     </p>
                 </div>
@@ -67,15 +67,15 @@ export function FAQ() {
                                 className={cn(
                                     "w-full text-left p-6 border-l-2 transition-all duration-300 relative group overflow-hidden",
                                     selected === index
-                                        ? "bg-zinc-900 border-red-600"
-                                        : "bg-zinc-900/30 border-zinc-800 hover:bg-zinc-900/60 hover:border-zinc-700"
+                                        ? "bg-surface border-primary"
+                                        : "bg-surface/30 border-white/5 hover:bg-surface/60 hover:border-white/10"
                                 )}
                             >
                                 {/* Active 'Scan' Effect */}
                                 {selected === index && (
                                     <motion.div
                                         layoutId="scan-line"
-                                        className="absolute inset-0 bg-gradient-to-r from-red-500/10 to-transparent z-0"
+                                        className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent z-0"
                                         initial={{ x: "-100%" }}
                                         animate={{ x: "100%" }}
                                         transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
@@ -85,21 +85,21 @@ export function FAQ() {
                                 <div className="relative z-10 flex items-start gap-4">
                                     <span className={cn(
                                         "font-mono text-xs mt-1",
-                                        selected === index ? "text-red-500 font-bold" : "text-zinc-600 group-hover:text-zinc-500"
+                                        selected === index ? "text-primary font-bold" : "text-muted/40 group-hover:text-muted/60"
                                     )}>
                                         {faq.id}
                                     </span>
                                     <div>
                                         <h3 className={cn(
                                             "font-bold text-lg leading-tight mb-2 transition-colors",
-                                            selected === index ? "text-white" : "text-zinc-400 group-hover:text-zinc-200"
+                                            selected === index ? "text-foreground" : "text-muted group-hover:text-foreground/80"
                                         )}>
                                             {faq.question}
                                         </h3>
                                         <div className="flex items-center gap-2">
                                             <span className={cn(
                                                 "text-[10px] uppercase tracking-widest px-2 py-0.5 rounded-sm font-mono",
-                                                selected === index ? "bg-red-500/20 text-red-400" : "bg-zinc-800 text-zinc-600"
+                                                selected === index ? "bg-primary/20 text-primary" : "bg-white/5 text-muted/50"
                                             )}>
                                                 {faq.status}
                                             </span>
@@ -107,7 +107,7 @@ export function FAQ() {
                                     </div>
                                     <ChevronRight className={cn(
                                         "absolute right-0 top-1/2 -translate-y-1/2 w-5 h-5 transition-all duration-300",
-                                        selected === index ? "text-red-500 translate-x-0" : "text-zinc-700 -translate-x-4 opacity-0 group-hover:opacity-100 group-hover:-translate-x-2"
+                                        selected === index ? "text-primary translate-x-0" : "text-muted/20 -translate-x-4 opacity-0 group-hover:opacity-100 group-hover:-translate-x-2"
                                     )} />
                                 </div>
                             </button>
@@ -116,15 +116,15 @@ export function FAQ() {
 
                     {/* RIGHT COLUMN: ANSWER PANE (DESKTOP) */}
                     <div className="lg:col-span-7 relative hidden lg:block">
-                        <div className="h-full bg-black border border-zinc-800 p-8 md:p-12 relative flex flex-col justify-center overflow-hidden">
+                        <div className="h-full bg-background border border-white/5 p-8 md:p-12 relative flex flex-col justify-center overflow-hidden rounded-sm">
                             {/* Terminal Decorations */}
                             <div className="absolute top-4 left-4 flex gap-2">
-                                <div className="w-3 h-3 rounded-full bg-red-900/50" />
-                                <div className="w-3 h-3 rounded-full bg-zinc-800" />
-                                <div className="w-3 h-3 rounded-full bg-zinc-800" />
+                                <div className="w-3 h-3 rounded-full bg-primary/30" />
+                                <div className="w-3 h-3 rounded-full bg-surface" />
+                                <div className="w-3 h-3 rounded-full bg-surface" />
                             </div>
-                            <div className="absolute top-4 right-6 text-zinc-700 font-mono text-xs">
-                                ENCRYPTED_CONNECTION_SECURE
+                            <div className="absolute top-4 right-6 text-muted/20 font-mono text-[10px] uppercase tracking-[0.2em]">
+                                Encriptado // Conectado
                             </div>
 
                             <AnimatePresence mode="wait">
@@ -136,25 +136,25 @@ export function FAQ() {
                                     transition={{ duration: 0.3 }}
                                     className="relative z-10"
                                 >
-                                    <div className="mb-6 flex items-center gap-4 text-red-500/50">
+                                    <div className="mb-6 flex items-center gap-4 text-primary/50">
                                         <FileText className="w-8 h-8" />
-                                        <div className="h-px bg-red-900/30 flex-grow" />
-                                        <span className="font-mono text-sm">EVIDENCE_LOG_{faqs[selected].id}</span>
+                                        <div className="h-px bg-primary/20 flex-grow" />
+                                        <span className="font-mono text-xs text-primary/60 tracking-widest uppercase">EVIDENCE_LOG_{faqs[selected].id}</span>
                                     </div>
 
-                                    <h3 className="text-2xl font-bold text-white mb-8 border-l-4 border-red-600 pl-6">
+                                    <h3 className="text-2xl font-black text-foreground mb-8 border-l-4 border-primary pl-6 uppercase italic tracking-tighter">
                                         {faqs[selected].question}
                                     </h3>
 
-                                    <div className="font-mono text-lg text-green-400/90 leading-relaxed space-y-4">
+                                    <div className="font-mono text-lg text-success/90 leading-relaxed space-y-4 font-medium italic">
                                         <p>
-                                            <span className="text-green-600 mr-2">{">"}</span>
+                                            <span className="text-success mr-2">{">"}</span>
                                             {faqs[selected].answer}
                                         </p>
-                                        <div className="w-4 h-6 bg-green-500/50 animate-pulse inline-block align-middle ml-1" />
+                                        <div className="w-4 h-6 bg-success/50 animate-pulse inline-block align-middle ml-1" />
                                     </div>
 
-                                    <div className="mt-12 flex items-center gap-4 text-zinc-600 font-mono text-xs">
+                                    <div className="mt-12 flex items-center gap-4 text-muted/30 font-mono text-[10px] uppercase tracking-widest">
                                         <CornerDownRight className="w-4 h-4" />
                                         <span>FUENTE VERIFICADA: RC_ARCHIVE_2024</span>
                                     </div>
@@ -167,13 +167,13 @@ export function FAQ() {
                     </div>
 
                     {/* MOBILE DISPLAY (Shows corresponding answer below list selection on mobile - Simplified) */}
-                    <div className="lg:hidden col-span-12 mt-4 bg-black border border-zinc-800 p-6 rounded-sm">
-                        <div className="flex items-center gap-2 text-red-500 mb-4 font-mono text-xs uppercase">
+                    <div className="lg:hidden col-span-12 mt-4 bg-background border border-white/5 p-6 rounded-sm">
+                        <div className="flex items-center gap-2 text-primary mb-4 font-mono text-xs uppercase tracking-widest">
                             <CornerDownRight className="w-4 h-4" />
                             Respuesta del Archivo
                         </div>
-                        <p className="font-mono text-green-400 text-sm leading-relaxed">
-                            <span className="text-green-600 mr-2">{">"}</span>
+                        <p className="font-mono text-success text-sm leading-relaxed italic font-medium">
+                            <span className="text-success mr-2">{">"}</span>
                             {faqs[selected].answer}
                         </p>
                     </div>
