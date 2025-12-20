@@ -3,13 +3,13 @@ import { MoveRight, CheckCircle2, Circle, Clock } from "lucide-react";
 
 export default function RoadmapPage() {
     return (
-        <div className="min-h-screen bg-background py-20 px-4">
+        <div className="min-h-screen bg-background py-32 px-4">
             <div className="container mx-auto max-w-4xl">
                 <header className="text-center mb-16">
-                    <h1 className="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight">
-                        Hoja de Ruta
+                    <h1 className="text-5xl md:text-7xl font-black italic tracking-tighter leading-[0.9] mb-6">
+                        Hoja de <span className="text-red-600">Ruta</span>
                     </h1>
-                    <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+                    <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
                         El camino hacia la libertad política no es improvisado. Tenemos un plan claro para la ruptura democrática.
                     </p>
                 </header>
@@ -33,8 +33,8 @@ export default function RoadmapPage() {
 
                                     {/* Content Card */}
                                     <div className={`ml-16 md:ml-0 md:w-[calc(50%-2rem)] p-6 rounded-xl border transition-all duration-300 ${isActive
-                                            ? "bg-white/5 border-primary/50 shadow-[0_0_30px_rgba(190,18,60,0.1)]"
-                                            : "bg-white/5 border-white/10 hover:bg-white/10"
+                                        ? "bg-white/5 border-primary/50 shadow-[0_0_30px_rgba(190,18,60,0.1)]"
+                                        : "bg-white/5 border-white/10 hover:bg-white/10"
                                         }`}>
                                         <div className="flex items-center gap-3 mb-2">
                                             <span className={`text-sm font-bold uppercase tracking-wider ${isActive ? "text-primary" : "text-gray-500"

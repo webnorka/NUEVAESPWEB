@@ -37,7 +37,7 @@ export function FAQ() {
     const [isAutoPlaying, setIsAutoPlaying] = useState(false);
 
     return (
-        <section id="faq" className="py-24 bg-zinc-950 border-t border-white/5 relative overflow-hidden">
+        <section id="faq" className="py-32 bg-zinc-950 border-t border-white/5 relative overflow-hidden">
             {/* Background elements */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-zinc-900/20 via-zinc-950 to-zinc-950 pointer-events-none" />
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-900/50 to-transparent opacity-50" />
@@ -49,7 +49,7 @@ export function FAQ() {
                         <span className="font-mono text-xs uppercase tracking-[0.2em]">Registro de Interrogatorio</span>
                         <Siren className="w-5 h-5 animate-pulse" />
                     </div>
-                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white mb-4">
+                    <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter text-white mb-4 italic">
                         Desclasificando <span className="text-red-600">La Verdad</span>
                     </h2>
                     <p className="text-zinc-500 max-w-2xl text-lg">

@@ -189,7 +189,7 @@ export function CorruptionData() {
     const [selectedMetric, setSelectedMetric] = useState<any>(null);
 
     return (
-        <section id="data" className="py-24 bg-zinc-950 relative overflow-hidden">
+        <section id="data" className="py-32 bg-zinc-950 relative overflow-hidden">
 
             {/* Diagonal Stripes Background */}
             <div className="absolute inset-0 opacity-[0.02] bg-[repeating-linear-gradient(45deg,#fff,#fff_1px,transparent_1px,transparent_10px)] pointer-events-none"></div>
@@ -201,8 +201,8 @@ export function CorruptionData() {
                             <Receipt className="w-6 h-6" />
                             <span className="font-mono text-sm uppercase tracking-widest">Factura al Ciudadano</span>
                         </div>
-                        <h2 className="text-4xl md:text-5xl font-black text-white uppercase leading-none">
-                            El Precio del <br /> Régimen
+                        <h2 className="text-5xl md:text-7xl font-black text-white uppercase italic leading-[0.9] tracking-tighter">
+                            Factura del <br /> <span className="text-red-600">Régimen</span>
                         </h2>
                     </div>
                     <div className="hidden md:block text-right">

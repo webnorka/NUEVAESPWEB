@@ -79,11 +79,11 @@ export function Movements() {
     );
 
     return (
-        <section id="movements" className="py-24 bg-zinc-950 relative border-t border-white/5">
+        <section id="movements" className="py-32 bg-zinc-950 relative border-t border-white/5">
             <div className="container mx-auto px-4">
                 <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
                     <div>
-                        <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter mb-2">
+                        <h2 className="text-5xl md:text-7xl font-black text-white uppercase tracking-tighter mb-2 italic">
                             Protocolos de <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">Resistencia</span>
                         </h2>
                         <p className="text-zinc-500 font-mono uppercase tracking-widest text-sm">

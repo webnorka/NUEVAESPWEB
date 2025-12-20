@@ -65,8 +65,8 @@ export const NARRATIVE_DATA: NarrativeStep[] = [
         type: 'choice',
         content: 'Ha llegado el momento de dejar de legitimar la mentira. ¿Qué eliges?',
         options: [
-            { label: 'Quiero la Verdad (Ideario)', nextId: '/roadmap' },
-            { label: 'Quiero Acción (Unirme)', nextId: '/auth/signup' }
+            { label: 'Quiero la Verdad (Ideario)', nextId: '/#ideology' },
+            { label: 'Quiero Acción (Unirme)', nextId: '/#movements' }
         ]
     }
 ];

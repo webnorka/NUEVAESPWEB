@@ -2,8 +2,6 @@
 
 import { motion } from "framer-motion";
 import { Download, Share2, FileText, Image as ImageIcon, Video, Megaphone } from "lucide-react";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
 
 export default function DifusionPage() {
     const resources = [
@@ -43,9 +41,8 @@ export default function DifusionPage() {
 
     return (
         <main className="min-h-screen bg-background text-foreground flex flex-col">
-            <Navbar />
 
-            <div className="flex-grow py-24 px-4 container mx-auto">
+            <div className="flex-grow py-32 px-4 container mx-auto">
                 <div className="text-center max-w-3xl mx-auto mb-16">
                     <motion.div
                         initial={{ opacity: 0, y: -20 }}
@@ -54,7 +51,9 @@ export default function DifusionPage() {
                     >
                         <Megaphone className="w-8 h-8" />
                     </motion.div>
-                    <h1 className="text-4xl md:text-5xl font-bold mb-6">Centro de Difusión</h1>
+                    <h1 className="text-5xl md:text-7xl font-black italic tracking-tighter leading-[0.9] mb-6">
+                        Centro de <span className="text-emerald-500">Difusión</span>
+                    </h1>
                     <p className="text-xl text-muted-foreground">
                         La verdad solo es poderosa cuando se comparte. Descarga este material y conviértete en un nodo de información libre.
                     </p>
@@ -119,7 +118,6 @@ export default function DifusionPage() {
                     </div>
                 </motion.div>
             </div>
-            <Footer />
         </main>
     );
 }

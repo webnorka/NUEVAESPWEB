@@ -3,8 +3,6 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Vote, MapPin, Users, Calendar } from "lucide-react";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
 import { siteConfig } from "@config";
 
 export default function AsociacionesPage() {
@@ -21,9 +19,8 @@ export default function AsociacionesPage() {
 
     return (
         <main className="min-h-screen bg-background text-foreground flex flex-col">
-            <Navbar />
 
-            <div className="flex-grow py-24 px-4 container mx-auto">
+            <div className="flex-grow py-32 px-4 container mx-auto">
                 <div className="text-center max-w-3xl mx-auto mb-16">
                     <motion.div
                         initial={{ opacity: 0, y: -20 }}
@@ -32,7 +29,9 @@ export default function AsociacionesPage() {
                     >
                         <Vote className="w-8 h-8" />
                     </motion.div>
-                    <h1 className="text-4xl md:text-5xl font-bold mb-6">Red Civil Nacional</h1>
+                    <h1 className="text-5xl md:text-7xl font-black italic tracking-tighter leading-[0.9] mb-6">
+                        Red Civil <span className="text-blue-500">Nacional</span>
+                    </h1>
                     <p className="text-xl text-muted-foreground">
                         No estás solo. Cientos de asociaciones civiles ya se están organizando al margen de los partidos. Encuentra tu núcleo más cercano.
                     </p>
@@ -138,7 +137,6 @@ export default function AsociacionesPage() {
                     </div>
                 </div>
             </div>
-            <Footer />
         </main>
     );
 }

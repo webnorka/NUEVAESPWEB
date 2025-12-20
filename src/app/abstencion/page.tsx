@@ -3,8 +3,6 @@
 import { motion } from "framer-motion";
 import { Ban, ArrowRight, CheckCircle2 } from "lucide-react";
 import { useState } from "react";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
 
 export default function AbstencionPage() {
     const [submitted, setSubmitted] = useState(false);
@@ -17,9 +15,8 @@ export default function AbstencionPage() {
 
     return (
         <main className="min-h-screen bg-background text-foreground flex flex-col">
-            <Navbar />
 
-            <div className="flex-grow flex items-center justify-center relative overflow-hidden py-24">
+            <div className="flex-grow flex items-center justify-center relative overflow-hidden py-32">
                 {/* Background Elements */}
                 <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:50px_50px]" />
                 <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-background via-background/90 to-background z-0" />
@@ -37,10 +34,10 @@ export default function AbstencionPage() {
                                 <Ban className="w-4 h-4" />
                                 <span>Acción Directa</span>
                             </div>
-                            <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
+                            <h1 className="text-5xl md:text-7xl font-black italic tracking-tighter leading-[0.9]">
                                 Abstención <span className="text-red-600">Activa</span>
                             </h1>
-                            <p className="text-lg text-muted-foreground leading-relaxed">
+                            <p className="text-xl text-muted-foreground leading-relaxed">
                                 No validamos un sistema corrupto. Al registrarte, te unes a la red de ciudadanos que retiran su consentimiento para forzar un cambio real.
                             </p>
 
@@ -132,7 +129,6 @@ export default function AbstencionPage() {
                     </motion.div>
                 </div>
             </div>
-            <Footer />
         </main>
     );
 }
