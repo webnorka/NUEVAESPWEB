@@ -1,8 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Vote, MapPin, Users, Calendar } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
+import { siteConfig } from "@config";
 
 export default function AsociacionesPage() {
     // Mock locations for the map
@@ -125,13 +128,17 @@ export default function AsociacionesPage() {
                             <p className="text-blue-100 text-sm mb-4">
                                 Sé el primero en iniciar un núcleo de control ciudadano en tu distrito.
                             </p>
-                            <button className="w-full py-3 bg-white text-blue-900 font-bold rounded-lg hover:bg-blue-50 transition-colors">
+                            <Link
+                                href={siteConfig.links.signup}
+                                className="w-full py-3 bg-white text-blue-900 font-bold rounded-lg hover:bg-blue-50 transition-colors flex items-center justify-center"
+                            >
                                 Iniciar Núcleo
-                            </button>
+                            </Link>
                         </div>
                     </div>
                 </div>
             </div>
+            <Footer />
         </main>
     );
 }

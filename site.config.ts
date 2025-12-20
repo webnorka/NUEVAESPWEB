@@ -24,6 +24,24 @@ export const siteConfig = {
     description: "Plataforma para el renacimiento de la libertad política y la representación ciudadana.",
     keywords: ["Nueva España", "Libertad Política", "Abstención Activa", "Democracia Formal", "Separación de Poderes", "República Constitucional"],
     authors: [{ name: "Movimiento Nueva España", url: "https://nuevaespaña.eu" }],
+
+    // Rutas importantes
+    links: {
+        signup: "/auth/signup",
+        login: "/auth/login",
+        dashboard: "/dashboard",
+        ideology: "/#ideology",
+        movements: "/#movements",
+        data: "/#data",
+        faq: "/#faq",
+        abstencion: "/abstencion",
+        difusion: "/difusion",
+        asociaciones: "/asociaciones",
+        narrativa: "/narrativa",
+        privacy: "/privacidad",
+        legal: "/aviso-legal"
+    },
+
     openGraph: {
         type: "website",
         locale: "es_ES",
@@ -137,10 +155,24 @@ export const siteConfig = {
     ],
 
     socialImpact: [
-        "Con el coste anual de la corrupción, cada español podría recibir 1.900€ de paga extra al año.",
-        "El agujero de las pensiones equivale a 4 veces el presupuesto total en I+D.",
-        "Las duplicidades autonómicas consumen el equivalente a 100.000 viviendas sociales anuales.",
-        "La evasión fiscal consentida a grandes fortunas es superior al presupuesto de Justicia."
+        {
+            text: "Sumando corrupción, duplicidades y el agujero de pensiones (208.000 M€/año), cada ciudadano pierde 4.333€ anuales.",
+            icon: "Wallet",
+            visualType: "banknotes",
+            data: { amount: 4333, label: "Paga Extra" }
+        },
+        {
+            text: "El agujero de las pensiones equivale a 4 veces el presupuesto total en I+D.",
+            icon: "FlaskConical",
+            visualType: "comparison",
+            data: { ratio: 4, labelA: "Pensiones", labelB: "I+D" }
+        },
+        {
+            text: "El coste total de la ineficiencia (208.000 M€) equivale a perder 400.000 viviendas sociales cada año.",
+            icon: "Home",
+            visualType: "grid",
+            data: { count: 400000, label: "Viviendas" }
+        }
     ],
 
     justiceStats: {

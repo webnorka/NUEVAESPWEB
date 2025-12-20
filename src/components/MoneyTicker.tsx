@@ -12,8 +12,24 @@ interface MoneyTickerProps {
 
 export function MoneyTicker({ initialAmount, perSecond, label, subLabel, colorClass = "text-white" }: MoneyTickerProps) {
     const [currentAmount, setCurrentAmount] = useState(initialAmount);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [isVisible, setIsVisible] = useState(false);
     const frameRef = useRef<number>(0);
     const lastTimeRef = useRef<number>(0);
+
+    // Intersection Observer to pause when not visible
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => setIsVisible(entry.isIntersecting),
+            { threshold: 0.1 }
+        );
+
+        if (containerRef.current) {
+            observer.observe(containerRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, []);
 
     // Synchronize with parent's calculated initialAmount when it's first set
     useEffect(() => {
@@ -21,9 +37,11 @@ export function MoneyTicker({ initialAmount, perSecond, label, subLabel, colorCl
     }, [initialAmount]);
 
     useEffect(() => {
-        // Mock start time as "beginning of year" or standard base
-        // For visual effect, we just increment from the moment the component mounts/is viewed
-        // but to make it look "live", we just add small increments.
+        if (!isVisible) {
+            if (frameRef.current) cancelAnimationFrame(frameRef.current);
+            lastTimeRef.current = 0; // Reset last time when coming back to view
+            return;
+        }
 
         const update = (time: number) => {
             if (!lastTimeRef.current) lastTimeRef.current = time;
@@ -36,7 +54,7 @@ export function MoneyTicker({ initialAmount, perSecond, label, subLabel, colorCl
 
         frameRef.current = requestAnimationFrame(update);
         return () => cancelAnimationFrame(frameRef.current);
-    }, [perSecond]);
+    }, [perSecond, isVisible]);
 
     // Format currency
     const format = (val: number) => {
@@ -48,7 +66,7 @@ export function MoneyTicker({ initialAmount, perSecond, label, subLabel, colorCl
     };
 
     return (
-        <div className="flex flex-col items-center justify-center p-4">
+        <div ref={containerRef} className="flex flex-col items-center justify-center p-4">
             <span className={`text-3xl md:text-4xl font-mono font-bold ${colorClass} tabular-nums`}>
                 {format(currentAmount)}
             </span>

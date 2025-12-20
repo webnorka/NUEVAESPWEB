@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, FileText, ExternalLink, ShieldAlert } from "lucide-react";
 import Link from "next/link";
@@ -32,6 +33,19 @@ const sources = [
 ];
 
 export function SourcesModal({ isOpen, onClose }: SourcesModalProps) {
+    useEffect(() => {
+        const handleEscape = (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+                onClose();
+            }
+        };
+
+        if (isOpen) {
+            window.addEventListener("keydown", handleEscape);
+        }
+        return () => window.removeEventListener("keydown", handleEscape);
+    }, [isOpen, onClose]);
+
     if (!isOpen) return null;
 
     return (

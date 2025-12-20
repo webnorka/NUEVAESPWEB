@@ -24,10 +24,10 @@ export function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
 
     const navItems = [
-        { name: "Ideograma", href: "#ideology" },
-        { name: "Movimientos", href: "#movements" },
-        { name: "Datos", href: "#data" },
-        { name: "FAQ", href: "#faq" },
+        { name: "Ideograma", href: siteConfig.links.ideology },
+        { name: "Movimientos", href: siteConfig.links.movements },
+        { name: "Datos", href: siteConfig.links.data },
+        { name: "FAQ", href: siteConfig.links.faq },
     ];
 
     return (

@@ -20,6 +20,20 @@ export function CalculationModal({ isOpen, onClose, metric }: CalculationModalPr
     const frameRef = useRef<number>(0);
     const lastTimeRef = useRef<number>(0);
 
+    // Handle Escape key
+    useEffect(() => {
+        const handleEscape = (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+                onClose();
+            }
+        };
+
+        if (isOpen) {
+            window.addEventListener("keydown", handleEscape);
+        }
+        return () => window.removeEventListener("keydown", handleEscape);
+    }, [isOpen, onClose]);
+
     // Initial calculation and synchronization
     useEffect(() => {
         if (isOpen && metric) {

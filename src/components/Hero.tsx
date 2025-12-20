@@ -76,7 +76,7 @@ export function Hero({ manifestoContent }: HeroProps) {
                             }
                         />
                         <Link
-                            href="/narrativa"
+                            href={siteConfig.links.narrativa}
                             className="group relative px-8 py-4 border border-red-600 text-red-600 text-lg font-bold tracking-tight overflow-hidden rounded-sm hover:scale-[1.02] transition-transform duration-200"
                         >
                             <div className="absolute inset-0 bg-red-600 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
@@ -86,7 +86,7 @@ export function Hero({ manifestoContent }: HeroProps) {
                             </span>
                         </Link>
                         <Link
-                            href="#movements"
+                            href={siteConfig.links.movements}
                             className="px-8 py-4 text-gray-300 hover:text-white font-medium border-b border-transparent hover:border-red-500 transition-colors flex items-center gap-2 group"
                         >
                             {siteConfig.hero.ctaSecondary}

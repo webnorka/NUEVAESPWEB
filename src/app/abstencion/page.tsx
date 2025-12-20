@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Ban, ArrowRight, CheckCircle2 } from "lucide-react";
 import { useState } from "react";
 import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
 
 export default function AbstencionPage() {
     const [submitted, setSubmitted] = useState(false);
@@ -131,6 +132,7 @@ export default function AbstencionPage() {
                     </motion.div>
                 </div>
             </div>
+            <Footer />
         </main>
     );
 }

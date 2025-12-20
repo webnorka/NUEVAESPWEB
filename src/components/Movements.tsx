@@ -93,34 +93,31 @@ export function Movements() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-                    {/* 01: Abstención */}
                     <MovementCard
                         index={0}
                         icon={Ban}
                         config={siteConfig.movements.abstencion}
                         colorClass="text-red-500"
                         borderColor="border-red-900/30"
-                        link="/abstencion"
+                        link={siteConfig.links.abstencion}
                     />
 
-                    {/* 02: Difusión */}
                     <MovementCard
                         index={1}
                         icon={Megaphone}
                         config={siteConfig.movements.difusion}
                         colorClass="text-emerald-500"
                         borderColor="border-emerald-900/30"
-                        link="/difusion"
+                        link={siteConfig.links.difusion}
                     />
 
-                    {/* 03: Asociación */}
                     <MovementCard
                         index={2}
                         icon={Vote}
                         config={siteConfig.movements.asociacion}
                         colorClass="text-blue-500"
                         borderColor="border-blue-900/30"
-                        link="/asociaciones"
+                        link={siteConfig.links.asociaciones}
                     />
                 </div>
 
@@ -137,10 +134,13 @@ export function Movements() {
                                 </p>
                             </div>
 
-                            <button className="px-8 py-4 bg-white text-black font-black uppercase tracking-widest hover:bg-zinc-200 transition-colors w-full md:w-auto flex items-center justify-center gap-3">
+                            <Link
+                                href={siteConfig.links.signup}
+                                className="px-8 py-4 bg-white text-black font-black uppercase tracking-widest hover:bg-zinc-200 transition-colors w-full md:w-auto flex items-center justify-center gap-3"
+                            >
                                 <Target className="w-5 h-5" />
                                 <span>Unirse Ahora</span>
-                            </button>
+                            </Link>
                         </div>
                     </div>
                 </div>

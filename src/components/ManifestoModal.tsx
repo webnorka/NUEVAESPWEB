@@ -14,15 +14,23 @@ interface ManifestoModalProps {
 export function ManifestoModal({ content, trigger }: ManifestoModalProps) {
     const [isOpen, setIsOpen] = useState(false);
 
-    // Prevent background scrolling when modal is open
+    // Prevent background scrolling when modal is open and handle Escape key
     useEffect(() => {
+        const handleEscape = (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+                setIsOpen(false);
+            }
+        };
+
         if (isOpen) {
             document.body.style.overflow = "hidden";
+            window.addEventListener("keydown", handleEscape);
         } else {
             document.body.style.overflow = "unset";
         }
         return () => {
             document.body.style.overflow = "unset";
+            window.removeEventListener("keydown", handleEscape);
         };
     }, [isOpen]);
 

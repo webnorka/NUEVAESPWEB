@@ -1,13 +1,27 @@
-
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AlertTriangle, Power, CheckCircle2, RefreshCw, ArrowRight } from "lucide-react";
 
 export function SystemComparator() {
     const [systemState, setSystemState] = useState<"FALLO_SISTÉMICO" | "SISTEMA_OPERATIVO">("FALLO_SISTÉMICO");
     const [isRebooting, setIsRebooting] = useState(false);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => setIsVisible(entry.isIntersecting),
+            { threshold: 0.1 }
+        );
+
+        if (containerRef.current) {
+            observer.observe(containerRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, []);
 
     const handleReboot = () => {
         setIsRebooting(true);
@@ -17,8 +31,17 @@ export function SystemComparator() {
         }, 2000); // 2s reboot sequence for more impact
     };
 
+    const animationClass = !isVisible ? "pause-animations" : "";
+
     return (
-        <section id="diagnostic" className="py-24 bg-zinc-950 relative overflow-hidden select-none">
+        <section ref={containerRef} id="diagnostic" className={`py-24 bg-zinc-950 relative overflow-hidden select-none ${animationClass}`}>
+            <style jsx global>{`
+                .pause-animations *, 
+                .pause-animations *::before, 
+                .pause-animations *::after {
+                    animation-play-state: paused !important;
+                }
+            `}</style>
             {/* Elegant Background Texture */}
             <div className="absolute inset-0 bg-[radial-gradient(#ffffff05_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none opacity-40" />
             <div className="absolute inset-0 bg-radial-gradient(circle at center, transparent 0%, #09090b 100%) pointer-events-none" />

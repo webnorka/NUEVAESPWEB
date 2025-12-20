@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShieldAlert, Terminal, ArrowRight, Construction } from 'lucide-react';
 
@@ -24,6 +24,14 @@ export function VanguardDialog({
     const [isVisible, setIsVisible] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
 
+    const handleDismiss = useCallback(() => {
+        if (persistent) {
+            localStorage.setItem(`ne_banner_${id}`, 'true');
+        }
+        setIsVisible(false);
+        document.body.style.overflow = 'unset';
+    }, [id, persistent]);
+
     useEffect(() => {
         setIsMounted(true);
         const hasSeen = localStorage.getItem(`ne_banner_${id}`);
@@ -31,15 +39,16 @@ export function VanguardDialog({
             setIsVisible(true);
             document.body.style.overflow = 'hidden';
         }
-    }, [id]);
 
-    const handleDismiss = () => {
-        if (persistent) {
-            localStorage.setItem(`ne_banner_${id}`, 'true');
-        }
-        setIsVisible(false);
-        document.body.style.overflow = 'unset';
-    };
+        const handleEscape = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                handleDismiss();
+            }
+        };
+
+        window.addEventListener('keydown', handleEscape);
+        return () => window.removeEventListener('keydown', handleEscape);
+    }, [id, handleDismiss]);
 
     if (!isMounted || !isVisible) return null;
 

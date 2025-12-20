@@ -8,12 +8,13 @@ import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { getMovementStats } from "@/lib/actions/citizen";
+import { siteConfig } from "@config";
 
 const navItems = [
-    { name: "DATOS", href: "/#data", icon: Activity },
-    { name: "IDEARIO", href: "/#ideology", icon: Terminal },
-    { name: "ACCIÓN", href: "/#movements", icon: Crosshair },
-    { name: "INTERROGATORIO", href: "/#faq", icon: FileText },
+    { name: "DATOS", href: siteConfig.links.data, icon: Activity },
+    { name: "IDEARIO", href: siteConfig.links.ideology, icon: Terminal },
+    { name: "ACCIÓN", href: siteConfig.links.movements, icon: Crosshair },
+    { name: "INTERROGATORIO", href: siteConfig.links.faq, icon: FileText },
 ];
 
 export function CommandBar() {
@@ -137,7 +138,7 @@ export function CommandBar() {
                             </Link>
                         </div>
                     ) : (
-                        <Link href="/auth/signup" className="px-4 py-1.5 bg-red-600 hover:bg-red-700 text-white text-xs font-bold tracking-widest uppercase rounded-sm transition-colors animate-pulse">
+                        <Link href={siteConfig.links.signup} className="px-4 py-1.5 bg-red-600 hover:bg-red-700 text-white text-xs font-bold tracking-widest uppercase rounded-sm transition-colors animate-pulse">
                             Unirse
                         </Link>
                     )}
@@ -204,7 +205,7 @@ export function CommandBar() {
                                 </>
                             ) : (
                                 <Link
-                                    href="/auth/signup"
+                                    href={siteConfig.links.signup}
                                     onClick={() => setIsOpen(false)}
                                     className="mt-2 w-full py-3 bg-red-600 text-white font-bold tracking-widest uppercase text-sm rounded-sm flex items-center justify-center transition-transform active:scale-95"
                                 >

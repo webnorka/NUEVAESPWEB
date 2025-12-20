@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 
@@ -12,6 +13,19 @@ interface InfoModalProps {
 }
 
 export function InfoModal({ isOpen, onClose, title, content, footerAction }: InfoModalProps) {
+    useEffect(() => {
+        const handleEscape = (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+                onClose();
+            }
+        };
+
+        if (isOpen) {
+            window.addEventListener("keydown", handleEscape);
+        }
+        return () => window.removeEventListener("keydown", handleEscape);
+    }, [isOpen, onClose]);
+
     return (
         <AnimatePresence>
             {isOpen && (

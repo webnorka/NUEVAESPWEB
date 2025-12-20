@@ -119,6 +119,7 @@ export default function DifusionPage() {
                     </div>
                 </motion.div>
             </div>
+            <Footer />
         </main>
     );
 }

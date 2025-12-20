@@ -4,6 +4,7 @@ import "./globals.css";
 import { CommandBar } from "@/components/layout/CommandBar";
 import { VanguardDialog } from "@/components/vanguard/VanguardDialog";
 import { Footer } from "@/components/layout/Footer";
+import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { siteConfig } from "@config";
 import Script from "next/script";
 
@@ -57,6 +58,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
+        <ScrollToTop />
         <VanguardDialog
           id="construction_v1"
           level="VANGUARD"
