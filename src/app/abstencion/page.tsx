@@ -1,3 +1,5 @@
+"use client";
+
 import { motion } from "framer-motion";
 import { ShieldAlert, Cpu, Target, Lock } from "lucide-react";
 import Link from "next/link";
