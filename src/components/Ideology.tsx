@@ -49,12 +49,11 @@ export function Ideology() {
             <div className="container mx-auto px-4 relative z-10">
                 <div className="text-center mb-24">
                     <h2 className="text-5xl md:text-7xl font-black text-white mb-6 uppercase tracking-tighter">
-                        ROMPE EL <span className="text-red-600 line-through decoration-4 decoration-white">MITO</span>
+                        REALIDAD VS. <span className="text-primary italic">NUEVA ESPAÑA</span>
                     </h2>
                     <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
-                        Nos vendieron una democracia plena. <br />
-                        La realidad es una oligarquía de partidos. <br />
-                        <span className="text-white font-bold">Elige la verdad.</span>
+                        Analizamos la estructura actual frente a los fundamentos de una democracia formal. <br />
+                        <span className="text-white font-bold">La ruptura es el primer paso hacia la libertad.</span>
                     </p>
                 </div>
 
@@ -83,7 +82,7 @@ export function Ideology() {
                                         <div className="absolute -left-[9px] top-0 text-red-500">
                                             <XCircle className="w-4 h-4" />
                                         </div>
-                                        <p className="font-mono text-[10px] text-red-400 uppercase tracking-wider mb-1">Mito del Régimen</p>
+                                        <p className="font-mono text-[10px] text-red-400 uppercase tracking-wider mb-1">Situación Actual</p>
                                         <p className="text-lg font-medium text-zinc-400 line-through decoration-red-500/30 decoration-2">{feature.lie}</p>
                                     </div>
 
@@ -91,7 +90,7 @@ export function Ideology() {
                                         <div className="absolute -left-[9px] top-0 text-green-500">
                                             <CheckCircle2 className="w-4 h-4" />
                                         </div>
-                                        <p className="font-mono text-[10px] text-green-400 uppercase tracking-wider mb-1">Verdad Democrática</p>
+                                        <p className="font-mono text-[10px] text-green-400 uppercase tracking-wider mb-1">Nueva España</p>
                                         <p className="text-lg font-bold text-white">{feature.truth}</p>
                                     </div>
                                 </div>
