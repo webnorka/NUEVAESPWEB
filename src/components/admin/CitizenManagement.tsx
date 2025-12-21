@@ -31,7 +31,10 @@ export function CitizenManagement({ initialUsers }: CitizenManagementProps) {
             fullName.toLowerCase().includes(search.toLowerCase());
 
         const matchesFilter =
-            filter === "all" || user.role === filter;
+            filter === "all" ||
+            user.role === filter ||
+            (filter === "citizen" && user.role === "user") ||
+            (filter === "user" && user.role === "citizen");
 
         return matchesSearch && matchesFilter;
     });
@@ -114,7 +117,7 @@ export function CitizenManagement({ initialUsers }: CitizenManagementProps) {
                                                 ? 'bg-zinc-800 text-zinc-500 border-white/5 grayscale'
                                                 : 'bg-zinc-900 text-zinc-400 border-white/10'
                                             }`}>
-                                            {u.role?.toUpperCase() || 'CIUDADANO'}
+                                            {u.role === 'admin' ? 'ADMIN' : u.role === 'banned' ? 'BANEADO' : 'CIUDADANO'}
                                         </span>
                                     </td>
                                     <td className="px-6 py-4 text-center text-[10px] font-mono text-zinc-500">
