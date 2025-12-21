@@ -19,37 +19,54 @@ export function AdminMetrics({ initialStats }: AdminMetricsProps) {
     const supabase = createClient();
 
     useEffect(() => {
-        // Subscribe to changes in profiles table
-        const channel = supabase
-            .channel('admin_metrics_sync')
-            .on(
-                'postgres_changes',
-                { event: '*', table: 'profiles', schema: 'public' },
-                async () => {
-                    // Refetch counts for accuracy (exact counts are hard with just payload)
-                    const { count: total } = await supabase
-                        .from('profiles')
-                        .select('*', { count: 'exact', head: true });
+        let channel: any;
 
-                    const { count: admins } = await supabase
-                        .from('profiles')
-                        .select('*', { count: 'exact', head: true })
-                        .eq('role', 'admin');
+        const setupSubscription = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) return;
 
-                    setStats(prev => ({
-                        ...prev,
-                        total: total || prev.total,
-                        admins: admins || prev.admins
-                    }));
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('role')
+                .eq('id', user.id)
+                .single();
 
-                    setHighlight('total');
-                    setTimeout(() => setHighlight(null), 2000);
-                }
-            )
-            .subscribe();
+            if (profile?.role !== 'admin') return;
+
+            // Subscribe to changes in profiles table
+            channel = supabase
+                .channel('admin_metrics_sync')
+                .on(
+                    'postgres_changes',
+                    { event: '*', table: 'profiles', schema: 'public' },
+                    async () => {
+                        // Refetch counts for accuracy
+                        const { count: total } = await supabase
+                            .from('profiles')
+                            .select('*', { count: 'exact', head: true });
+
+                        const { count: admins } = await supabase
+                            .from('profiles')
+                            .select('*', { count: 'exact', head: true })
+                            .eq('role', 'admin');
+
+                        setStats(prev => ({
+                            ...prev,
+                            total: total || prev.total,
+                            admins: admins || prev.admins
+                        }));
+
+                        setHighlight('total');
+                        setTimeout(() => setHighlight(null), 2000);
+                    }
+                )
+                .subscribe();
+        };
+
+        setupSubscription();
 
         return () => {
-            supabase.removeChannel(channel);
+            if (channel) supabase.removeChannel(channel);
         };
     }, [supabase]);
 

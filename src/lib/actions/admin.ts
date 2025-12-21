@@ -6,7 +6,9 @@ import { headers } from "next/headers";
 
 async function logActivity(supabase: any, action: string, entityId: string | null = null, details: any = {}) {
     const headerList = await headers();
-    const ip = headerList.get("x-forwarded-for") || headerList.get("x-real-ip") || "unknown";
+    // Normalize IP: get the first valid IP from x-forwarded-for if present
+    const forwarded = headerList.get("x-forwarded-for");
+    const ip = forwarded ? forwarded.split(',')[0].trim() : (headerList.get("x-real-ip") || "unknown");
 
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
@@ -21,6 +23,12 @@ async function logActivity(supabase: any, action: string, entityId: string | nul
 }
 
 export async function updateUserRole(userId: string, newRole: string) {
+    const ALLOWED_ROLES = ['citizen', 'admin', 'moderator', 'banned'];
+
+    if (!ALLOWED_ROLES.includes(newRole)) {
+        throw new Error("Invalid role specified");
+    }
+
     const supabase = await createClient();
 
     // Verify current user is admin

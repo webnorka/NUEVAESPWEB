@@ -33,8 +33,8 @@ ALTER TABLE public.nuclei ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.nucleus_members ENABLE ROW LEVEL SECURITY;
 
 -- Policies for nuclei
-CREATE POLICY "Public nuclei are viewable by everyone" 
-ON public.nuclei FOR SELECT USING (true);
+CREATE POLICY "Public nuclei are viewable by authenticated users" 
+ON public.nuclei FOR SELECT USING (auth.role() = 'authenticated');
 
 CREATE POLICY "Authenticated users can create nuclei" 
 ON public.nuclei FOR INSERT WITH CHECK (auth.role() = 'authenticated');
@@ -43,8 +43,8 @@ CREATE POLICY "Creators can update their nuclei"
 ON public.nuclei FOR UPDATE USING (auth.uid() = created_by);
 
 -- Policies for nucleus_members
-CREATE POLICY "Members are viewable by everyone" 
-ON public.nucleus_members FOR SELECT USING (true);
+CREATE POLICY "Members are viewable by authenticated users" 
+ON public.nucleus_members FOR SELECT USING (auth.role() = 'authenticated');
 
 CREATE POLICY "Authenticated users can join nuclei" 
 ON public.nucleus_members FOR INSERT WITH CHECK (auth.uid() = user_id);
