@@ -22,10 +22,13 @@ export function CitizenManagement({ initialUsers }: CitizenManagementProps) {
     const [filter, setFilter] = useState("all");
     const [users, setUsers] = useState(initialUsers);
 
-    const filteredUsers = users.filter(user => {
+    const filteredUsers = (users || []).filter(user => {
+        const username = user.username || "";
+        const fullName = user.full_name || "";
+
         const matchesSearch =
-            user.username?.toLowerCase().includes(search.toLowerCase()) ||
-            user.full_name?.toLowerCase().includes(search.toLowerCase());
+            username.toLowerCase().includes(search.toLowerCase()) ||
+            fullName.toLowerCase().includes(search.toLowerCase());
 
         const matchesFilter =
             filter === "all" || user.role === filter;
@@ -62,7 +65,8 @@ export function CitizenManagement({ initialUsers }: CitizenManagementProps) {
                     >
                         <option value="all">Todos</option>
                         <option value="admin">Admins</option>
-                        <option value="citizen">Ciudadanos</option>
+                        <option value="citizen">Ciudadanos (NE)</option>
+                        <option value="user">Usuarios (Legacy)</option>
                         <option value="moderator">Moderadores</option>
                         <option value="banned">Baneados</option>
                     </select>
@@ -105,10 +109,10 @@ export function CitizenManagement({ initialUsers }: CitizenManagementProps) {
                                     </td>
                                     <td className="px-6 py-4 text-center">
                                         <span className={`text-[9px] font-mono font-black px-2.5 py-1 rounded-sm border ${u.role === 'admin'
-                                                ? 'bg-primary/10 text-primary border-primary/20'
-                                                : u.role === 'banned'
-                                                    ? 'bg-zinc-800 text-zinc-500 border-white/5 grayscale'
-                                                    : 'bg-zinc-900 text-zinc-400 border-white/10'
+                                            ? 'bg-primary/10 text-primary border-primary/20'
+                                            : u.role === 'banned'
+                                                ? 'bg-zinc-800 text-zinc-500 border-white/5 grayscale'
+                                                : 'bg-zinc-900 text-zinc-400 border-white/10'
                                             }`}>
                                             {u.role?.toUpperCase() || 'CIUDADANO'}
                                         </span>

@@ -16,7 +16,7 @@ export function UserActions({ userId, currentRole }: UserActionsProps) {
         if (!confirm("¿Seguro que quieres cambiar el rol de este usuario?")) return;
         setLoading(true);
         try {
-            const nextRole = currentRole === 'admin' ? 'user' : 'admin';
+            const nextRole = currentRole === 'admin' ? 'citizen' : 'admin';
             await updateUserRole(userId, nextRole);
         } catch (error) {
             console.error(error);
