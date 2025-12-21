@@ -20,10 +20,14 @@ export default async function CitizensAdminPage() {
     if (profile?.role !== 'admin') redirect("/dashboard");
 
     // Fetch all users
-    const { data: users } = await supabase
+    const { data: users, error: usersError } = await supabase
         .from("profiles")
         .select("*")
-        .order("created_at", { ascending: false });
+        .order("full_name", { ascending: true });
+
+    if (usersError) {
+        console.error("Error fetching citizens:", usersError);
+    }
 
     // Fetch initial logs for the realtime feed
     const { data: rawLogs } = await supabase

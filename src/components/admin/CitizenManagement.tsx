@@ -10,7 +10,7 @@ interface Profile {
     username: string;
     full_name: string;
     role: string;
-    created_at: string;
+    census_registered_at: string;
 }
 
 interface CitizenManagementProps {
@@ -118,7 +118,7 @@ export function CitizenManagement({ initialUsers }: CitizenManagementProps) {
                                         </span>
                                     </td>
                                     <td className="px-6 py-4 text-center text-[10px] font-mono text-zinc-500">
-                                        {new Date(u.created_at).toLocaleDateString()}
+                                        {u.census_registered_at ? new Date(u.census_registered_at).toLocaleDateString() : 'SIN FECHA'}
                                     </td>
                                     <td className="px-6 py-4 text-right">
                                         <UserActions userId={u.id} currentRole={u.role || 'citizen'} />
