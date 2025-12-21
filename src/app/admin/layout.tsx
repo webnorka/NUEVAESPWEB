@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { AdminSidebar } from "@/components/admin/AdminSidebar";
 
 export default async function AdminLayout({
     children,
@@ -20,9 +21,25 @@ export default async function AdminLayout({
     if (profile?.role !== 'admin') redirect("/dashboard");
 
     return (
-        <div className="bg-black text-white">
-            {/* Sidebar or Top Nav for Admin if needed */}
-            {children}
+        <div className="min-h-screen bg-black text-white flex">
+            {/* Navigational Identity Layer */}
+            <AdminSidebar />
+
+            {/* Core Operational Space */}
+            <main className="flex-1 ml-20 lg:ml-20 transition-all duration-500">
+                <div className="min-h-screen relative p-8">
+                    {/* Background Ambience */}
+                    <div className="fixed inset-0 pointer-events-none">
+                        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/2 h-full blur-[120px] rounded-full translate-x-1/2 -translate-y-1/2" />
+                        <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-zinc-900/50 blur-[100px] rounded-full -translate-x-1/2 translate-y-1/2" />
+                    </div>
+
+                    {/* Page Content */}
+                    <div className="relative z-10 w-full max-w-7xl mx-auto">
+                        {children}
+                    </div>
+                </div>
+            </main>
         </div>
     );
 }

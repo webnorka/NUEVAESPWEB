@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { ShieldCheck, Ban, UserCog, Clock, Terminal } from "lucide-react";
+import { ShieldCheck, Ban, UserCog, Clock, Terminal, MapPin, Trash2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface LogEntry {
@@ -11,6 +11,7 @@ interface LogEntry {
     created_at: string;
     ip_address: string;
     details: any;
+    entity_id: string | null;
     profiles?: {
         username: string;
         full_name: string;
@@ -51,6 +52,9 @@ export function RealtimeActivity({ initialLogs = [] }: { initialLogs?: LogEntry[
         switch (action) {
             case 'ROLE_CHANGE': return UserCog;
             case 'USER_BAN': return Ban;
+            case 'NUCLEUS_CREATE': return MapPin;
+            case 'NUCLEUS_UPDATE': return MapPin;
+            case 'NUCLEUS_DELETE': return Trash2;
             default: return ShieldCheck;
         }
     };
@@ -59,6 +63,9 @@ export function RealtimeActivity({ initialLogs = [] }: { initialLogs?: LogEntry[
         switch (action) {
             case 'ROLE_CHANGE': return 'text-blue-500';
             case 'USER_BAN': return 'text-red-500';
+            case 'NUCLEUS_CREATE': return 'text-emerald-500';
+            case 'NUCLEUS_UPDATE': return 'text-amber-500';
+            case 'NUCLEUS_DELETE': return 'text-rose-500';
             default: return 'text-zinc-500';
         }
     };
@@ -115,7 +122,16 @@ export function RealtimeActivity({ initialLogs = [] }: { initialLogs?: LogEntry[
                                                     {log.action === 'USER_BAN' && (
                                                         <>Suspendió permanentemente a <span className="text-red-500 font-bold">@{log.details?.target_username}</span></>
                                                     )}
-                                                    {!['ROLE_CHANGE', 'USER_BAN'].includes(log.action) && log.action}
+                                                    {log.action === 'NUCLEUS_CREATE' && (
+                                                        <>Desplegó nuevo nodo geográfico: <span className="text-emerald-400">{log.details?.name}</span> en <span className="text-zinc-400">{log.details?.city}</span></>
+                                                    )}
+                                                    {log.action === 'NUCLEUS_UPDATE' && (
+                                                        <>Actualizó parámetros del nodo: <span className="text-amber-400">{log.details?.name || log.entity_id}</span></>
+                                                    )}
+                                                    {log.action === 'NUCLEUS_DELETE' && (
+                                                        <>Eliminó el nodo de red: <span className="text-rose-500 font-bold">{log.entity_id}</span></>
+                                                    )}
+                                                    {!['ROLE_CHANGE', 'USER_BAN', 'NUCLEUS_CREATE', 'NUCLEUS_UPDATE', 'NUCLEUS_DELETE'].includes(log.action) && log.action}
                                                 </p>
                                                 <div className="mt-2 text-[9px] font-mono text-zinc-600 uppercase flex items-center gap-2">
                                                     <span className="px-1.5 py-0.5 bg-black/40 rounded-sm border border-white/5 tracking-wider">
