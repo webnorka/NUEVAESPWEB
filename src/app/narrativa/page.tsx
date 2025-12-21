@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function NarrativaPage() {
     return (
-        <main className="bg-black text-white selection:bg-red-600 selection:text-white overflow-x-hidden min-h-screen relative">
+        <main className="bg-background text-foreground selection:bg-primary selection:text-primary-foreground overflow-x-hidden min-h-screen relative">
             <FloatingHUD />
             <SceneManager />
         </main>

@@ -111,15 +111,13 @@ export function Movements() {
     return (
         <section id="movements" className="py-32 bg-background relative border-t border-white/5">
             <div className="container mx-auto px-4">
-                <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-                    <div>
-                        <h2 className="text-5xl md:text-7xl font-black text-foreground uppercase tracking-tighter mb-2 italic">
-                            Protocolos de <span className="text-primary">Resistencia</span>
-                        </h2>
-                        <p className="text-muted font-mono uppercase tracking-widest text-sm">
-                            Selecciona tu misión. La pasividad es complicidad.
-                        </p>
-                    </div>
+                <div className="text-center mb-24">
+                    <h2 className="text-5xl md:text-7xl font-black text-foreground mb-6 uppercase tracking-tighter italic">
+                        Protocolos de <span className="text-primary">Resistencia</span>
+                    </h2>
+                    <p className="text-xl text-muted max-w-2xl mx-auto leading-relaxed uppercase tracking-widest text-sm font-mono">
+                        Selecciona tu misión. La pasividad es complicidad.
+                    </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
@@ -154,29 +152,7 @@ export function Movements() {
                     />
                 </div>
 
-                {/* Final Call to Action - Separated for impact */}
-                <div className="mt-16 max-w-7xl mx-auto">
-                    <div className="bg-gradient-to-r from-surface to-background border border-white/10 p-12 relative overflow-hidden group rounded-sm">
-                        <div className="absolute top-0 right-0 p-32 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-white/10 transition-all duration-700" />
 
-                        <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
-                            <div>
-                                <h3 className="text-3xl font-black text-foreground mb-2 uppercase italic tracking-tighter">¿Estás listo para la Vanguardia?</h3>
-                                <p className="text-muted max-w-xl font-medium">
-                                    Recibe instrucciones directas, material confidencial y alertas de acción rápida. Sin spam, solo resistencia patriótica.
-                                </p>
-                            </div>
-
-                            <Link
-                                href={siteConfig.links.signup}
-                                className="px-8 py-4 bg-foreground text-background font-black uppercase tracking-widest hover:bg-muted transition-colors w-full md:w-auto flex items-center justify-center gap-3 rounded-sm"
-                            >
-                                <Target className="w-5 h-5" />
-                                <span>Unirse Ahora</span>
-                            </Link>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <InfoModal

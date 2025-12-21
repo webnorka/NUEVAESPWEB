@@ -27,7 +27,7 @@ export function SceneManager() {
     };
 
     return (
-        <div className="relative h-screen w-full overflow-hidden flex flex-col items-center justify-center bg-black">
+        <div className="relative h-screen w-full overflow-hidden flex flex-col items-center justify-center bg-background">
             <AnimatePresence>
                 {showIntro && <GlitchIntro onComplete={() => setShowIntro(false)} />}
             </AnimatePresence>
@@ -49,13 +49,13 @@ export function SceneManager() {
                             <motion.button
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 1.5, type: "spring", stiffness: 200 }}
+                                transition={{ delay: 1.5, duration: 0.5, ease: "easeOut" }}
                                 onClick={() => step.nextId && handleNext(step.nextId)}
-                                className="group relative px-16 py-6 bg-primary text-white font-black uppercase tracking-[.3em] text-base overflow-hidden rounded-sm shadow-[0_0_40px_rgba(190,18,60,0.5)] hover:shadow-[0_0_80px_rgba(190,18,60,0.8)] border-2 border-primary/50 hover:border-white transition-all duration-500 scale-110"
+                                className="group relative px-8 py-4 bg-primary text-primary-foreground text-lg font-bold tracking-tight overflow-hidden rounded-sm hover:scale-[1.02] transition-transform duration-200 shadow-lg shadow-primary/20"
                             >
-                                <div className="absolute inset-0 bg-white translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-700 ease-in-out mix-blend-difference" />
-                                <span className="relative flex items-center gap-4">
-                                    Iniciar Operación <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
+                                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                                <span className="relative flex items-center gap-2">
+                                    Iniciar Operación <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                                 </span>
                             </motion.button>
                         </div>
@@ -74,17 +74,7 @@ export function SceneManager() {
                                 <h2 className="text-[clamp(1.2rem,4vw,3.5rem)] font-black text-white italic uppercase leading-[0.95] tracking-tighter">
                                     {step.content}
                                 </h2>
-                                {step.nextId && (
-                                    <button
-                                        onClick={() => handleNext(step.nextId!)}
-                                        className="group inline-flex items-center gap-4 text-primary font-black text-sm uppercase tracking-[0.4em] hover:text-white transition-all duration-300 relative py-2"
-                                    >
-                                        <span className="relative z-10 flex items-center gap-2">
-                                            Continuar <ChevronRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-                                        </span>
-                                        <div className="absolute -bottom-1 left-0 w-0 h-[3px] bg-primary group-hover:w-full transition-all duration-500 shadow-[0_0_15px_rgba(190,18,60,0.8)]" />
-                                    </button>
-                                )}
+
                             </div>
 
                             <div className="relative">
@@ -136,14 +126,6 @@ export function SceneManager() {
 
             {/* Cinematic HUD Overlay */}
             <div className="fixed inset-0 pointer-events-none border-[1px] border-white/5 m-4 md:m-8" />
-            <div className="fixed bottom-12 left-12 flex items-center gap-6 pointer-events-none opacity-40">
-                <div className="h-20 w-[1px] bg-gradient-to-t from-white/20 to-transparent" />
-                <div className="flex flex-col font-mono text-[8px] text-white space-y-1">
-                    <span>COORD: 39.4699° N, 0.3763° W</span>
-                    <span>ESTADO: ALERTA</span>
-                    <span>FASE: CONSTITUYENTE</span>
-                </div>
-            </div>
         </div>
     );
 }

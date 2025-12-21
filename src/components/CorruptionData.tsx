@@ -201,25 +201,25 @@ export function CorruptionData() {
             <div className="absolute inset-0 opacity-[0.02] bg-[repeating-linear-gradient(45deg,#fff,#fff_1px,transparent_1px,transparent_10px)] pointer-events-none"></div>
 
             <div className="container mx-auto px-4 relative z-10">
-                <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6 border-b border-white/10 pb-8">
-                    <div>
-                        <div className="flex items-center gap-3 text-primary mb-2">
-                            <Receipt className="w-6 h-6" />
-                            <span className="font-mono text-sm uppercase tracking-widest">Factura al Ciudadano</span>
-                        </div>
-                        <h2 className="text-5xl md:text-7xl font-black text-foreground uppercase italic leading-[0.9] tracking-tighter">
-                            Factura del <br /> <span className="text-primary">Régimen</span>
-                        </h2>
+                <div className="text-center mb-24 max-w-4xl mx-auto">
+                    <div className="flex items-center justify-center gap-3 text-primary mb-6">
+                        <Receipt className="w-8 h-8" />
+                        <span className="font-mono text-sm uppercase tracking-[0.3em]">Factura al Ciudadano</span>
                     </div>
-                    <div className="hidden md:block text-right">
-                        <p className="text-muted font-mono text-sm">
-                            FECHA: {new Date().toLocaleDateString('es-ES')} <br />
-                            CONCEPTO: MANTENIMIENTO ESTRUCTURA PARTITOCRÁTICA <br />
+                    <h2 className="text-5xl md:text-7xl font-black text-foreground mb-8 uppercase italic leading-[0.9] tracking-tighter">
+                        Factura del <span className="text-primary">Régimen</span>
+                    </h2>
+                    <div className="bg-surface/30 border border-white/10 p-4 md:p-6 rounded-sm backdrop-blur-sm inline-block mx-auto">
+                        <p className="text-muted font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] text-center">
+                            FECHA: {new Date().toLocaleDateString('es-ES')} |
+                            CONCEPTO: ESTRUCTURA PARTITOCRÁTICA |
                             ESTADO: <span className="text-primary font-bold animate-pulse">IMPAGABLE</span>
                         </p>
+                    </div>
+                    <div className="mt-6 flex justify-center">
                         <button
                             onClick={() => setShowSources(true)}
-                            className="mt-4 text-xs font-mono text-gray-500 hover:text-white underline decoration-dotted underline-offset-4 transition-colors"
+                            className="text-[10px] font-mono text-gray-500 hover:text-white underline decoration-dotted underline-offset-4 transition-colors uppercase tracking-widest"
                         >
                             [VERIFICAR FUENTES Y EXPEDIENTES]
                         </button>
