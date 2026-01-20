@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Crosshair, Terminal, FileText, Activity, LayoutDashboard, ShieldAlert, Users, Zap } from "lucide-react";
+import { Menu, X, Crosshair, Terminal, FileText, Activity, LayoutDashboard, ShieldAlert, Users, Zap, Heart } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
@@ -15,6 +15,7 @@ const navItems = [
     { name: "IDEARIO", href: siteConfig.links.ideology, icon: Terminal },
     { name: "ACCIÓN", href: siteConfig.links.movements, icon: Crosshair },
     { name: "INTERROGATORIO", href: siteConfig.links.faq, icon: FileText },
+    { name: "APOYO", href: siteConfig.links.donations, icon: Heart },
 ];
 
 export function CommandBar() {

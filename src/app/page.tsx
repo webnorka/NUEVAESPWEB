@@ -4,6 +4,7 @@ import { CorruptionData } from "@/components/CorruptionData";
 import { Movements } from "@/components/Movements";
 import { VanguardCTA } from "@/components/VanguardCTA";
 import { FAQ } from "@/components/FAQ";
+import { DonationCTA } from "@/components/DonationCTA";
 import { getManifestoContent } from "@/lib/docs";
 
 export default async function Home() {
@@ -13,6 +14,7 @@ export default async function Home() {
     <div className="flex flex-col gap-0">
       <Hero manifestoContent={manifestoContent} />
       <Movements />
+      <DonationCTA />
       <Ideology />
       <CorruptionData />
       <VanguardCTA />

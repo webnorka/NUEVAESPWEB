@@ -51,7 +51,8 @@ export const siteConfig = {
         asociaciones: "/asociaciones",
         narrativa: "/narrativa",
         privacy: "/privacidad",
-        legal: "/aviso-legal"
+        legal: "/aviso-legal",
+        donations: "/dashboard"
     },
 
     openGraph: {
