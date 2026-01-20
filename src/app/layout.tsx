@@ -21,8 +21,8 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: siteConfig.title,
   description: siteConfig.description,
-  keywords: siteConfig.keywords,
-  authors: siteConfig.authors,
+  keywords: [...siteConfig.keywords],
+  authors: [...siteConfig.authors],
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || `https://${siteConfig.domain}`),
   openGraph: {
     ...siteConfig.openGraph,

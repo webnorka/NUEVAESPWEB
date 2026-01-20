@@ -4,6 +4,8 @@ import { User, LogOut, Shield, MapPin, Calendar, LayoutDashboard } from "lucide-
 import { ProfileSettings } from "@/components/dashboard/ProfileSettings";
 import { CensusCard } from "@/components/dashboard/CensusCard";
 import { DistrictCard } from "@/components/dashboard/DistrictCard";
+import { SupportBadge } from "@/components/dashboard/SupportBadge";
+import { DonationPanel } from "@/components/dashboard/DonationPanel";
 
 export default async function DashboardPage() {
     const supabase = await createClient();
@@ -53,10 +55,17 @@ export default async function DashboardPage() {
                                 <div className="w-16 h-16 bg-red-600/10 border border-red-600/20 rounded-full flex items-center justify-center text-red-600">
                                     <User className="w-8 h-8" />
                                 </div>
-                                <div>
-                                    <h3 className="font-bold text-white text-lg leading-tight">{profile?.full_name || "Miembro NE"}</h3>
-                                    <p className="text-zinc-500 text-xs font-mono">{user.email}</p>
+                                <div className="flex flex-col">
+                                    <h3 className="font-bold text-white text-lg leading-tight flex items-center gap-2">
+                                        {profile?.full_name || "Miembro NE"}
+                                    </h3>
+                                    <div className="mt-1">
+                                        <SupportBadge tierId={profile?.support_tier || 'none'} />
+                                    </div>
                                 </div>
+                            </div>
+                            <div className="mt-2 pl-2">
+                                <p className="text-zinc-500 text-[10px] font-mono">{user.email}</p>
                             </div>
 
                             <div className="space-y-4 pt-6 border-t border-white/5">
@@ -113,6 +122,9 @@ export default async function DashboardPage() {
                                 ))}
                             </div>
                         </div>
+
+                        {/* Donation Panel */}
+                        <DonationPanel currentTier={profile?.support_tier || 'none'} />
                     </div>
                 </div>
             </div>
