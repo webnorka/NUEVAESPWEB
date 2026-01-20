@@ -1,68 +1,98 @@
 "use client";
 
-import Link from "next/link";
-import { Heart, Shield, Coins, ArrowRight } from "lucide-react";
+import { Shield, ArrowRight, Star, Trophy, Crown } from "lucide-react";
 import { siteConfig } from "@config";
+import { motion, useMotionValue, useMotionTemplate } from "framer-motion";
+import { createCheckoutSession } from "@/lib/actions/checkout";
+
+const tierIcons = {
+    bronze: Star,
+    silver: Trophy,
+    gold: Crown
+} as any;
+
+function TierCard({ tier, idx }: { tier: any, idx: number }) {
+    const Icon = tierIcons[tier.id] || Shield;
+
+    // Mouse tracking for "glow" effect
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+
+    const background = useMotionTemplate`radial-gradient(400px circle at ${mouseX}px ${mouseY}px, rgba(220,38,38,0.15), transparent 80%)`;
+
+    const onMouseMove = ({ currentTarget, clientX, clientY }: React.MouseEvent) => {
+        const { left, top } = currentTarget.getBoundingClientRect();
+        mouseX.set(clientX - left);
+        mouseY.set(clientY - top);
+    };
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: idx * 0.1 }}
+            onMouseMove={onMouseMove}
+            className="group relative flex flex-col items-center p-12 bg-zinc-900/40 border border-white/5 transition-all rounded-sm backdrop-blur-xl overflow-hidden cursor-pointer"
+            onClick={() => createCheckoutSession(tier.id)}
+        >
+            {/* Spotlight / Luminous Effect */}
+            <motion.div
+                className="pointer-events-none absolute -inset-px opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
+                style={{
+                    background: background,
+                }}
+            />
+
+            {/* Glowing Border effect */}
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-red-600/50 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+
+            <div className="relative z-20 flex flex-col items-center text-center">
+                <div className="relative mb-8">
+                    {/* Badge Glow */}
+                    <div className={`absolute inset-0 blur-2xl opacity-0 group-hover:opacity-40 transition-opacity duration-500 rounded-full ${tier.id === 'gold' ? 'bg-yellow-500' : tier.id === 'silver' ? 'bg-zinc-400' : 'bg-red-600'}`} />
+                    <Icon className={`w-16 h-16 ${tier.color} relative z-10 transition-transform duration-500 group-hover:scale-125 group-hover:rotate-6`} />
+                </div>
+
+                <h3 className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.5em] mb-4 group-hover:text-white transition-colors duration-300">{tier.name}</h3>
+
+                <div className="text-7xl font-black text-white italic tracking-tighter mb-8 leading-none">
+                    {tier.price}€
+                </div>
+
+                <div className="flex flex-col items-center gap-1 opacity-40 group-hover:opacity-100 transition-opacity duration-300">
+                    <span className="text-[8px] font-mono text-zinc-400 uppercase tracking-widest">+ INSIGNIA PERFIL</span>
+                    <ArrowRight className="w-4 h-4 text-red-600 translate-y-0 group-hover:translate-y-1 transition-transform" />
+                </div>
+            </div>
+
+            {/* Premium Button UI */}
+            <div className="absolute bottom-0 left-0 w-full h-1.5 bg-zinc-800 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-700 bg-red-600" />
+        </motion.div>
+    );
+}
 
 export function DonationCTA() {
     return (
-        <section id="apoyo" className="py-24 bg-black relative overflow-hidden">
+        <section id="apoyo" className="py-32 bg-background relative overflow-hidden border-y border-white/5">
             {/* Background elements */}
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-red-600/5 rounded-full blur-3xl" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.03)_0%,transparent_70%)]" />
 
             <div className="container mx-auto px-4 relative z-10">
-                <div className="max-w-4xl mx-auto text-center mb-16">
-                    <div className="flex items-center justify-center gap-3 text-red-600 mb-6 font-mono text-sm uppercase tracking-[0.3em]">
-                        <Heart className="w-5 h-5 fill-red-600/20" />
-                        Apoyo Ciudadano
-                    </div>
-                    <h2 className="text-4xl md:text-6xl font-black text-white uppercase italic tracking-tighter leading-none mb-6">
-                        SIN SUBVENCIONES. <span className="text-red-600">SIN COMPROMISOS.</span>
-                    </h2>
-                    <p className="text-zinc-500 text-lg md:text-xl font-medium max-w-2xl mx-auto">
-                        Este proyecto se financia exclusivamente mediante las aportaciones de ciudadanos libres. Tu apoyo garantiza nuestra independencia.
-                    </p>
-                </div>
-
-                <div className="grid md:grid-cols-3 gap-6 mb-12">
-                    {siteConfig.donations.tiers.slice(0, 3).map((tier: any) => (
-                        <div key={tier.id} className="bg-zinc-900/50 border border-white/5 p-6 rounded-sm hover:border-red-600/30 transition-all group">
-                            <div className="flex items-center gap-2 mb-4">
-                                <Shield className={`w-4 h-4 ${tier.color}`} />
-                                <h4 className="font-bold text-white uppercase tracking-widest text-xs">{tier.name}</h4>
-                            </div>
-                            <div className="text-3xl font-black text-white mb-2 italic">{tier.price}€<span className="text-[10px] text-zinc-600 font-mono not-italic uppercase ml-1">/ mes</span></div>
-                            <p className="text-[10px] text-zinc-500 font-mono uppercase tracking-wider mb-6 leading-relaxed">
-                                {tier.description}
-                            </p>
-                            <Link
-                                href="/dashboard"
-                                className="w-full py-3 bg-white/5 border border-white/10 text-white font-mono text-[10px] uppercase tracking-widest flex items-center justify-center gap-2 group-hover:bg-red-600 group-hover:border-red-600 transition-all"
-                            >
-                                Seleccionar <ArrowRight className="w-3 h-3" />
-                            </Link>
-                        </div>
-                    ))}
-                </div>
-
-                <div className="bg-zinc-900/30 border border-white/5 p-8 rounded-sm flex flex-col md:flex-row items-center justify-between gap-8">
-                    <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-full bg-yellow-500/10 flex items-center justify-center text-yellow-500 border border-yellow-500/20">
-                            <Coins className="w-6 h-6" />
-                        </div>
-                        <div>
-                            <h4 className="text-white font-bold uppercase tracking-tight">Donaciones vía Cripto</h4>
-                            <p className="text-[10px] text-zinc-500 font-mono uppercase tracking-widest mt-1">
-                                Para quienes prefieren la privacidad técnica absoluta.
-                            </p>
-                        </div>
-                    </div>
-                    <Link
-                        href="/dashboard"
-                        className="px-8 py-4 bg-white text-black font-black uppercase text-xs tracking-[0.2em] transform hover:scale-105 transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)] italic"
+                <div className="text-center mb-24">
+                    <motion.h2
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        className="text-7xl md:text-9xl font-black text-white italic tracking-tighter leading-none"
                     >
-                        Ver Wallet
-                    </Link>
+                        SIN <span className="text-red-600 drop-shadow-[0_0_15px_rgba(220,38,38,0.3)]">SUBVENCIONES.</span>
+                    </motion.h2>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
+                    {siteConfig.donations.tiers.map((tier: any, idx: number) => (
+                        <TierCard key={tier.id} tier={tier} idx={idx} />
+                    ))}
                 </div>
             </div>
         </section>
