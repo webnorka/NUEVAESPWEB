@@ -211,7 +211,7 @@ export const siteConfig = {
                 description: "Apoyo básico para el mantenimiento.",
                 color: "text-amber-700",
                 badgeColor: "bg-amber-700/20 border-amber-700/30 text-amber-700",
-                stripePriceId: "price_bronze_placeholder"
+                stripePriceId: "price_1SrY1JFWa7WMiJl2vgbekDQT"
             },
             {
                 id: "silver",
@@ -221,7 +221,7 @@ export const siteConfig = {
                 description: "Contribución para expansión nuclear.",
                 color: "text-zinc-400",
                 badgeColor: "bg-zinc-400/20 border-zinc-400/30 text-zinc-400",
-                stripePriceId: "price_silver_placeholder"
+                stripePriceId: "price_1SrY1KFWa7WMiJl2o3VcM4xt"
             },
             {
                 id: "gold",
@@ -231,7 +231,7 @@ export const siteConfig = {
                 description: "Impulso total a la Libertad.",
                 color: "text-yellow-500",
                 badgeColor: "bg-yellow-500/20 border-yellow-500/30 text-yellow-500",
-                stripePriceId: "price_gold_placeholder"
+                stripePriceId: "price_1SrY1LFWa7WMiJl2bgeO2Gm5"
             }
         ] as DonationTier[]
     }
